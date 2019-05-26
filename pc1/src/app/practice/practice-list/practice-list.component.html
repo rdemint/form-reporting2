@@ -1,0 +1,8 @@
+<ul *ngFor="let practice of practices">
+	<a (click)="navToPractice(practice.slug)">
+		<app-practice
+		[practice]="practice"
+		[dailySummaries]="dailySummaries"
+	></app-practice>
+	</a>
+</ul>

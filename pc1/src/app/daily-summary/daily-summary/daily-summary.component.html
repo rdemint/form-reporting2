@@ -1,0 +1,33 @@
+	<div>
+		<mat-expansion-panel #expPanel>
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					<div *ngIf="dailySummaryExists">
+						<i class="material-icons" style="padding: 6px">done</i>
+					</div>
+						<div>
+							{{provider.name}}
+						</div>
+				
+				</mat-panel-title>
+			</mat-expansion-panel-header>
+			<ng-template matExpansionPanelContent>
+					<div *ngFor="let specialty of provider.specialties">
+							<app-daily-summary-form
+								[dailySummary]="providerDailySummaries[specialty]"
+								[selectedDate]="selectedDate"
+								[specialty]="specialty" 
+								[practice]="practice"
+								[provider]="provider"
+								(addSummaryOutput)="addSummary($event)"
+								(putSummaryOutput)="putSummary($event)"
+							></app-daily-summary-form>
+					<mat-divider></mat-divider>
+					</div>
+
+			</ng-template>
+		</mat-expansion-panel>
+		<br>
+	</div>
+
+

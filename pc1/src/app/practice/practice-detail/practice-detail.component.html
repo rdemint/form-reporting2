@@ -1,0 +1,31 @@
+	<app-user></app-user>
+	<h4 style="text-align:center">{{practice.name}}</h4>
+	<mat-tab-group mat-align-tabs="center">
+		<mat-tab label="Providers">
+			<ng-template matTabContent>
+			<app-practice-detail-providers-list
+				[dailySummaries]="dailySummaries"
+				[pyDailySummaries]="pyDailySummaries"
+				[providers]="practice.providers"
+			></app-practice-detail-providers-list>
+			</ng-template>
+		</mat-tab>
+		<mat-tab label="Specialties">
+			<ng-template matTabContent>
+				<app-practice-detail-specialties-list
+					[pyDailySummaries]="pyDailySummaries"
+					[dailySummaries]="dailySummaries"
+					[specialties]="practice.specialties"
+				></app-practice-detail-specialties-list>
+			</ng-template>
+		</mat-tab>
+		<mat-tab label="Practice Summary">
+			<ng-template matTabContent>
+				<app-practice-detail-summary
+					[dailySummaries]="dailySummaries"
+					[practice]="practice"
+				></app-practice-detail-summary>
+			</ng-template>
+		</mat-tab>
+	<br>
+	<a style="color:blue" (click)="navToReporting()">Go to reporting view</a>

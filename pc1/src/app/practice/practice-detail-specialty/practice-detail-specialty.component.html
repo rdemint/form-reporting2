@@ -1,0 +1,17 @@
+<div>
+	<mat-card>
+	<mat-card-title>{{specialty.name}}</mat-card-title>
+	<mat-card-content>
+		<app-py-chart
+			[dailySummaries]="dailySummaries"
+			[pyDailySummaries]="pyDailySummaries"
+			[chartName]="specialty.slug"
+			[dailySummaryFilterBy]="'specialty'"
+			[dailySummaryField]="'visits'"
+			[dailySummaryFilterValue]="specialty.id"
+			>
+		</app-py-chart>
+	</mat-card-content>
+	</mat-card>
+</div>
+

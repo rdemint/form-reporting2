@@ -1,0 +1,21 @@
+
+	<mat-card>
+		<mat-card-title>
+			<button class="btn btn-link">{{practice.name}}</button>
+		</mat-card-title>
+
+		<mat-card-content>
+			<div *ngIf="dailySummaries.length > 0 else noData">
+			<app-chart 
+				[dailySummaries]="dailySummaries" 
+				[chartName]="practice.slug">
+			</app-chart>
+		</div>
+		</mat-card-content>
+	</mat-card>
+
+	<ng-template #noData>
+		<app-no-data></app-no-data>
+	</ng-template>
+
+	

@@ -1,0 +1,11 @@
+nav div h1 {
+	font-size: 36px;
+	vertical-align: bottom;
+}
+
+nav div img {
+	height: 15%;
+	width: 15%;
+	margin: 10px;
+}
+
