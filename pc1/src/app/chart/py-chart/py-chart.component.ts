@@ -10,7 +10,7 @@ import * as CanvasJs from '../../../../node_modules/canvasjs-2.3.1/canvasjs.min.
 })
 export class PyChartComponent implements OnInit, AfterViewInit {
 @Input() dailySummaries: DailySummary[];
-@Input() pyDailySummaries: DailySummary[] = [];
+@Input() pyDailySummaries: DailySummary[];
 @Input() chartName: string;
 @Input() dailySummaryField: string;
 @Input() dailySummaryFilterBy: string;
@@ -32,20 +32,41 @@ py_chart_data: any = {
   visits: [], 
   visits_per_workday: []
 }
+canvasJsData = [];
+
   constructor() { }
 
   ngOnInit() {
-    this.current_year = this.dailySummaries[0].date.slice(0,4);
-    this.previous_year = this.pyDailySummaries[0].date.slice(0,4); 
    	this.createChartData();
+
   }
 
     createChartData() {
-          let summaries = this.dailySummaries.filter((summary)=> summary[this.dailySummaryFilterBy] == this.dailySummaryFilterValue);
-          this.chart_data[this.dailySummaryField] = summaries.map((summary)=> ({label: summary.date, y: summary[this.dailySummaryField]}));
-          let pySummaries = this.pyDailySummaries.filter((summary)=> summary[this.dailySummaryFilterBy] == this.dailySummaryFilterValue);
-          this.py_chart_data[this.dailySummaryField] = pySummaries.map((summary)=> ({label: summary.date, y: summary[this.dailySummaryField]}));
-        }
+          if (this.dailySummaries != undefined && this.dailySummaries.length != 0) {
+            let summaries = this.dailySummaries.filter((summary)=> summary[this.dailySummaryFilterBy] == this.dailySummaryFilterValue);
+            this.chart_data[this.dailySummaryField] = summaries.map((summary)=> ({label: summary.date, y: summary[this.dailySummaryField]}));
+            this.current_year = this.dailySummaries[0].date.slice(0,4);
+            this.canvasJsData.push({
+             type: "spline",
+             visible: true,
+             showInLegend: true,
+             name: this.current_year + ' ' + this.dailySummaryField,
+             dataPoints: this.chart_data[this.dailySummaryField]
+            });
+          }
+          if (this.pyDailySummaries != undefined && this.pyDailySummaries.length != 0) {
+            let pySummaries = this.pyDailySummaries.filter((summary)=> summary[this.dailySummaryFilterBy] == this.dailySummaryFilterValue);
+            this.py_chart_data[this.dailySummaryField] = pySummaries.map((summary)=> ({label: summary.date, y: summary[this.dailySummaryField]}));
+            this.previous_year = this.pyDailySummaries[0].date.slice(0,4);      
+            this.canvasJsData.push({
+             type: "spline",
+             visible: true,
+             showInLegend: true,
+             name: this.previous_year + ' ' + this.dailySummaryField,
+             dataPoints: this.chart_data[this.dailySummaryField]
+            });
+          }
+     }
 
     createChart() {
          this.chart = new CanvasJs.Chart(this.chartName, {
@@ -66,24 +87,10 @@ py_chart_data: any = {
          legend: {
            cursor: "pointer"
          },
-         data: [
-           {
-             type: "spline",
-             visible: true,
-             showInLegend: true,
-             name: this.current_year + ' ' + this.dailySummaryField,
-             dataPoints: this.chart_data[this.dailySummaryField]
-           },
-           {
-             type: "spline",
-             visible: true,
-             showInLegend: true,
-             name: this.previous_year + ' ' + this.dailySummaryField,
-             dataPoints: this.py_chart_data[this.dailySummaryField]
-           },
-         ]
+         data: this.canvasJsData
        });
     }
+
 
     ngAfterViewInit() {
       this.createChart();

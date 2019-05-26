@@ -18,7 +18,6 @@ export class DailySummaryService {
   	paramKeys.forEach((key)=> {
   		httpParams = httpParams.append(key, params[key])
   	})
-    console.log('getDailySummaries was called');
   	return this.http.get<DailySummary[]>(environment['daily_summary_url'], {params: httpParams});
 
   }
