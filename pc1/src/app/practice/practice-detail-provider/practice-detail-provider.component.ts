@@ -14,6 +14,10 @@ export class PracticeDetailProviderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  	// trying this
+  	this.dailySummaries = this.dailySummaries.filter((summary)=> summary.provider == this.provider.id);
+    this.pyDailySummaries = this.pyDailySummaries.filter((summary)=> summary.provider == this.provider.id);
+  	// 
   }
 
 }

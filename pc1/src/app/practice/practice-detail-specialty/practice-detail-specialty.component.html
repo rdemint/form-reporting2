@@ -2,16 +2,20 @@
 	<mat-card>
 	<mat-card-title>{{specialty.name}}</mat-card-title>
 	<mat-card-content>
-		<app-py-chart
-			[dailySummaries]="dailySummaries"
-			[pyDailySummaries]="pyDailySummaries"
-			[chartName]="specialty.slug"
-			[dailySummaryFilterBy]="'specialty'"
-			[dailySummaryField]="'visits'"
-			[dailySummaryFilterValue]="specialty.id"
-			>
-		</app-py-chart>
+		<div *ngIf="dailySummaries.length > 0 || pyDailySummaries.length > 0 else noData">
+		<small *ngIf="pyDailySummaries.length == 0">No previous year comparison data to show</small>
+			<app-py-chart
+				[dailySummaries]="dailySummaries"
+				[pyDailySummaries]="pyDailySummaries"
+				[chartName]="specialty.slug"
+				[dailySummaryField]="'visits'"
+				>
+			</app-py-chart>
+		</div>
 	</mat-card-content>
 	</mat-card>
 </div>
 
+<ng-template #noData>
+	<app-no-data></app-no-data>
+</ng-template>

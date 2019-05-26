@@ -13,8 +13,6 @@ export class PyChartComponent implements OnInit, AfterViewInit {
 @Input() pyDailySummaries: DailySummary[];
 @Input() chartName: string;
 @Input() dailySummaryField: string;
-@Input() dailySummaryFilterBy: string;
-@Input() dailySummaryFilterValue: string;
 
 current_year: string;
 previous_year: string;
@@ -43,8 +41,8 @@ canvasJsData = [];
 
     createChartData() {
           if (this.dailySummaries != undefined && this.dailySummaries.length != 0) {
-            let summaries = this.dailySummaries.filter((summary)=> summary[this.dailySummaryFilterBy] == this.dailySummaryFilterValue);
-            this.chart_data[this.dailySummaryField] = summaries.map((summary)=> ({label: summary.date, y: summary[this.dailySummaryField]}));
+            // let summaries = this.dailySummaries.filter((summary)=> summary[this.dailySummaryFilterBy] == this.dailySummaryFilterValue);
+            this.chart_data[this.dailySummaryField] = this.dailySummaries.map((summary)=> ({label: summary.date.slice(5), y: summary[this.dailySummaryField]}));
             this.current_year = this.dailySummaries[0].date.slice(0,4);
             this.canvasJsData.push({
              type: "spline",
@@ -55,15 +53,15 @@ canvasJsData = [];
             });
           }
           if (this.pyDailySummaries != undefined && this.pyDailySummaries.length != 0) {
-            let pySummaries = this.pyDailySummaries.filter((summary)=> summary[this.dailySummaryFilterBy] == this.dailySummaryFilterValue);
-            this.py_chart_data[this.dailySummaryField] = pySummaries.map((summary)=> ({label: summary.date, y: summary[this.dailySummaryField]}));
+            // let pySummaries = this.pyDailySummaries.filter((summary)=> summary[this.dailySummaryFilterBy] == this.dailySummaryFilterValue);
+            this.py_chart_data[this.dailySummaryField] = this.pyDailySummaries.map((summary)=> ({label: summary.date.slice(5), y: summary[this.dailySummaryField]}));
             this.previous_year = this.pyDailySummaries[0].date.slice(0,4);      
             this.canvasJsData.push({
              type: "spline",
              visible: true,
              showInLegend: true,
              name: this.previous_year + ' ' + this.dailySummaryField,
-             dataPoints: this.chart_data[this.dailySummaryField]
+             dataPoints: this.py_chart_data[this.dailySummaryField]
             });
           }
      }

@@ -14,7 +14,7 @@
 </div>
 
 <div class="container">
-<p>Showing all providers for your practice.</p>
+<small class="text-muted">Showing all providers for your practice.</small>
 <div *ngIf="practice.providers.length > 0 else noProviders">
 <div *ngFor="let provider of practice.providers">
 	<app-daily-summary
