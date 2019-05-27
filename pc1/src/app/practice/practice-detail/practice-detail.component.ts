@@ -12,6 +12,7 @@ export class PracticeDetailComponent implements OnInit {
 	@Input() dailySummaries: DailySummary[];
 	@Input() pyDailySummaries: DailySummary[];
 	chart1Labels = ['visits'];
+  dateView: string = 'MTD';
 
   constructor(private router: Router) { }
 

@@ -2,7 +2,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatInputModule, MatCardModule, MatFormFieldModule, 
     MatNativeDateModule, MatTabsModule, MatSlideToggleModule, 
-    MatSnackBarModule, MatDividerModule} from '@angular/material';
+    MatSnackBarModule, MatDividerModule, MatTableModule} from '@angular/material';
 import { MatSelectModule} from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatToolbarModule} from '@angular/material/toolbar';
@@ -55,6 +55,9 @@ import { PracticeDetailProviderComponent } from './practice/practice-detail-prov
 import { PracticeDetailSpecialtyComponent } from './practice/practice-detail-specialty/practice-detail-specialty.component';
 import { PyChartComponent } from './chart/py-chart/py-chart.component';
 import { NoDataComponent } from './no-data/no-data.component';
+import { PyChartContainerComponent } from './chart/py-chart-container/py-chart-container.component';
+import { TableContainerComponent } from './table/table-container/table-container.component';
+import { TableComponent } from './table/table/table.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +89,9 @@ import { NoDataComponent } from './no-data/no-data.component';
     PracticeDetailSpecialtyComponent,
     PyChartComponent,
     NoDataComponent,
+    PyChartContainerComponent,
+    TableContainerComponent,
+    TableComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -109,7 +115,8 @@ import { NoDataComponent } from './no-data/no-data.component';
     MatCardModule,
     MatSnackBarModule,
     MatSlideToggleModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule
   ],
   exports: [
     MatFormFieldModule,

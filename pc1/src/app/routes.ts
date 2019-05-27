@@ -14,17 +14,17 @@ import { AuthGuard } from './auth-guard';
 export const appRoutes: Routes = [
 	{
 		path: 'practices/:practice_slug',
-		canActivate: [AuthGuard],
+		// canActivate: [AuthGuard],
 		component: PracticeContainerComponent,
 	},
 	{
 		path: 'practices/:practice_slug/reporting',
-		canActivate: [AuthGuard],
+		// canActivate: [AuthGuard],
 		component: DailySummaryContainerComponent
 	},
 	{
 		path: 'entities/:entity_slug',
-		canActivate: [AuthGuard],
+		// canActivate: [AuthGuard],
 		component: EntityComponent,
 	},
 	{	path: 'login',

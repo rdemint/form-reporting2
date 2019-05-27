@@ -4,13 +4,13 @@
 	<mat-card-content>
 	<div *ngIf="dailySummaries.length > 0 || pyDailySummaries.length > 0 else noData">
 	<small *ngIf="pyDailySummaries.length == 0">No previous year comparison data to show</small>
-	<app-py-chart
+	<app-py-chart-container
 		[dailySummaries]="dailySummaries"
 		[pyDailySummaries]="pyDailySummaries"
 		[chartName]="provider.slug"
 		[dailySummaryField]="'visits'"
 		>
-	</app-py-chart>
+	</app-py-chart-container>
 	</div>
 	</mat-card-content>
 
