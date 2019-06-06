@@ -1,0 +1,20 @@
+<div>
+	<div class="row">
+		<div class="col">
+			<mat-form-field>
+				<mat-select [(value)]="dashView" (selectionChange)="selectDashView($event.value)">
+					<mat-option value="chart">Chart</mat-option>
+					<mat-option value="table">Table</mat-option>
+				</mat-select>
+				</mat-form-field>
+		</div>
+		<div class="col">
+			<mat-form-field>
+				<mat-select [(value)]="dateView" (selectionChange)="selectDateView($event.value)">
+					<mat-option value="mtd"><small>Month to Date</small></mat-option>
+				<mat-option value="ytd"><small>Year to Date</small></mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+	</div>
+</div>

@@ -16,24 +16,23 @@ export class DailySummaryChartComponent implements OnInit, AfterViewInit {
 @Input() pyDailySummaries: DailySummary[];
 @Input() pyComparisonLabels: string[];
 @Input() chartName: string;
+  current_year: string;
+  previous_year: string;
+  chart: any;
+  canvasJsData: any = []
+  summary_data: any = {
+    noshows: [],
+    workdays: [],
+    visits: [], 
+    visits_per_workday: []
+  }
 
-current_year: string;
-previous_year: string;
-chart: any;
-canvasJsData: any = []
-summary_data: any = {
-  noshows: [],
-  workdays: [],
-  visits: [], 
-  visits_per_workday: []
-}
-
-pySummary_data: any = {
-  noshows: [],
-  workdays: [],
-  visits: [], 
-  visits_per_workday: []
-}
+  pySummary_data: any = {
+    noshows: [],
+    workdays: [],
+    visits: [], 
+    visits_per_workday: []
+  }
 
   constructor( ) { }
 

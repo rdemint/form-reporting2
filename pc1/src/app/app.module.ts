@@ -15,8 +15,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { appRoutes } from './routes';
 import { PracticeService } from './practice/practice.service';
 import { AuthService } from './auth/auth.service';
-import { EntityService } from './entity/entity.service';
-import { DateService } from './date.service';
+import { EntityService } from './services/entity.service';
+import { DateService } from './services/date.service';
+import { DailySummaryService } from './services/daily-summary.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,7 +34,6 @@ import { PracticeComponent } from './practice/practice/practice.component';
 import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './auth/logout/logout.component';
 import { EntityComponent } from './entity/entity/entity.component';
-import { ChartComponent } from './chart/chart/chart.component';
 import { PracticeContainerComponent } from './practice/practice-container/practice-container.component';
 import { UserComponent } from './user/user/user.component';
 import { PracticeListComponent } from './practice/practice-list/practice-list.component';
@@ -56,8 +56,14 @@ import { PracticeDetailSpecialtyComponent } from './practice/practice-detail-spe
 import { PyChartComponent } from './chart/py-chart/py-chart.component';
 import { NoDataComponent } from './no-data/no-data.component';
 import { PyChartContainerComponent } from './chart/py-chart-container/py-chart-container.component';
-import { TableContainerComponent } from './table/table-container/table-container.component';
-import { TableComponent } from './table/table/table.component';
+import { TableContainerComponent } from './dash/table-container/table-container.component';
+import { TableComponent } from './dash/table/table.component';
+import { SourceComponent } from './source/source.component';
+import { DashComponent } from './dash/dash/dash.component';
+import { ChartComponent } from './dash/chart/chart.component';
+import { ChartContainerComponent } from './dash/chart-container/chart-container.component';
+import { DashSelectorComponent } from './dash/dash-selector/dash-selector.component';
+import { EntityContainerComponent } from './entity/entity-container/entity-container.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +98,11 @@ import { TableComponent } from './table/table/table.component';
     PyChartContainerComponent,
     TableContainerComponent,
     TableComponent,
+    SourceComponent,
+    DashComponent,
+    ChartContainerComponent,
+    DashSelectorComponent,
+    EntityContainerComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -129,6 +140,7 @@ import { TableComponent } from './table/table/table.component';
     AuthService,
     EntityService,
     AuthGuard,
+    DailySummaryService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true}
     ],

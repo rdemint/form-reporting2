@@ -2,8 +2,8 @@
 	<small class="text-muted">Data from all providers shown by specialty</small>
 </div>
 <ul *ngFor="let specialty of specialties">
-	<app-specialty
-		[specialty]="specialty"
-		[dailySummaries]="dailySummaries"
-	></app-specialty>
+	<app-dash
+		[source]="specialty"
+		[sourceType]="'specialty'"
+	></app-dash>
 </ul>

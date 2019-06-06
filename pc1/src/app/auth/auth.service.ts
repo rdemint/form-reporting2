@@ -7,7 +7,7 @@ import { Router, NavigationExtras } from '@angular/router';
 
 import { environment } from '../../environments/environment';
 import { DateService } from '../date.service';
-import { EntityService } from '../entity/entity.service';
+import { EntityService } from '../services/entity.service';
 import { PracticeService } from '../practice/practice.service';
 import { UserService } from '../user/user.service';
 

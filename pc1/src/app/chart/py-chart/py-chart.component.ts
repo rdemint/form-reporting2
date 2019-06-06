@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Practice, DailySummary} from '../../models';
-import { EntityService } from '../../entity/entity.service';
+import { EntityService } from '../../services/entity.service';
 import * as CanvasJs from '../../../../node_modules/canvasjs-2.3.1/canvasjs.min.js';
 
 @Component({

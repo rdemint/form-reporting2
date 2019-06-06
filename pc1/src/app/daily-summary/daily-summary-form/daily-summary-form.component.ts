@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, ViewChild, ChangeDetectionStrategy, OnChanges, SimpleChanges, EventEmitter} from '@angular/core';
 import { NgForm, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Practice, DailySummary, Specialty, Provider } from '../../models'
-import { DailySummaryService} from '../daily-summary.service';
+import { DailySummaryService} from '../../services/daily-summary.service';
 
 @Component({
   selector: 'app-daily-summary-form',

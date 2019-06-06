@@ -1,17 +1,15 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Practice } from '../../models';
 import { Router } from '@angular/router';
-import { Practice, DailySummary } from '../../models';
-import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-practice-list',
   templateUrl: './practice-list.component.html',
-  styleUrls: ['./practice-list.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./practice-list.component.css']
 })
 export class PracticeListComponent implements OnInit {
-	@Input() practices: Practice[];
-	@Input() dailySummaries: DailySummary[];
-	
+  @Input() practices: Practice[];
+  
   constructor(private router: Router) { }
 
   ngOnInit() {

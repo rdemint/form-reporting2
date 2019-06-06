@@ -2,8 +2,8 @@
 	<small class="text-muted">Data from all practices shown by provider.</small>
 </div>
 <ul *ngFor="let provider of providers">
-	<app-provider
-		[provider]="provider"
-		[dailySummaries]="dailySummaries"
-	></app-provider>
+	<app-dash
+		[source]="provider"
+		[sourceType]="'provider'"
+	></app-dash>
 </ul>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DailySummary, User, Practice } from '../../models';
-import { DailySummaryService } from '../../daily-summary/daily-summary.service';
+import { DailySummaryService } from '../../services/daily-summary.service';
 import { environment } from '../../../environments/environment';
 import { UserService } from '../../user/user.service';
 import { DateService } from '../../date.service';

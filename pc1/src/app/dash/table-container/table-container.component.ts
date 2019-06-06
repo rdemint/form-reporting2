@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DailySummary } from '../../models';
-import { DateService } from '../../date.service';
+import { DailySummary, Provider, Practice, Specialty } from '../../models';
 import { ActivatedRoute } from '@angular/router';
+import { DateService } from '../../services/date.service'; 
 
 @Component({
   selector: 'app-table-container',
@@ -9,9 +9,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./table-container.component.css']
 })
 export class TableContainerComponent implements OnInit {
-	@Input() dailySummaries: DailySummary[];
-	@Input() pyDailySummaries: DailySummary[];
-	@Input() dailySummaryField: string;
+  	@Input() source: string;
+  	@Input() sourceField: string;
+    @Input() sourceType: string;
+	  @Input() dailySummaries: DailySummary[];
+  	@Input() pyDailySummaries: DailySummary[];
+    @Input() dashView: string;
+    @Input() dateView: string; 
+	
 	month: string;
 	year: string;
 	previousYear: string;
@@ -60,7 +65,7 @@ export class TableContainerComponent implements OnInit {
   	}
 
   	else {
-  		return match[this.dailySummaryField]
+  		return match[this.sourceField]
   	}
   }
 
@@ -95,4 +100,6 @@ export class TableContainerComponent implements OnInit {
   	this.previousYear = currentYear.toString();
   }
 
+
 }
+

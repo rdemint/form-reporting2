@@ -5,17 +5,14 @@
 		</mat-card-title>
 
 		<mat-card-content>
-			<div *ngIf="dailySummaries.length > 0 else noData">
-			<app-chart 
-				[dailySummaries]="dailySummaries" 
-				[chartName]="practice.slug">
-			</app-chart>
-		</div>
+			<app-dash
+				[source]="practice"
+				[sourceType]="'practice'"
+				> 
+			</app-dash>
 		</mat-card-content>
 	</mat-card>
 
-	<ng-template #noData>
-		<app-no-data></app-no-data>
-	</ng-template>
+
 
 	

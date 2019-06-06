@@ -8,6 +8,7 @@ import { DailySummaryContainerComponent } from './daily-summary/daily-summary-co
 import { DailySummaryFormComponent } from './daily-summary/daily-summary-form/daily-summary-form.component';
 import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './auth/logout/logout.component';
+import { EntityContainerComponent } from './entity/entity-container/entity-container.component';
 import { EntityComponent } from './entity/entity/entity.component';
 import { AuthGuard } from './auth-guard';
 
@@ -25,7 +26,7 @@ export const appRoutes: Routes = [
 	{
 		path: 'entities/:entity_slug',
 		// canActivate: [AuthGuard],
-		component: EntityComponent,
+		component: EntityContainerComponent,
 	},
 	{	path: 'login',
 		component: LoginComponent,

@@ -1,0 +1,30 @@
+<div><h4>{{source.name}}</h4></div>
+<div *ngIf="dailySummaries?.length > 0 else noData">
+	<div *ngIf="dashView =='chart'">
+			<app-chart-container
+				[dailySummaries]="dailySummaries"
+				[pyDailySummaries]="pyDailySummaries"
+				[sourceField]="sourceField"
+				[sourceType]="sourceType"
+				[dashView]="dashView"
+				[dateView]="dateView"
+				[source]="source"
+				>
+			</app-chart-container>
+	</div>
+	<div *ngIf="dashView == 'table'">
+		<app-table-container
+			[dailySummaries]="dailySummaries"
+			[pyDailySummaries]="pyDailySummaries"
+			[sourceField]="sourceField"
+			[sourceType]="sourceType"
+			[source]="source"
+			[dashView]="dashView"
+			[dateView]="dateView"
+		></app-table-container>
+	</div>
+</div>
+
+	<ng-template #noData>
+		<app-no-data></app-no-data>
+	</ng-template>

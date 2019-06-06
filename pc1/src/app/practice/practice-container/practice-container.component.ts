@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DailySummary, User, Practice } from '../../models';
-import { DailySummaryService } from '../../daily-summary/daily-summary.service';
+import { DailySummaryService} from '../../services/daily-summary.service';
+import { DashService } from '../../services/dash.service';
 import { environment } from '../../../environments/environment';
 import { UserService } from '../../user/user.service';
 import { DateService } from '../../date.service';
@@ -22,41 +23,38 @@ export class PracticeContainerComponent implements OnInit {
   constructor(
     private practiceService: PracticeService,
     private dailySummaryService: DailySummaryService,
-    private dateService: DateService,
+    private dashService: DashService,
     private userService: UserService,
     private route: ActivatedRoute,
   	) { }
 
   ngOnInit() {
   	    this.userService.loadUser().subscribe((user)=> this.user = user);
-    combineLatest(this.route.paramMap, this.route.queryParamMap)
+    combineLatest(
+      this.route.paramMap, 
+      this.route.queryParamMap,
+      this.dashService.loadDateView())
       .subscribe(
-          ([params, queryparams]) => {
+          ([params, queryparams, view]) => {
             this.practiceService.getPractice(params.get('practice_slug'))
               .subscribe(
                 (practice)=> this.practice = practice
               );
-
-             let getParams = {
-              'practice': params.get('practice_slug'), 
-              'year': queryparams.get('year'), 
-              'month': queryparams.get('month')
-            };
-            this.getDailySummaries(getParams);
-            this.getPYDailySummaries(getParams);
+            this.getDailySummaries('practice', this.practice.slug, view);
+            this.getPYDailySummaries('practice', this.practice.slug, view);
           }
         );
    }
 
-  getDailySummaries(params) {
-    this.dailySummaryService.getDailySummaries(params)
+  getDailySummaries(type, slug, view) {
+    this.dailySummaryService.getDailySummaries(type, slug, view)
         .subscribe((dailySummaries)=> {
           this.dailySummaries = dailySummaries;
         });
   } 
 
-  getPYDailySummaries(params) {
-    this.dailySummaryService.getPYDailySummaries(params)
+  getPYDailySummaries(type, slug, view) {
+    this.dailySummaryService.getPYDailySummaries(type, slug, view)
       .subscribe((pyDailySummaries)=> this.pyDailySummaries = pyDailySummaries)
   }
 

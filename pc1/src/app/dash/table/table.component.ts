@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DailySummary } from '../../models';
+import { Practice, DailySummary} from '../../models';
+
 
 @Component({
   selector: 'app-table',
@@ -10,12 +11,14 @@ export class TableComponent implements OnInit {
 	@Input() tableDailySummaries: DailySummary[];
 	@Input() previousYear: string;
 	@Input() year: string;
-	@Input() dailySummaryField: string;
+	@Input() sourceField: string;
 	displayedColumns = ["date", 'previousYear', 'year'];
-	
+
   constructor() { }
 
   ngOnInit() {
+  
+
   }
 
 }

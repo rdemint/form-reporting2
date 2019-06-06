@@ -1,6 +1,7 @@
 import { Input, Component, OnInit } from '@angular/core';
 import { Specialty, DailySummary } from '../../models';
 
+
 @Component({
   selector: 'app-specialty-list',
   templateUrl: './specialty-list.component.html',
@@ -8,7 +9,6 @@ import { Specialty, DailySummary } from '../../models';
 })
 export class SpecialtyListComponent implements OnInit {
 	@Input() specialties: Specialty[];
-	@Input() dailySummaries: DailySummary[];
 	
   constructor() { }
 
