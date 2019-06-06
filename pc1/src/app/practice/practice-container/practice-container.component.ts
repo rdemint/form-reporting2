@@ -5,7 +5,7 @@ import { DailySummaryService} from '../../services/daily-summary.service';
 import { DashService } from '../../services/dash.service';
 import { environment } from '../../../environments/environment';
 import { UserService } from '../../user/user.service';
-import { DateService } from '../../date.service';
+import { DateService } from '../../services/date.service';
 import { PracticeService } from '../../practice/practice.service';
 import { combineLatest, Observable } from 'rxjs';
 

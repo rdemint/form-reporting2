@@ -4,7 +4,7 @@ import { DailySummary, User, Practice } from '../../models';
 import { DailySummaryService } from '../../services/daily-summary.service';
 import { environment } from '../../../environments/environment';
 import { UserService } from '../../user/user.service';
-import { DateService } from '../../date.service';
+import { DateService } from '../../services/date.service';
 import { PracticeService } from '../../practice/practice.service';
 import { combineLatest, Observable } from 'rxjs';
 
@@ -34,7 +34,10 @@ export class DailySummaryContainerComponent implements OnInit {
     // the two could be merged with a behaviorsubject service combination
     // (on the to-do list)
     this.userService.loadUser().subscribe((user)=> this.user = user);
-    combineLatest(this.route.paramMap, this.route.queryParamMap)
+    combineLatest(
+      this.route.paramMap, 
+      this.route.queryParamMap,
+      )
       .subscribe(
           ([params, queryparams]) => {
             this.practiceService.getPractice(params.get('practice_slug'))
@@ -45,19 +48,15 @@ export class DailySummaryContainerComponent implements OnInit {
             this.year = queryparams.get('year');
             this.month = queryparams.get('month');
 
-            this.getDailySummaries({
-              'practice': this.practice_slug, 
-              'year': this.year, 
-              'month': this.month
-            });
+            this.getDailySummaries('practice', this.practice_slug, 'ytd');
           }
         );
    }
 
-  getDailySummaries(params) {
-    this.dailySummaryService.getDailySummaries(params)
+  getDailySummaries(type, slug, view) {
+    this.dailySummaryService.getDailySummaries(type, slug, view)
         .subscribe((dailySummaries)=> {
-          this.dailySummaries = dailySummaries;
+          this.dailySummaryService.selectDailySummaries(dailySummaries);
         });
   } 
 
@@ -65,7 +64,7 @@ export class DailySummaryContainerComponent implements OnInit {
       this.dailySummaryService.postSummary(dailySummary)
         .subscribe((resp)=> {
           console.log(resp);
-          this.getDailySummaries({'practice': this.practice_slug, 'year': this.year, 'month': this.month});    
+          this.getDailySummaries('practice', this.practice_slug, 'ytd');    
         });
       
       // this.dailySummaries.push(dailySummary);
@@ -85,7 +84,7 @@ export class DailySummaryContainerComponent implements OnInit {
       this.dailySummaryService.putSummary(dailySummary, id)
         .subscribe((resp)=> {
           console.log(resp);
-          this.getDailySummaries({'practice': this.practice_slug, 'year': this.year, 'month': this.month});    
+          this.getDailySummaries('practice', this.practice_slug, 'ytd');    
         });
     }
 

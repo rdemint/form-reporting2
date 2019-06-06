@@ -15,11 +15,9 @@ export class DashComponent implements OnInit {
 	  @Input() sourceType: string;
 	  dailySummaries: DailySummary[];
   	pyDailySummaries: DailySummary[];
+    sourceField: string;
 	  dashView: string;
 	  dateView: string;
-    sourceField: string = "visits";
-    dashView$: Observable<string>;
-    dateView$: Observable<string>;
 
   constructor(
   	private dailySummaryService: DailySummaryService, 
@@ -29,7 +27,7 @@ export class DashComponent implements OnInit {
   ngOnInit() {
     this.dashService.loadDashView().subscribe((view)=> this.dashView = view);
     this.dashService.loadDateView().subscribe((view)=> this.dateView = view);
-    // this.dailySummaryField$ = this.dashService.loadDailySummaryField();
+    this.dashService.loadSourceField().subscribe((field)=> this.sourceField = field);
   	this.dailySummaryService
   		.loadDailySummaries().subscribe(
         (summaries)=> {

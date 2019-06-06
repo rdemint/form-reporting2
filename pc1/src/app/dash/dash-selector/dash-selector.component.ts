@@ -20,7 +20,7 @@ export class DashSelectorComponent implements OnInit {
   ngOnInit() {
   	this.dashService.loadDashView().subscribe((dashview)=> this.dashView = dashview);
   	this.dashService.loadDateView().subscribe((dateview)=> this.dateView = dateview);
-  	this.dashService.loadDailySummaryField().subscribe((field)=> this.sourceField = field);
+  	this.dashService.loadSourceField().subscribe((field)=> this.sourceField = field);
   }
 
   selectDashView(view) {
@@ -29,6 +29,10 @@ export class DashSelectorComponent implements OnInit {
 
   selectDateView(view) {
     this.dashService.selectDateView(view);
+  }
+
+  selectSourceField(field) {
+    this.dashService.selectSourceField(field);
   }
 
 }

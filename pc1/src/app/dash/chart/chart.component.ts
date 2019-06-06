@@ -1,13 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DailySummary, Practice, Provider, Specialty } from '../../models';
 import * as CanvasJs from '../../../../node_modules/canvasjs-2.3.1/canvasjs.min.js';
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.css']
+  styleUrls: ['./chart.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartComponent implements OnInit {
+export class ChartComponent implements OnInit, OnChanges {
 	@Input() dailySummaries: DailySummary[];
 	@Input() pyDailySummaries: DailySummary[];
 	@Input() source: Practice | Provider | Specialty;
@@ -18,31 +19,39 @@ export class ChartComponent implements OnInit {
 	current_year: string;
 	previous_year: string;
 	chart: any;
-	chart_data: any = {
-	  noshows: [],
-	  workdays: [],
-	  visits: [], 
-	  visits_per_workday: []
-	}
-
-	py_chart_data: any = {
-	  noshows: [],
-	  workdays: [],
-	  visits: [], 
-	  visits_per_workday: []
-	}
+	chart_data: any;
+	py_chart_data: any;
 	canvasJsData = [];
 
 	  constructor() { }
 
 	  ngOnInit() {
+	  	this.initChartData();
 	   	this.createChartData();
 
 	  }
 
+	  	initChartData() {
+	  		this.chart_data = {
+	  			noshows: [],
+			  workdays: [],
+			  visits: [], 
+			  visits_per_workdays: []
+			};
+
+			this.py_chart_data = {
+			  noshows: [],
+			  workdays: [],
+			  visits: [], 
+			  visits_per_workdays: []
+			};
+
+			
+	  	}
+
 	    createChartData() {
+	    	this.canvasJsData = [];
 	          if (this.dailySummaries != undefined && this.dailySummaries.length != 0) {
-	            // let summaries = this.dailySummaries.filter((summary)=> summary[this.dailySummaryFilterBy] == this.dailySummaryFilterValue);
 	            this.chart_data[this.sourceField] = this.dailySummaries.map((summary)=> ({label: summary.date.slice(5), y: summary[this.sourceField]}));
 	            this.current_year = this.dailySummaries[0].date.slice(0,4);
 	            this.canvasJsData.push({
@@ -54,7 +63,6 @@ export class ChartComponent implements OnInit {
 	            });
 	          }
 	          if (this.pyDailySummaries != undefined && this.pyDailySummaries.length != 0) {
-	            // let pySummaries = this.pyDailySummaries.filter((summary)=> summary[this.dailySummaryFilterBy] == this.dailySummaryFilterValue);
 	            this.py_chart_data[this.sourceField] = this.pyDailySummaries.map((summary)=> ({label: summary.date.slice(5), y: summary[this.sourceField]}));
 	            this.previous_year = this.pyDailySummaries[0].date.slice(0,4);      
 	            this.canvasJsData.push({
@@ -92,8 +100,22 @@ export class ChartComponent implements OnInit {
 
 
 	    ngAfterViewInit() {
+	    	console.log('initializing chart');
 	      this.createChart();
 	      this.chart.render();
+	    }
+
+	    ngOnChanges(changes: SimpleChanges) {
+	 	   		if (
+	 	   			changes['dashView'] && changes['dashView'].firstChange == false ||
+	 	   			changes['sourceField'] && changes['sourceField'].firstChange == false
+	 	   			)
+	    		{
+    			this.initChartData();
+    			this.createChartData();
+    			this.createChart();
+    			this.chart.render();
+	    		}	    		 
 	    }
 
 }

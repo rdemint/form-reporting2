@@ -5,19 +5,19 @@ import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
   providedIn: 'root'
 })
 export class DashService {
-	dailySummaryField$ = new BehaviorSubject<string>('visits');
+	sourceField$ = new BehaviorSubject<string>('visits');
 	dashView$ = new BehaviorSubject<string>('chart');
 	dateView$ = new BehaviorSubject<string>('ytd');
 
-	daily_summary_fields = ['visits', 'visitsPerWorkdays', 'workdays', 'noshows'];
+	source_fields = ['visits', 'visits_per_workdays', 'workdays', 'noshows'];
 	dash_views = ['chart', 'table'];
 	date_views = ['mtd', 'ytd'];
 
   constructor() { }
 
-  selectDailySummaryField(field) {
-  	if (this.daily_summary_fields.includes(field)) {
-  		this.dailySummaryField$.next(field);	
+  selectSourceField(field) {
+  	if (this.source_fields.includes(field)) {
+  		this.sourceField$.next(field);
   	}
 
   	else {
@@ -25,8 +25,8 @@ export class DashService {
   	}
   }
 
-  loadDailySummaryField() {
-  	return this.dailySummaryField$.asObservable();
+  loadSourceField() {
+  	return this.sourceField$.asObservable();
   }
 
   selectDashView(view) {

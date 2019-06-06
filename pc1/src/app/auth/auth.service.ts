@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 import { Router, NavigationExtras } from '@angular/router';
 
 import { environment } from '../../environments/environment';
-import { DateService } from '../date.service';
+import { DateService } from '../services/date.service';
 import { EntityService } from '../services/entity.service';
 import { PracticeService } from '../practice/practice.service';
 import { UserService } from '../user/user.service';
@@ -30,8 +30,8 @@ export class AuthService implements OnInit {
   	private entityService: EntityService, 
   	private userService: UserService,
   	) {
-  	  	this.year = this.dateService.default_year;
-  		this.month = this.dateService.default_month;
+  	  	this.year = this.dateService.currentYear;
+  		this.month = this.dateService.currentMonth;
   }
 
   ngOnInit() {

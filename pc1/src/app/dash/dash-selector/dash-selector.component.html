@@ -1,6 +1,6 @@
 <div>
-	<div class="row">
-		<div class="col">
+	<div style="display: flex; justify-content: center;">
+		<div style="padding: 5px">
 			<mat-form-field>
 				<mat-select [(value)]="dashView" (selectionChange)="selectDashView($event.value)">
 					<mat-option value="chart">Chart</mat-option>
@@ -8,11 +8,21 @@
 				</mat-select>
 				</mat-form-field>
 		</div>
-		<div class="col">
+		<div style="padding: 5px">
 			<mat-form-field>
 				<mat-select [(value)]="dateView" (selectionChange)="selectDateView($event.value)">
 					<mat-option value="mtd"><small>Month to Date</small></mat-option>
 				<mat-option value="ytd"><small>Year to Date</small></mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+		<div style="padding: 5px">
+			<mat-form-field>
+				<mat-select [(value)]="sourceField" (selectionChange)="selectSourceField($event.value)">
+					<mat-option value="visits"><small>Visits</small></mat-option>
+					<mat-option value="visits_per_workdays"><small>Visits per Workdays</small></mat-option>
+					<mat-option value="workdays"><small>Workdays</small></mat-option>
+					<mat-option value="noshows"><small>No-shows</small></mat-option>
 				</mat-select>
 			</mat-form-field>
 		</div>
