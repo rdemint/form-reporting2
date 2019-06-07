@@ -12,6 +12,7 @@
 				</mat-panel-title>
 			</mat-expansion-panel-header>
 			<ng-template matExpansionPanelContent>
+					<div *ngIf="providerDailySummaries">
 					<div *ngFor="let specialty of provider.specialties">
 							<app-daily-summary-form
 								[dailySummary]="providerDailySummaries[specialty]"
@@ -23,6 +24,7 @@
 								(putSummaryOutput)="putSummary($event)"
 							></app-daily-summary-form>
 					<mat-divider></mat-divider>
+					</div>
 					</div>
 
 			</ng-template>

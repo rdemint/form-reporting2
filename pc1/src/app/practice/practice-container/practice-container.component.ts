@@ -32,16 +32,17 @@ export class PracticeContainerComponent implements OnInit {
   	    this.userService.loadUser().subscribe((user)=> this.user = user);
     combineLatest(
       this.route.paramMap, 
-      this.route.queryParamMap,
       this.dashService.loadDateView())
       .subscribe(
-          ([params, queryparams, view]) => {
+          ([params, view]) => {
             this.practiceService.getPractice(params.get('practice_slug'))
               .subscribe(
-                (practice)=> this.practice = practice
+                (practice)=> {
+                  this.practice = practice;
+                  this.getDailySummaries('practice', this.practice.slug, view);
+                  this.getPYDailySummaries('practice', this.practice.slug, view);
+                }
               );
-            this.getDailySummaries('practice', this.practice.slug, view);
-            this.getPYDailySummaries('practice', this.practice.slug, view);
           }
         );
    }
@@ -49,18 +50,13 @@ export class PracticeContainerComponent implements OnInit {
   getDailySummaries(type, slug, view) {
     this.dailySummaryService.getDailySummaries(type, slug, view)
         .subscribe((dailySummaries)=> {
-          this.dailySummaries = dailySummaries;
+          this.dailySummaryService.selectDailySummaries(dailySummaries);
         });
   } 
 
   getPYDailySummaries(type, slug, view) {
     this.dailySummaryService.getPYDailySummaries(type, slug, view)
-      .subscribe((pyDailySummaries)=> this.pyDailySummaries = pyDailySummaries)
-  }
-
-  setPreviousYear(yearString) {
-    let previousYear = +yearString-1;
-    return previousYear.toString();
+      .subscribe((pyDailySummaries)=> this.dailySummaryService.selectPYDailySummaries(pyDailySummaries));
   }
 
 }

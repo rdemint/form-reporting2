@@ -99,8 +99,7 @@ export class ChartComponent implements OnInit, OnChanges {
 	    }
 
 
-	    ngAfterViewInit() {
-	    	console.log('initializing chart');
+	    ngAfterViewInit() {	    
 	      this.createChart();
 	      this.chart.render();
 	    }
@@ -108,7 +107,9 @@ export class ChartComponent implements OnInit, OnChanges {
 	    ngOnChanges(changes: SimpleChanges) {
 	 	   		if (
 	 	   			changes['dashView'] && changes['dashView'].firstChange == false ||
-	 	   			changes['sourceField'] && changes['sourceField'].firstChange == false
+	 	   			changes['sourceField'] && changes['sourceField'].firstChange == false ||
+	 	   			changes['dailySummaries'] && changes['dailySummaries'].firstChange == false ||
+	 	   			changes['pyDailySummaries'] && changes ['pyDailySummaries'].firstChange == false
 	 	   			)
 	    		{
     			this.initChartData();

@@ -49,10 +49,7 @@ export class DashComponent implements OnInit {
         }
       }
       );
-  	
-  	// this.dashView$ = this.dashService.loadDashView();
-   //  this.dateView$ = this.dashService.loadDateView();
-   //  this.dailySummaryField$ = this.dashService.loadDailySummaryField();
+
   }
 
 }

@@ -42,13 +42,13 @@ export class DailySummaryContainerComponent implements OnInit {
           ([params, queryparams]) => {
             this.practiceService.getPractice(params.get('practice_slug'))
               .subscribe(
-                (practice)=> this.practice = practice
+                (practice)=> {
+                  this.practice = practice;
+                  this.getDailySummaries('practice', this.practice.slug, 'ytd');
+                }
               );
-            this.practice_slug = params.get('practice_slug');
-            this.year = queryparams.get('year');
-            this.month = queryparams.get('month');
-
-            this.getDailySummaries('practice', this.practice_slug, 'ytd');
+            
+            
           }
         );
    }
@@ -56,34 +56,24 @@ export class DailySummaryContainerComponent implements OnInit {
   getDailySummaries(type, slug, view) {
     this.dailySummaryService.getDailySummaries(type, slug, view)
         .subscribe((dailySummaries)=> {
-          this.dailySummaryService.selectDailySummaries(dailySummaries);
+          // this.dailySummaryService.selectDailySummaries(dailySummaries);
+          this.dailySummaries = dailySummaries;
         });
   } 
 
     addSummary(dailySummary) {
       this.dailySummaryService.postSummary(dailySummary)
         .subscribe((resp)=> {
-          console.log(resp);
           this.getDailySummaries('practice', this.practice_slug, 'ytd');    
         });
-      
-      // this.dailySummaries.push(dailySummary);
-      // this.dailySummaries = this.dailySummaries.slice();
     }
 
     putSummary(dailySummary) {
-      // Updates the summary in memory to a getDailySummaries API call
       // Sets the user ID to populate the submitted_by property field.  PUTS the summary to the backend
       let id = dailySummary['id'];
-      let originalSummary = this.dailySummaries.filter((summary)=> summary.id == id)[0];
-      let index = this.dailySummaries.indexOf(originalSummary);
-      this.dailySummaries[index] = dailySummary;
-      this.dailySummaries = this.dailySummaries.slice();
-
       dailySummary['submitted_by'] = this.user.id;
       this.dailySummaryService.putSummary(dailySummary, id)
         .subscribe((resp)=> {
-          console.log(resp);
           this.getDailySummaries('practice', this.practice_slug, 'ytd');    
         });
     }

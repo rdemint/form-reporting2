@@ -1,6 +1,7 @@
 import { Input, Component, Output, ViewChild, ChangeDetectionStrategy, ElementRef, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { DailySummary, Practice, Provider } from '../../models';
 import { FormControl } from '@angular/forms';
+import { DailySummaryService } from '../../services/daily-summary.service';
 
 @Component({
   selector: 'app-daily-summary',
@@ -10,12 +11,12 @@ import { FormControl } from '@angular/forms';
 })
 export class DailySummaryComponent implements OnInit, OnChanges {
 	@Input() practice: Practice;
-	@Input() dailySummaries: DailySummary[];
 	@Input() provider: Provider;
 	@Input() selectedDate: Date;
   @Output() addSummaryOutput = new EventEmitter<DailySummary>();
   @Output() putSummaryOutput = new EventEmitter<DailySummary>(); 
   nullDailySummary: DailySummary = {id: null, practice: null, provider: null, visits: null, noshows: null, workdays: null, date: null, specialty: null, visits_per_workdays: null};
+  @Input() dailySummaries: DailySummary[];
   dailySummary: DailySummary;
  
 
@@ -27,9 +28,17 @@ export class DailySummaryComponent implements OnInit, OnChanges {
   providerDailySummaries = {}; 
   providerSpecialtiesForm: FormControl;
 // 
-  constructor() { }
+  constructor(private dailySummaryService: DailySummaryService) { }
 
-  ngOnInit() {  }
+  ngOnInit() { 
+    // this.dailySummaryService.loadDailySummaries()
+    //   .subscribe((summaries)=> {
+    //     this.dailySummaries = summaries;
+    //     console.log(summaries);
+    //     this.findSummaries();
+      // });
+      this.findSummaries();
+  }
 
  formatDate(date) {
     var d = new Date(date),
@@ -51,7 +60,6 @@ export class DailySummaryComponent implements OnInit, OnChanges {
     let practice_specialties = this.practice.specialties.filter((specialty)=> specialties.includes(specialty['name']));
 
     for (let i = 0; i < practice_specialties.length; i++) {
-
       let summary = this.dailySummaries.filter((summary)=> {
            if (
              summary.practice == this.practice.id && 
@@ -87,14 +95,13 @@ export class DailySummaryComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['selectedDate'] || changes['dailySummaries']) {
+    if (changes['selectedDate'] && changes['selectedDate'].firstChange == false) {
       this.findSummaries(); 
     }
 
-
-
-    if (changes['dailySummaries'] && changes['dailySummaries']['firstChange']==false) {
-      console.log(changes['dailySummaries']);
+    if (changes['dailySummaries'] && this.practice != undefined ||
+      changes['practice'] && this.dailySummaries != undefined ) {
+      this.findSummaries();
     }
   }
 

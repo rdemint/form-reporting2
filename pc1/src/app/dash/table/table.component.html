@@ -1,3 +1,4 @@
+<div *ngIf="dataExists == true else noData">
 <table mat-table [dataSource]="tableDailySummaries" class="mat-elevation-z8">
 	<ng-container matColumnDef="date">
 		<th mat-header-cell *matHeaderCellDef>Date</th>
@@ -14,3 +15,8 @@
 	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+</div>
+
+<ng-template #noData>
+	<app-no-data></app-no-data>
+</ng-template>

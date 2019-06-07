@@ -30,6 +30,8 @@ export class DailySummaryFormComponent implements OnInit, OnChanges {
     }
 
   ngOnInit() {
+    this.getSpecialtyID();
+    this.createForm();
    }
 
    formatDate(date) {
@@ -50,7 +52,7 @@ export class DailySummaryFormComponent implements OnInit, OnChanges {
 
   createForm() {
       this.editing = false;
-      this.summaryIsDisabled();
+      this._summaryIsDisabled();
       this.summaryForm = new FormGroup({
       'id': new FormControl(this.dailySummary.id),
       'practice': new FormControl(this.practice.id),
@@ -73,7 +75,7 @@ export class DailySummaryFormComponent implements OnInit, OnChanges {
     else {this.dailySummaryExists = true}
   }
 
-    summaryIsDisabled (): void {
+    _summaryIsDisabled (): void {
       this._checkForSummary();
     if (this.dailySummaryExists == true && this.editing == true) {
       this.dailySummaryDisabled = false;
@@ -107,7 +109,9 @@ export class DailySummaryFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if( changes['selectedDate'] || changes['dailySummary']){
+    if(
+      changes['selectedDate'] && changes['selectedDate'].firstChange ==false || 
+      changes['dailySummary'] && changes['dailySummary'].firstChange ==false){
       this.getSpecialtyID(); 
       this.createForm();
     }

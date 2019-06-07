@@ -10,9 +10,9 @@ import { DailySummary, Practice } from '../../models';
 })
 export class DailySummaryListComponent implements OnInit, OnChanges {
 	@Input() practice: Practice;
-	@Input() dailySummaries: DailySummary;
   @Output() addSummaryOutput = new EventEmitter<DailySummary>(); 
   @Output() putSummaryOutput = new EventEmitter<DailySummary>();
+  @Input() dailySummaries: DailySummary[];
 
 	selectedDateForm: FormControl;
   selectedDate: Date;

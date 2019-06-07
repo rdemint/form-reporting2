@@ -21,6 +21,7 @@ export class TableContainerComponent implements OnInit {
 	year: string;
 	previousYear: string;
 	tableDailySummaries: any;
+  dataExists: boolean; 
 
   constructor(
   	private dateService: DateService,
@@ -37,6 +38,7 @@ export class TableContainerComponent implements OnInit {
   }
 
   createTableData() {
+    this.dataExists = false;
   	this.tableDailySummaries = [];
   	let daysInMonth = this.dateService.daysInMonth(this.year, this.month);
   	for (let i = 0; i < daysInMonth; i++) {
@@ -65,6 +67,7 @@ export class TableContainerComponent implements OnInit {
   	}
 
   	else {
+      this.dataExists = true;
   		return match[this.sourceField]
   	}
   }

@@ -72,10 +72,12 @@ export class DailySummaryService implements OnInit {
   }
 
   selectDailySummaries(summaries) {
+    console.log(summaries);
     this.dailySummaries$.next(summaries);
   }
 
   loadDailySummaries() {
+    console.log(this.dailySummaries$.getValue());
     return this.dailySummaries$.asObservable();
 
   }

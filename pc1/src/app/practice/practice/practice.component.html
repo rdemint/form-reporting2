@@ -1,18 +1,25 @@
+<div class="container">
+	<div *ngIf="practice" else loading>
+		<h4 style="text-align: center">{{practice.name}}</h4>
+		<mat-tab-group mat-align-tabs="center">
+			<mat-tab label="Providers">
+				<ng-template matTabContent>
+					<app-provider-list [providers]="practice.providers">
+					</app-provider-list>
+				</ng-template>
+			</mat-tab>
+			<mat-tab label="Specialties">
+				<ng-template matTabContent>
+					<app-specialty-list [specialties]="practice.specialties">
+					</app-specialty-list>
+				</ng-template>
+			</mat-tab>
+		</mat-tab-group>
+	</div>
 
-	<mat-card>
-		<mat-card-title>
-			<button class="btn btn-link">{{practice.name}}</button>
-		</mat-card-title>
-
-		<mat-card-content>
-			<app-dash
-				[source]="practice"
-				[sourceType]="'practice'"
-				> 
-			</app-dash>
-		</mat-card-content>
-	</mat-card>
-
+<ng-template #loading>
+	<p>Loading...</p>
+</ng-template>
 
 
 	

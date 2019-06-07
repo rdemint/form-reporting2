@@ -13,12 +13,10 @@ import { first, map } from 'rxjs/operators';
 })
 export class PracticeComponent implements OnInit {
   @Input() practice: Practice;
-	@Input() dailySummaries: DailySummary[];
 
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.dailySummaries = this.dailySummaries.filter((summary)=> summary.practice == this.practice.id)
   }
 
 }

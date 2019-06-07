@@ -13,19 +13,20 @@
 </mat-form-field>
 </div>
 
-<div class="container">
-<small class="text-muted">Showing all providers for your practice.</small>
-<div *ngIf="practice.providers.length > 0 else noProviders">
-<div *ngFor="let provider of practice.providers">
-	<app-daily-summary
-	[selectedDate]="selectedDate" 
-	[practice]="practice" 
-	[provider]="provider" 
-	[dailySummaries]="dailySummaries"
-	(addSummaryOutput)="addSummary($event)"
-	(putSummaryOutput)="putSummary($event)">
-</app-daily-summary>
-</div>
+<div *ngIf="practice && selectedDate">
+	<small class="text-muted">Showing all providers for your practice.</small>
+	<div *ngIf="practice.providers.length > 0 else noProviders">
+	<div *ngFor="let provider of practice.providers">
+		<app-daily-summary
+		[dailySummaries]="dailySummaries"
+		[selectedDate]="selectedDate" 
+		[practice]="practice" 
+		[provider]="provider"
+		(addSummaryOutput)="addSummary($event)"
+		(putSummaryOutput)="putSummary($event)">
+		</app-daily-summary>
+	</div>
+	</div>
 </div>
 
 <ng-template #noProviders>

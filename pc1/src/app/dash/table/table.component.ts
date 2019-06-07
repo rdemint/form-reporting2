@@ -12,6 +12,8 @@ export class TableComponent implements OnInit {
 	@Input() previousYear: string;
 	@Input() year: string;
 	@Input() sourceField: string;
+  @Input() dataExists: boolean;
+  
 	displayedColumns = ["date", 'previousYear', 'year'];
 
   constructor() { }
