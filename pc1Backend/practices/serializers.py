@@ -6,6 +6,11 @@ from practices.models import Practice, DailySummary, User, Entity, Provider, Spe
 from django.contrib.auth import get_user_model, authenticate
 
 
+# class MonthlyOverviewSerializer(serializers.Serializer):
+# 	visits = serializers.DecimalField(max_digits=2, decimal_places=2)
+# 	workdays = serializers.DecimalField(max_digits=2, decimal_places=2)
+# 	visits_per_workdays = serializers.DecimalField(max_digits=2, decimal_places=2)
+
 class SpecialtySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Specialty 

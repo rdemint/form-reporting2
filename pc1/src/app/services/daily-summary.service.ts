@@ -59,33 +59,32 @@ export class DailySummaryService implements OnInit {
       }
   }
 
+  _setSourceParams(sourceType) {
+
+  }
+
   getDailySummaries(type, slug, view) {
     // Type is practice or entity
-
-  	// let paramKeys = Object.keys(params);
-  	// let httpParams = new HttpParams();
-  	// paramKeys.forEach((key)=> {
-  	// 	httpParams = httpParams.append(key, params[key])
     let httpParams = this._setDateParams(view);
     httpParams = httpParams.append(type, slug);
   	return this.http.get<DailySummary[]>(environment['daily_summary_url'], {params: httpParams});
   }
 
   selectDailySummaries(summaries) {
-    console.log(summaries);
     this.dailySummaries$.next(summaries);
   }
 
   loadDailySummaries() {
-    console.log(this.dailySummaries$.getValue());
     return this.dailySummaries$.asObservable();
 
   }
 
 
-  getPYDailySummaries(type, slug, view) {
+  getPYDailySummaries(type, slug, view, sourceType, source) {
     let httpParams = this._setPYDateParams(view);
-    httpParams = httpParams.append(type, slug);
+    httpParams = httpParams
+      .append(type, slug)
+      .append(sourceType, source);
     return this.http.get<DailySummary[]>(environment['daily_summary_url'], {params: httpParams});
   }
 

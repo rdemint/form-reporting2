@@ -5,6 +5,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.utils.text import slugify
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from datetime import datetime
 
 # Create your models here.
 class Entity(models.Model):
@@ -190,6 +191,5 @@ class DailySummary(models.Model):
 
 	def __str__(self):
 		return self.practice.__str__() + ': Daily for ' + self.date.strftime('%A') +', ' + self.date.strftime('%m/%d/%Y')
-
 
 

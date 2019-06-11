@@ -1,9 +1,14 @@
 <app-user></app-user>
-<div *ngIf="practice && dailySummaries">
+<div *ngIf="practice && dailySummaries else loading">
 	<app-daily-summary-list 
 		[dailySummaries]="dailySummaries"
 		[practice]="practice"
 		(addSummaryOutput)="addSummary($event)"
-		(putSummaryOutput)="putSummary($event)">	
+		(putSummaryOutput)="putSummary($event)"
+	>	
 	</app-daily-summary-list>
 </div>
+
+<ng-template #loading>
+	<app-loading></app-loading>
+</ng-template>

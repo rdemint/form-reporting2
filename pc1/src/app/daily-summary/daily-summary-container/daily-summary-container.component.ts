@@ -64,7 +64,7 @@ export class DailySummaryContainerComponent implements OnInit {
     addSummary(dailySummary) {
       this.dailySummaryService.postSummary(dailySummary)
         .subscribe((resp)=> {
-          this.getDailySummaries('practice', this.practice_slug, 'ytd');    
+          this.getDailySummaries('practice', this.practice.slug, 'ytd');    
         });
     }
 
@@ -74,7 +74,7 @@ export class DailySummaryContainerComponent implements OnInit {
       dailySummary['submitted_by'] = this.user.id;
       this.dailySummaryService.putSummary(dailySummary, id)
         .subscribe((resp)=> {
-          this.getDailySummaries('practice', this.practice_slug, 'ytd');    
+          this.getDailySummaries('practice', this.practice.slug, 'ytd');    
         });
     }
 

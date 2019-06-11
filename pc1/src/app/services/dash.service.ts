@@ -6,14 +6,26 @@ import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 })
 export class DashService {
 	sourceField$ = new BehaviorSubject<string>('visits');
+  sourceType$ = new BehaviorSubject<string>('practice');
 	dashView$ = new BehaviorSubject<string>('chart');
 	dateView$ = new BehaviorSubject<string>('ytd');
 
+  source_types = ['practice', 'provider', 'specialty'];
 	source_fields = ['visits', 'visits_per_workdays', 'workdays', 'noshows'];
 	dash_views = ['chart', 'table'];
 	date_views = ['mtd', 'ytd'];
 
   constructor() { }
+
+  selectSourceType(sourceType) {
+    if (this.source_types.includes(sourceType)) {
+      this.sourceType$.next(sourceType);
+    }
+  }
+
+  loadSourceType() {
+    return this.sourceType$.asObservable();
+  }
 
   selectSourceField(field) {
   	if (this.source_fields.includes(field)) {

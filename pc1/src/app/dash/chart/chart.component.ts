@@ -104,19 +104,21 @@ export class ChartComponent implements OnInit, OnChanges {
 	      this.chart.render();
 	    }
 
+	    updateChart() {
+			this.initChartData();
+			this.createChartData();
+			this.createChart();
+			this.chart.render();	    	    	
+	    }
+
 	    ngOnChanges(changes: SimpleChanges) {
-	 	   		if (
-	 	   			changes['dashView'] && changes['dashView'].firstChange == false ||
-	 	   			changes['sourceField'] && changes['sourceField'].firstChange == false ||
-	 	   			changes['dailySummaries'] && changes['dailySummaries'].firstChange == false ||
-	 	   			changes['pyDailySummaries'] && changes ['pyDailySummaries'].firstChange == false
-	 	   			)
-	    		{
-    			this.initChartData();
-    			this.createChartData();
-    			this.createChart();
-    			this.chart.render();
-	    		}	    		 
+	 	   		if (changes['dashView'] && changes['dashView'].firstChange == false) {
+	 	   			this.updateChart();
+	 	   		}
+
+	 	   		if (changes['sourceField'] && changes['sourceField'].firstChange == false) {
+					this.updateChart();
+				}  	    		
 	    }
 
 }

@@ -39,6 +39,15 @@ export interface DailySummary {
 	visits_per_workdays: number;
 }
 
+export interface MonthlySummary {
+	date?: string;
+	last_updated?: string;
+	visits: number;
+	workdays: number;
+	noshows: number;
+	visits_per_workdays: number;	
+}
+
 export interface User {
 	id: string;
 	email: string;

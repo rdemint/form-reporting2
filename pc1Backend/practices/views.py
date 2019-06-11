@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -9,7 +10,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.settings import api_settings
 from practices.models import Practice, DailySummary, User, Entity, Provider
 from practices.serializers import DailySummarySerializer, ProviderSerializer, EntitySerializer, PracticeSerializer, AuthTokenSerializer
+from practices.overviews import SummaryOverview
 from django_filters import rest_framework as filters
+from datetime import datetime
 
 
 class DailySummaryFilter(filters.FilterSet):
@@ -17,7 +20,8 @@ class DailySummaryFilter(filters.FilterSet):
 	year = filters.NumberFilter(field_name="date", lookup_expr="year")
 	entity = filters.CharFilter(field_name="entity__slug", lookup_expr="iexact")
 	practice = filters.CharFilter(field_name="practice__slug", lookup_expr="iexact")
-	provider = filters.CharFilter(field_name="provider", lookup_expr='iexact')
+	provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
+	specialty = filters.NumberFilter(field_name="specialty__id", lookup_expr='iexact')
 
 	class Meta:
 		model = DailySummary
@@ -30,15 +34,52 @@ class FilteredDailySummaries(ListCreateAPIView):
 	filter_backends = (filters.DjangoFilterBackend,)
 	filterset_class = DailySummaryFilter
 
-	# def post(self,request,*args,**kwargs):
-	# 	print(self.request.data)
-	# 	return self.create(request, *args, **kwargs)
-
 
 class DailySummaryDetail(RetrieveUpdateDestroyAPIView):
 	queryset = DailySummary.objects.all()
 	serializer_class = DailySummarySerializer 
 
+# class MonthlyOverviewView(ListCreateAPIView):
+# 	queryset = DailySummary.objects.all()
+# 	filterset_class = DailySummaryFilter
+# 	serializer_class = MonthlyOverviewSerializer
+
+# 	def get(self, request, format=None):
+# 		currentMonth = int(datetime.today().strftime('%m'))
+# 		response = {}
+# 		for i in range(1, currentMonth+1):
+# 			overview = SummaryOverview(view=self, filters=request.GET, practice=request.GET['practice'], year=request.GET['year'], month=i)
+# 			response[i] = overview.to_dict()
+# 		return Response(response)
+
+class SummaryOverviewView(APIView):
+	filter_backends = (filters.DjangoFilterBackend,)
+	filterset_class = DailySummaryFilter
+
+	def filter_queryset(self, queryset):
+		for backend in list(self.filter_backends):
+			queryset = backend().filter_queryset(self.request, queryset, self)
+		return queryset
+
+	def get(self, request, format=None):
+		
+		response = {}
+		qs = self.filter_queryset(DailySummary.objects.all())
+
+		if 'month' in request.GET:
+			currentDay = int(datetime.today().strftime('%d'))
+			for day in range(1, currentDay + 1):
+				overview = SummaryOverview(qs, 'mtd', day)
+				response[day] = overview.to_dict()
+
+		else:
+			#assumes a year object will be sent. 
+			currentMonth = int(datetime.today().strftime('%m')) 
+			for month in range(1, currentMonth+1):
+				overview = SummaryOverview(qs, 'ytd', month)
+				response[month] = overview.to_dict()
+		print(qs)
+		return Response(response)
 
 class EntityList(ListCreateAPIView):
 	serializer_class = EntitySerializer

@@ -2,7 +2,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatInputModule, MatCardModule, MatFormFieldModule, 
     MatNativeDateModule, MatTabsModule, MatSlideToggleModule, 
-    MatSnackBarModule, MatDividerModule, MatTableModule} from '@angular/material';
+    MatSnackBarModule, MatDividerModule, MatTableModule, MatProgressSpinnerModule} from '@angular/material';
 import { MatSelectModule} from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatToolbarModule} from '@angular/material/toolbar';
@@ -47,7 +47,6 @@ import { DailySummaryListComponent } from './daily-summary/daily-summary-list/da
 import { DailySummaryContainerComponent } from './daily-summary/daily-summary-container/daily-summary-container.component';
 import { CheckCompleteDirective } from './directives/check-complete.directive';
 import { PracticeDetailComponent } from './practice/practice-detail/practice-detail.component';
-import { DailySummaryChartComponent } from './daily-summary/daily-summary-chart/daily-summary-chart.component';
 import { PracticeDetailSummaryComponent } from './practice/practice-detail-summary/practice-detail-summary.component';
 import { PracticeDetailProvidersListComponent } from './practice/practice-detail-providers-list/practice-detail-providers-list.component';
 import { PracticeDetailSpecialtiesListComponent } from './practice/practice-detail-specialties-list/practice-detail-specialties-list.component';
@@ -64,6 +63,8 @@ import { ChartComponent } from './dash/chart/chart.component';
 import { ChartContainerComponent } from './dash/chart-container/chart-container.component';
 import { DashSelectorComponent } from './dash/dash-selector/dash-selector.component';
 import { EntityContainerComponent } from './entity/entity-container/entity-container.component';
+import { LoadingComponent } from './loading/loading/loading.component';
+import { DashContainerComponent } from './dash/dash-container/dash-container.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,6 @@ import { EntityContainerComponent } from './entity/entity-container/entity-conta
     DailySummaryListComponent,
     CheckCompleteDirective,
     PracticeDetailComponent,
-    DailySummaryChartComponent,
     PracticeDetailSummaryComponent,
     PracticeDetailProvidersListComponent,
     PracticeDetailSpecialtiesListComponent,
@@ -103,6 +103,8 @@ import { EntityContainerComponent } from './entity/entity-container/entity-conta
     ChartContainerComponent,
     DashSelectorComponent,
     EntityContainerComponent,
+    LoadingComponent,
+    DashContainerComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -127,7 +129,8 @@ import { EntityContainerComponent } from './entity/entity-container/entity-conta
     MatSnackBarModule,
     MatSlideToggleModule,
     MatDividerModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatFormFieldModule,

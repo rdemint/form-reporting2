@@ -11,6 +11,7 @@ urlpatterns = [
 	path('practices/<slug:slug>/', views.PracticeDetail.as_view(), name='practice_detail'),
 	path('daily_summaries/', views.FilteredDailySummaries.as_view(), name='daily_summaries'),
 	path('daily_summaries/<int:pk>/', views.DailySummaryDetail.as_view(), name="daily_summary_detail"),
-	# path('login/', obtain_auth_token, name='login'),
+	path('summary_overviews/', views.SummaryOverviewView.as_view(), name="summary_overview"),
+
 	path('token/', views.CreateTokenView.as_view(), name='create_token'),
 ]

@@ -1,3 +1,4 @@
+<mat-card>
 <div><h4>{{source.name}}</h4></div>
 <div *ngIf="dailySummaries?.length > 0 else noData">
 	<div *ngIf="dashView =='chart'">
@@ -26,6 +27,8 @@
 		></app-table-container>
 	</div>
 </div>
+</mat-card>
+<br>
 
 	<ng-template #noData>
 		<app-no-data></app-no-data>
