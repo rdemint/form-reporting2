@@ -1,6 +1,9 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
-import { DailySummary, Practice, Provider, Specialty } from '../../models';
+import { EventEmitter, Component, Input, Output, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { DailySummary, Practice, Provider, Specialty, SummaryOverview } from '../../models';
+import { DateService } from '../../services/date.service';
+import { DashService } from '../../services/dash.service';
 import * as CanvasJs from '../../../../node_modules/canvasjs-2.3.1/canvasjs.min.js';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chart',
@@ -9,84 +12,103 @@ import * as CanvasJs from '../../../../node_modules/canvasjs-2.3.1/canvasjs.min.
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartComponent implements OnInit, OnChanges {
-	@Input() dailySummaries: DailySummary[];
-	@Input() pyDailySummaries: DailySummary[];
+	@Input() summaryOverviews: SummaryOverview[];
+	@Input() pySummaryOverviews: SummaryOverview[];
 	@Input() source: Practice | Provider | Specialty;
 	@Input() sourceType: string;
 	@Input() chartName: string;
 	@Input() sourceField: string;
+	@Input() loading: boolean;
+	@Input() chartDateHeader: string;
+	@Output() setLoadingOutput = new EventEmitter();
 
 	current_year: string;
 	previous_year: string;
+	dateRef: string;
 	chart: any;
 	chart_data: any;
 	py_chart_data: any;
 	canvasJsData = [];
 
-	  constructor() { }
+	  constructor(private dateService: DateService, private dashService: DashService) { }
 
 	  ngOnInit() {
-	  	this.initChartData();
 	   	this.createChartData();
 
 	  }
 
-	  	initChartData() {
-	  		this.chart_data = {
-	  			noshows: [],
-			  workdays: [],
-			  visits: [], 
-			  visits_per_workdays: []
-			};
+	  _setLoading(bool: boolean) {
+	  	this.setLoadingOutput.emit(bool);
+	  }
 
-			this.py_chart_data = {
-			  noshows: [],
-			  workdays: [],
-			  visits: [], 
-			  visits_per_workdays: []
-			};
+	  _initChartData() {
+  		this.chart_data = {
+  			noshows: [],
+		  workdays: [],
+		  visits: [], 
+		  visits_per_workdays: []
+		};
 
-			
-	  	}
+		this.py_chart_data = {
+		  noshows: [],
+		  workdays: [],
+		  visits: [], 
+		  visits_per_workdays: []
+		};			
+	  }
 
 	    createChartData() {
+
+	    	this._initChartData();   
+	    	this._setLoading(true);
 	    	this.canvasJsData = [];
-	          if (this.dailySummaries != undefined && this.dailySummaries.length != 0) {
-	            this.chart_data[this.sourceField] = this.dailySummaries.map((summary)=> ({label: summary.date.slice(5), y: summary[this.sourceField]}));
-	            this.current_year = this.dailySummaries[0].date.slice(0,4);
+	          if (this.summaryOverviews != undefined && this.summaryOverviews.length != 0) {	          		            
+	            this.chart_data[this.sourceField] = this.summaryOverviews.map((summary)=> ({label: summary['date_filter_ref'], y: summary[this.sourceField]['average']}));	           	            	         
 	            this.canvasJsData.push({
 	             type: "spline",
 	             visible: true,
 	             showInLegend: true,
-	             name: this.current_year + ' ' + this.sourceField,
+	             name: this.dateService.currentYear + ' ' + this.dashService.source_fields_dict[this.sourceField],
 	             dataPoints: this.chart_data[this.sourceField]
 	            });
 	          }
-	          if (this.pyDailySummaries != undefined && this.pyDailySummaries.length != 0) {
-	            this.py_chart_data[this.sourceField] = this.pyDailySummaries.map((summary)=> ({label: summary.date.slice(5), y: summary[this.sourceField]}));
-	            this.previous_year = this.pyDailySummaries[0].date.slice(0,4);      
+	          if (this.pySummaryOverviews != undefined && this.pySummaryOverviews.length != 0) {
+	            	            this.chart_data[this.sourceField] = this.pySummaryOverviews.map((summary)=> ({label: summary['date_filter_ref'], y: summary[this.sourceField]['average']}));	           
 	            this.canvasJsData.push({
 	             type: "spline",
 	             visible: true,
 	             showInLegend: true,
-	             name: this.previous_year + ' ' + this.sourceField,
+	             name: this.dateService.previousYear + ' ' + this.dashService.source_fields_dict[this.sourceField],
 	             dataPoints: this.py_chart_data[this.sourceField]
 	            });
 	          }
 	     }
 
+	    _setDateRef() {
+	    	let overview_type = this.summaryOverviews[0]['overview_type'];
+	    	if (overview_type == 'monthly') {
+	    		this.dateRef = 'Month';
+	    	}
+
+	    	if (overview_type == 'daily') {
+	    		this.dateRef = this.dateService.currentMonthShort;
+	    	}
+	    }
+
+
 	    createChart() {
-	         this.chart = new CanvasJs.Chart(this.chartName, {
+	    	this._setDateRef();
+	        this.chart = new CanvasJs.Chart(this.chartName, {
 	         theme: "light2",
 	         animationEnabled: false,
 	         exportEnabled: true,
 	         axisX : {
-	           title: "Date",
+	           title: this.dateRef,
 	           includeZero: false
 	         },
 	         axisY : {
-	           includeZero: false,
-	           title: "Count",
+	           includeZero: true,
+	           title: "Average",
 	         },
 	         tooltip: {
 	           cursor: "pointer"
@@ -95,30 +117,40 @@ export class ChartComponent implements OnInit, OnChanges {
 	           cursor: "pointer"
 	         },
 	         data: this.canvasJsData
-	       });
+	       });	
 	    }
 
 
 	    ngAfterViewInit() {	    
 	      this.createChart();
-	      this.chart.render();
+	      this.chart.render();	  
+		
+
 	    }
 
 	    updateChart() {
-			this.initChartData();
 			this.createChartData();
 			this.createChart();
-			this.chart.render();	    	    	
+			this.chart.render();    	
+		
 	    }
 
 	    ngOnChanges(changes: SimpleChanges) {
-	 	   		if (changes['dashView'] && changes['dashView'].firstChange == false) {
-	 	   			this.updateChart();
-	 	   		}
+	 	 //   		if (changes['dashView'] && changes['dashView'].firstChange == false) {
+	 	 //   			this.updateChart();
+	 	 //   		}
 
-	 	   		if (changes['sourceField'] && changes['sourceField'].firstChange == false) {
+	 	 //   		if (changes['sourceField'] && changes['sourceField'].firstChange == false) {
+				// 	this.updateChart();
+				// }  
+
+				if (changes['summaryOverviews'] && changes['summaryOverviews'].firstChange == false) {
 					this.updateChart();
-				}  	    		
+				}	    		
+
+				if (changes['pySummaryOverviews'] && changes['pySummaryOverviews'].firstChange == false) {
+					this.updateChart();
+				}
 	    }
 
 }

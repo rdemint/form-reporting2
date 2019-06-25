@@ -5,15 +5,16 @@ import { DailySummaryService } from '../../services/daily-summary.service';
 import { environment } from '../../../environments/environment';
 import { UserService } from '../../user/user.service';
 import { DateService } from '../../services/date.service';
-import { PracticeService } from '../../practice/practice.service';
+import { PracticeService } from '../../services/practice.service';
+import { DashService } from '../../services/dash.service';
 import { combineLatest, Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-practice-container',
-  templateUrl: './daily-summary-container.component.html',
-  styleUrls: ['./daily-summary-container.component.css']
+  selector: 'app-reporting-container',
+  templateUrl: './reporting-container.component.html',
+  styleUrls: ['./reporting-container.component.css']
 })
-export class DailySummaryContainerComponent implements OnInit {
+export class ReportingContainerComponent implements OnInit {
     user: User;
     practice: Practice;
     dailySummaries: DailySummary[];
@@ -21,19 +22,17 @@ export class DailySummaryContainerComponent implements OnInit {
     year: string;
     month: string;
 
-  constructor(
-    private practiceService: PracticeService,
+  constructor(    
+  	private practiceService: PracticeService,
+    private dashService: DashService,
     private dailySummaryService: DailySummaryService,
     private dateService: DateService,
     private userService: UserService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit() {
-    // this container has the same functionality as practice-container
-    // the two could be merged with a behaviorsubject service combination
-    // (on the to-do list)
-    this.userService.loadUser().subscribe((user)=> this.user = user);
+  	this.userService.loadUser().subscribe((user)=> this.user = user);
     combineLatest(
       this.route.paramMap, 
       this.route.queryParamMap,
@@ -44,27 +43,28 @@ export class DailySummaryContainerComponent implements OnInit {
               .subscribe(
                 (practice)=> {
                   this.practice = practice;
-                  this.getDailySummaries('practice', this.practice.slug, 'ytd');
+                  this.getDailySummaries('practice', this.practice.id, 'ytd');
                 }
               );
             
             
           }
-        );
-   }
+          );
+    
+  }
 
-  getDailySummaries(type, slug, view) {
-    this.dailySummaryService.getDailySummaries(type, slug, view)
+    getDailySummaries(type, id, view) {
+    this.dailySummaryService.getDailySummaries(type, id, view)
         .subscribe((dailySummaries)=> {
           // this.dailySummaryService.selectDailySummaries(dailySummaries);
-          this.dailySummaries = dailySummaries;
+          this.dailySummaries = dailySummaries;          
         });
   } 
 
-    addSummary(dailySummary) {
+    addSummary(dailySummary) {      
       this.dailySummaryService.postSummary(dailySummary)
         .subscribe((resp)=> {
-          this.getDailySummaries('practice', this.practice.slug, 'ytd');    
+          this.getDailySummaries('practice', this.practice.id, 'ytd');    
         });
     }
 
@@ -74,7 +74,7 @@ export class DailySummaryContainerComponent implements OnInit {
       dailySummary['submitted_by'] = this.user.id;
       this.dailySummaryService.putSummary(dailySummary, id)
         .subscribe((resp)=> {
-          this.getDailySummaries('practice', this.practice.slug, 'ytd');    
+          this.getDailySummaries('practice', this.practice.id, 'ytd');    
         });
     }
 

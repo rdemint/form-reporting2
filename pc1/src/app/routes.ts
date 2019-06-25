@@ -4,7 +4,7 @@ import { PracticeComponent } from './practice/practice/practice.component';
 import { PracticeContainerComponent } from './practice/practice-container/practice-container.component';
 import { PracticeListComponent } from './practice/practice-list/practice-list.component';
 import { ProviderListComponent } from './provider/provider-list/provider-list.component';
-import { DailySummaryContainerComponent } from './daily-summary/daily-summary-container/daily-summary-container.component';
+import { ReportingContainerComponent } from './reporting/reporting-container/reporting-container.component';
 import { DailySummaryFormComponent } from './daily-summary/daily-summary-form/daily-summary-form.component';
 import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './auth/logout/logout.component';
@@ -21,7 +21,7 @@ export const appRoutes: Routes = [
 	{
 		path: 'practices/:practice_slug/reporting',
 		// canActivate: [AuthGuard],
-		component: DailySummaryContainerComponent
+		component: ReportingContainerComponent
 	},
 	{
 		path: 'entities/:entity_slug',

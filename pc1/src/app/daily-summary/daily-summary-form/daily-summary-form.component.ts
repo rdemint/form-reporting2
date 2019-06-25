@@ -97,7 +97,7 @@ export class DailySummaryFormComponent implements OnInit, OnChanges {
     this.createForm();
   }
 
-  onSubmit() {
+  addSummary() {
     // this.dailySummaryDisabled = true;
     // this.editing = false;
     this.addSummaryOutput.emit(this.summaryForm.value);

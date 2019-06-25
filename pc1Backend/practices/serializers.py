@@ -51,7 +51,7 @@ class PracticeSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Practice 
-		fields = ('id', 'name', 'slug', 'providers', 'specialties')
+		fields = ('id', 'name', 'slug', 'providers', 'specialties', 'org_type')
 
 
 class EntitySerializer(serializers.ModelSerializer):
@@ -61,7 +61,7 @@ class EntitySerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Entity
-		fields = ('name', 'slug', 'providers', 'practices', 'specialties')
+		fields = ('id', 'name', 'slug', 'providers', 'practices', 'specialties', 'org_type')
 
 
 class AuthTokenSerializer(serializers.Serializer):

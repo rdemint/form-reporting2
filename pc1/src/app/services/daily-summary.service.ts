@@ -32,7 +32,7 @@ export class DailySummaryService implements OnInit {
     this.source_slug$.next(slug);
   }
 
-  _setDateParams(view) {
+  setDateParams(view) {
     if (view=='ytd') {
       return new HttpParams()
         .append('year', this.dateService.currentYear);  
@@ -46,7 +46,7 @@ export class DailySummaryService implements OnInit {
   
   }
 
-  _setPYDateParams(view) {
+  setPYDateParams(view) {
     if (view=='ytd') {
       return new HttpParams()
         .append('year', this.dateService.previousYear);  
@@ -59,15 +59,13 @@ export class DailySummaryService implements OnInit {
       }
   }
 
-  _setSourceParams(sourceType) {
 
-  }
-
-  getDailySummaries(type, slug, view) {
+  getDailySummaries(orgType, orgSlug, view) {
     // Type is practice or entity
-    let httpParams = this._setDateParams(view);
-    httpParams = httpParams.append(type, slug);
-  	return this.http.get<DailySummary[]>(environment['daily_summary_url'], {params: httpParams});
+    let httpParams = this.setDateParams(view);
+    httpParams = httpParams
+      .append(orgType, orgSlug)
+    return this.http.get<DailySummary[]>(environment['daily_summary_url'], {params: httpParams});
   }
 
   selectDailySummaries(summaries) {
@@ -80,11 +78,10 @@ export class DailySummaryService implements OnInit {
   }
 
 
-  getPYDailySummaries(type, slug, view, sourceType, source) {
-    let httpParams = this._setPYDateParams(view);
+  getPYDailySummaries(orgType, orgSlug, view) {
+    let httpParams = this.setPYDateParams(view);
     httpParams = httpParams
-      .append(type, slug)
-      .append(sourceType, source);
+      .append(orgType, orgSlug)
     return this.http.get<DailySummary[]>(environment['daily_summary_url'], {params: httpParams});
   }
 

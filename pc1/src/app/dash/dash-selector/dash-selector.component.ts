@@ -11,7 +11,9 @@ export class DashSelectorComponent implements OnInit {
 	dashView: string;
 	dateView: string;
 	sourceField: string;
-	
+  isLoading: boolean;
+  isLoadingPY: boolean;
+
   constructor(
   	private dateService: DateService, 
   	private dashService: DashService
@@ -21,6 +23,8 @@ export class DashSelectorComponent implements OnInit {
   	this.dashService.loadDashView().subscribe((dashview)=> this.dashView = dashview);
   	this.dashService.loadDateView().subscribe((dateview)=> this.dateView = dateview);
   	this.dashService.loadSourceField().subscribe((field)=> this.sourceField = field);
+    this.dashService.loadLoadingStatus().subscribe((bool)=> this.isLoading = bool);
+    this.dashService.loadPYLoadingStatus().subscribe((pybool)=> this.isLoadingPY = pybool);
   }
 
   selectDashView(view) {

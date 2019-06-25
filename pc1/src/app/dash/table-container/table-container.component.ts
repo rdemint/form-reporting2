@@ -1,107 +1,117 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DailySummary, Provider, Practice, Specialty } from '../../models';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
+import { DailySummary, Provider, Practice, Specialty, SummaryOverview } from '../../models';
 import { ActivatedRoute } from '@angular/router';
 import { DateService } from '../../services/date.service'; 
+import { DashService } from '../../services/dash.service';
 
 @Component({
   selector: 'app-table-container',
   templateUrl: './table-container.component.html',
-  styleUrls: ['./table-container.component.css']
+  styleUrls: ['./table-container.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class TableContainerComponent implements OnInit {
-  	@Input() source: string;
+  	@Input() summaryOverviews: SummaryOverview[];
+    @Input() pySummaryOverviews: SummaryOverview[];
+    @Input() source: string;
   	@Input() sourceField: string;
+    @Input() sourceFieldStr: string;
     @Input() sourceType: string;
-	  @Input() dailySummaries: DailySummary[];
-  	@Input() pyDailySummaries: DailySummary[];
     @Input() dashView: string;
     @Input() dateView: string; 
 	
 	month: string;
 	year: string;
 	previousYear: string;
-	tableDailySummaries: any;
+	tableOverviews: any;
+  pyTableOverviews: any;
   dataExists: boolean; 
+  indexRange: number;
+  indexArray: any;
+  tableDateHeader: string; 
 
   constructor(
   	private dateService: DateService,
   	private route: ActivatedRoute,
+    private dashService: DashService
   ){}
 
-  ngOnInit() {
+  ngOnInit() {        
   	this.route.queryParams.subscribe((params)=> {
   		this.month = params['month'];
   		this.year = params['year'];
-  		this.setPreviousYear();
+      this.tableDateHeader = this.setTableDateHeader();
+  		this.setPreviousYear();      
+      this.createTableData(this.dateView);                
   	});
-  	this.createTableData();
+  
   }
 
-  createTableData() {
-    this.dataExists = false;
-  	this.tableDailySummaries = [];
-  	let daysInMonth = this.dateService.daysInMonth(this.year, this.month);
-  	for (let i = 0; i < daysInMonth; i++) {
-  		let summaryField = this.dateMatchSummary(i, this.dailySummaries, this.formatDate(i));
-  		let pySummaryField = this.dateMatchSummary(i, this.pyDailySummaries, this.pyFormatDate(i));
+  setTableDateHeader() {
+    if (this.dateView == 'mtd') {
+      return "Day";
+    }
 
-  		let obj = {
-  			'date': this.prettyDate(i),
-  			'currentYear': summaryField,
-  			'previousYear': pySummaryField
-  		}
-  		this.tableDailySummaries.push(obj);
-  	}
+    else {
+      return "Month";
+    }
   }
 
-  prettyDate(i) {
-  	return new Date(+this.year, +this.month-1, i+1).toString().slice(4,10);
+  createTableData(view) {
+    this.dataExists = true;
+    this.tableOverviews = [];
+    if (view == 'mtd') {
+      this.indexRange = this.summaryOverviews.length;
+    }
+
+    if (view == 'ytd') {
+      this.indexRange = +this.month;
+    }
+    
+    for (let i = 1; i < this.indexRange+1; i++) {
+      let summaryField = this.dateFilterMatch(i, this.summaryOverviews);
+      let pySummaryField = this.dateFilterMatch(i, this.pySummaryOverviews);
+
+      let obj = {
+        'date': summaryField.date_filter_ref,
+        'currentYear': summaryField.match,
+        'previousYear': pySummaryField.match
+      }
+      this.tableOverviews.push(obj);      
+    }
+    //indexArray is used to create the array used for tableOverview indexing in the table.component template
+    this.indexArray = Array(this.tableOverviews.length).fill(0).map((x,i:number)=> i);      
+
   }
 
+  dateFilterMatch(index, overviews) {
+    let overview = overviews.find((overview)=> overview.date_filter== index);     
+    if (overview[this.sourceField]['average'] == null ) {
+      return {match:'-', date_filter_ref: overview.date_filter_ref}
+    }
 
-  dateMatchSummary(index, summaries, dateStub) {
-  	let match = summaries.find((summary)=> dateStub == summary.date);
-
-  	if (match == undefined ) {
-  		return '-'
-  	}
-
-  	else {
+    else {
       this.dataExists = true;
-  		return match[this.sourceField]
-  	}
-  }
-
-  formatDate(i) {
-  	// returns YYYY-MM-DD
-    var d = new Date(+this.year, +this.month-1, i+1),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-  }
-
-    pyFormatDate(i) {
-    	// returns YYYY-MM-DD
-    var d = new Date(+this.year-1, +this.month-1, i+1),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
+      return {match: overview[this.sourceField]['average'], date_filter_ref: overview.date_filter_ref}
+    }
   }
 
   setPreviousYear() {
-  	let currentYear = +this.year-1;
-  	this.previousYear = currentYear.toString();
+    let currentYear = +this.year-1;
+    this.previousYear = currentYear.toString();
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+     if ( (changes['summaryOverviews'] && changes['summaryOverviews'].firstChange == false) || 
+         (changes['pySummaryOverviews'] && changes['pySummaryOverviews'].firstChange == false) &&
+         (this.summaryOverviews.length == this.pySummaryOverviews.length)
+        ) 
+     {  
+        this.createTableData(this.dateView);
+     }
+  }
+
 
 
 }

@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { appRoutes } from './routes';
-import { PracticeService } from './practice/practice.service';
+import { PracticeService } from './services/practice.service';
 import { AuthService } from './auth/auth.service';
 import { EntityService } from './services/entity.service';
 import { DateService } from './services/date.service';
@@ -38,20 +38,11 @@ import { PracticeContainerComponent } from './practice/practice-container/practi
 import { UserComponent } from './user/user/user.component';
 import { PracticeListComponent } from './practice/practice-list/practice-list.component';
 import { ProviderListComponent } from './provider/provider-list/provider-list.component';
-import { ProviderComponent } from './provider/provider/provider.component';
-import { SpecialtyComponent } from './specialty/specialty/specialty.component';
 import { SpecialtyListComponent } from './specialty/specialty-list/specialty-list.component';
 import { DailySummaryComponent } from './daily-summary/daily-summary/daily-summary.component';
 import { DailySummaryFormComponent } from './daily-summary/daily-summary-form/daily-summary-form.component';
 import { DailySummaryListComponent } from './daily-summary/daily-summary-list/daily-summary-list.component';
-import { DailySummaryContainerComponent } from './daily-summary/daily-summary-container/daily-summary-container.component';
 import { CheckCompleteDirective } from './directives/check-complete.directive';
-import { PracticeDetailComponent } from './practice/practice-detail/practice-detail.component';
-import { PracticeDetailSummaryComponent } from './practice/practice-detail-summary/practice-detail-summary.component';
-import { PracticeDetailProvidersListComponent } from './practice/practice-detail-providers-list/practice-detail-providers-list.component';
-import { PracticeDetailSpecialtiesListComponent } from './practice/practice-detail-specialties-list/practice-detail-specialties-list.component';
-import { PracticeDetailProviderComponent } from './practice/practice-detail-provider/practice-detail-provider.component';
-import { PracticeDetailSpecialtyComponent } from './practice/practice-detail-specialty/practice-detail-specialty.component';
 import { PyChartComponent } from './chart/py-chart/py-chart.component';
 import { NoDataComponent } from './no-data/no-data.component';
 import { PyChartContainerComponent } from './chart/py-chart-container/py-chart-container.component';
@@ -65,6 +56,8 @@ import { DashSelectorComponent } from './dash/dash-selector/dash-selector.compon
 import { EntityContainerComponent } from './entity/entity-container/entity-container.component';
 import { LoadingComponent } from './loading/loading/loading.component';
 import { DashContainerComponent } from './dash/dash-container/dash-container.component';
+import { ReportingContainerComponent } from './reporting/reporting-container/reporting-container.component';
+import { ReportingComponent } from './reporting/reporting/reporting.component';
 
 @NgModule({
   declarations: [
@@ -79,20 +72,11 @@ import { DashContainerComponent } from './dash/dash-container/dash-container.com
     UserComponent,
     PracticeListComponent,
     ProviderListComponent,
-    ProviderComponent,
-    SpecialtyComponent,
     SpecialtyListComponent,
     DailySummaryComponent,
     DailySummaryFormComponent,
-    DailySummaryContainerComponent,
     DailySummaryListComponent,
     CheckCompleteDirective,
-    PracticeDetailComponent,
-    PracticeDetailSummaryComponent,
-    PracticeDetailProvidersListComponent,
-    PracticeDetailSpecialtiesListComponent,
-    PracticeDetailProviderComponent,
-    PracticeDetailSpecialtyComponent,
     PyChartComponent,
     NoDataComponent,
     PyChartContainerComponent,
@@ -105,6 +89,8 @@ import { DashContainerComponent } from './dash/dash-container/dash-container.com
     EntityContainerComponent,
     LoadingComponent,
     DashContainerComponent,
+    ReportingContainerComponent,
+    ReportingComponent,
   ],
   imports: [
     ReactiveFormsModule,

@@ -1,5 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { Specialty, DailySummary } from '../../models';
+import { Entity, Practice, Specialty, DailySummary } from '../../models';
 
 
 @Component({
@@ -9,7 +9,7 @@ import { Specialty, DailySummary } from '../../models';
 })
 export class SpecialtyListComponent implements OnInit {
 	@Input() specialties: Specialty[];
-	
+	@Input() org: Entity | Practice;
   constructor() { }
 
   ngOnInit() {

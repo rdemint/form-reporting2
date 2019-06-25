@@ -30,7 +30,7 @@ export class DailySummaryComponent implements OnInit, OnChanges {
 // 
   constructor(private dailySummaryService: DailySummaryService) { }
 
-  ngOnInit() { 
+  ngOnInit() {    
     // this.dailySummaryService.loadDailySummaries()
     //   .subscribe((summaries)=> {
     //     this.dailySummaries = summaries;

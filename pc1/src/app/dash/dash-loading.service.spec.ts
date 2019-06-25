@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SummaryFilterService } from './summary-filter.service';
+import { DashLoadingService } from './dash-loading.service';
 
-describe('SummaryFilterService', () => {
+describe('DashLoadingService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SummaryFilterService = TestBed.get(SummaryFilterService);
+    const service: DashLoadingService = TestBed.get(DashLoadingService);
     expect(service).toBeTruthy();
   });
 });

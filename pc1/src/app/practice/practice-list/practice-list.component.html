@@ -1,14 +1,15 @@
 <div>
 	<app-dash-selector></app-dash-selector>
 </div>
-<mat-card>
-<div class="container">
-	<small class="text-muted">Data from all providers shown by practice.</small>
-</div>
-<div *ngFor="let practice of practices">
-	<app-dash
-		[source]="practice"
-	></app-dash>
-</div>
-</mat-card>
+	<div class="container">
+		<small class="text-muted">Data from all providers shown by practice.</small>
+	</div>
+
+	<div *ngFor="let practice of practices">
+		<app-dash-container
+			[org]="org"
+			[source]="practice"
+			[sourceType]="'practice'"
+		></app-dash-container>
+	</div>
 <mat-divider>

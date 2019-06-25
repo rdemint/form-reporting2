@@ -23,28 +23,10 @@ export class EntityContainerComponent implements OnInit {
   		) { }
 
   ngOnInit() {
-  	combineLatest(
-      this.route.paramMap,
-  		this.dashService.loadDateView(),
-  		).subscribe(
-  			([params, view]) => {
+      this.route.paramMap.subscribe(
+  			(params) => 
   				this.entityService.getEntity(params.get('entity_slug'))
-  					.subscribe((entity)=> {
-              this.entity = entity});
-  				
-          this.dailySummaryService
-  					.getDailySummaries('entity', params.get('entity_slug'), view)
-  						.subscribe((summaries)=> {
-                this.dailySummaryService.selectDailySummaries(summaries);
-          
-              }
-            );
-         
-  				this.dailySummaryService
-            .getPYDailySummaries('entity', params.get('entity_slug'), view)
-              .subscribe((summaries)=> this.dailySummaryService.selectPYDailySummaries(summaries)); 
-  			}
-  		);
+  					.subscribe((entity)=> this.entity = entity)
+      );
   }
-
 }

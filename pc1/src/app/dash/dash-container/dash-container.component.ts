@@ -1,6 +1,6 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { Specialty, Provider, DailySummary, Practice } from '../../models';
-import { DailySummaryService } from '../../services/daily-summary.service';
+import { Specialty, Provider, DailySummary, Practice, SummaryOverview, Entity } from '../../models';
+import { SummaryOverviewService } from '../../services/summary-overview.service';
 import { DashService } from '../../services/dash.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, combineLatest } from 'rxjs';
@@ -11,28 +11,49 @@ import { Observable, combineLatest } from 'rxjs';
   styleUrls: ['./dash-container.component.css']
 })
 export class DashContainerComponent implements OnInit {
-	dailySummaries: DailySummary[];
-  	pyDailySummaries: DailySummary[];
+    @Input() org: Practice | Entity;
+	  @Input() source: Specialty | Provider | Practice;
+    @Input() sourceType: string; 
+    summaryOverviews: SummaryOverview[];
+    pySummaryOverviews: SummaryOverview[];
+    sourceField: string;
+    sourceFieldStr: string;
+    dashView: string;
+    dateView: string;
+    
 
   constructor(
   	private dashService: DashService, 
-  	private dailySummaryService: DailySummaryService
+  	private summaryOverviewService: SummaryOverviewService,
   	) { }
 
   ngOnInit() {
+
   	combineLatest(
+      this.dashService.loadDashView(),
   		this.dashService.loadDateView(),
   		this.dashService.loadSourceField(),
-  		this.dashService.loadSourceType(),
-  		this.dailySummaryService.loadDailySummaries(),
-  		this.dailySummaryService.loadPYDailySummaries(),
   		).subscribe(
-  			([dateView, sourceField, sourceType, dailySummaries, pyDailySummaries]) => {
-  				
-  		}
-
+  			([dashView, dateView, sourceField]) => {
+          if (dateView && sourceField != null) {
+            this.dashView = dashView;     
+            this.dateView = dateView;            
+            this.sourceField = sourceField;
+            this.sourceFieldStr= this.dashService.source_fields_dict[sourceField];       
+            this.summaryOverviewService.getSummaryOverviews(this.org.org_type, this.org.id, dateView, this.sourceType, this.source.id)
+              .subscribe(
+                (overviews)=> {
+                  this.summaryOverviews = overviews;                 
+                }
+             );
+             this.summaryOverviewService.getPYSummaryOverviews(this.org.org_type, this.org.id, dateView, this.sourceType, this.source.id)
+               .subscribe(
+                 (overviews)=> {
+                   this.pySummaryOverviews = overviews;
+                 }
+               );
+          }
+  		  }
   		);
-
   }
-
 }

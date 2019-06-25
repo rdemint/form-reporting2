@@ -4,8 +4,11 @@
 <div class="container">
 	<small class="text-muted">Data from all providers shown by specialty</small>
 </div>
-<ul *ngFor="let specialty of specialties">
-	<app-dash
-		[source]="specialty"
-	></app-dash>
-</ul>
+	<div *ngFor="let specialty of specialties">
+		<app-dash-container
+			[org]="org"
+			[source]="specialty"
+			[sourceType]="'specialty'"
+		></app-dash-container>
+	</div>
+<mat-divider>

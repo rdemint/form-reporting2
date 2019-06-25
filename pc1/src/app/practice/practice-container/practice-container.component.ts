@@ -6,7 +6,7 @@ import { DashService } from '../../services/dash.service';
 import { environment } from '../../../environments/environment';
 import { UserService } from '../../user/user.service';
 import { DateService } from '../../services/date.service';
-import { PracticeService } from '../../practice/practice.service';
+import { PracticeService } from '../../services/practice.service';
 import { combineLatest, Observable } from 'rxjs';
 
 @Component({
@@ -39,24 +39,10 @@ export class PracticeContainerComponent implements OnInit {
               .subscribe(
                 (practice)=> {
                   this.practice = practice;
-                  this.getDailySummaries('practice', this.practice.slug, view);
-                  this.getPYDailySummaries('practice', this.practice.slug, view);
                 }
               );
           }
         );
    }
-
-  getDailySummaries(type, slug, view) {
-    this.dailySummaryService.getDailySummaries(type, slug, view)
-        .subscribe((dailySummaries)=> {
-          this.dailySummaryService.selectDailySummaries(dailySummaries);
-        });
-  } 
-
-  getPYDailySummaries(type, slug, view) {
-    this.dailySummaryService.getPYDailySummaries(type, slug, view)
-      .subscribe((pyDailySummaries)=> this.dailySummaryService.selectPYDailySummaries(pyDailySummaries));
-  }
 
 }

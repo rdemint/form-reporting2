@@ -1,3 +1,18 @@
-<p>
-  dash-container works!
-</p>
+<div *ngIf="summaryOverviews && pySummaryOverviews && sourceField && sourceType else isLoading">
+<app-dash
+	[source]="source"
+	[summaryOverviews]="summaryOverviews"
+	[pySummaryOverviews]="pySummaryOverviews"
+	[dashView]="dashView"
+	[dateView]="dateView"
+	[sourceField]="sourceField"
+	[sourceFieldStr]="sourceFieldStr"
+	[sourceType]="sourceType"
+>
+</app-dash>
+</div>
+
+<ng-template #isLoading>
+	<app-loading>
+	</app-loading>
+</ng-template>

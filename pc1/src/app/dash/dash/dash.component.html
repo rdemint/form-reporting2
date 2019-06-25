@@ -1,32 +1,29 @@
-<mat-card>
+<mat-card class="no-overflow">
 <div><h4>{{source.name}}</h4></div>
-<div *ngIf="dailySummaries?.length > 0 else noData">
 	<div *ngIf="dashView =='chart'">
 			<app-chart-container
-				[dailySummaries]="dailySummaries"
-				[pyDailySummaries]="pyDailySummaries"
-				[sourceField]="sourceField"
+				[summaryOverviews]="summaryOverviews"
+				[pySummaryOverviews]="pySumamryOverviews"
+				[sourceField]="sourceField"				
 				[sourceType]="sourceType"
 				[dashView]="dashView"
 				[dateView]="dateView"
 				[source]="source"
-				[sourceField]="sourceField"
 				>
 			</app-chart-container>
 	</div>
 	<div *ngIf="dashView == 'table'">
 		<app-table-container
-			[dailySummaries]="dailySummaries"
-			[pyDailySummaries]="pyDailySummaries"
+			[summaryOverviews]="summaryOverviews"
+			[pySummaryOverviews]="pySummaryOverviews"
 			[sourceField]="sourceField"
+			[sourceFieldStr]="sourceFieldStr"
 			[sourceType]="sourceType"
 			[source]="source"
 			[dashView]="dashView"
 			[dateView]="dateView"
-			[sourceField]="sourceField"
 		></app-table-container>
 	</div>
-</div>
 </mat-card>
 <br>
 

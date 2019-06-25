@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Practice, DailySummary} from '../../models';
+import { Practice, DailySummary, SummaryOverview} from '../../models';
 
 
 @Component({
@@ -8,19 +8,22 @@ import { Practice, DailySummary} from '../../models';
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
-	@Input() tableDailySummaries: DailySummary[];
+	@Input() tableOverviews: SummaryOverview[];
+  @Input() pyTableOverviews: SummaryOverview[];
 	@Input() previousYear: string;
 	@Input() year: string;
 	@Input() sourceField: string;
+  @Input() sourceFieldStr: string;
   @Input() dataExists: boolean;
+  @Input() indexArray: any;
+  @Input() tableDateHeader: string;
   
 	displayedColumns = ["date", 'previousYear', 'year'];
+  columnslength = [1,2,3];
 
   constructor() { }
 
-  ngOnInit() {
-  
-
-  }
+  ngOnInit() {                       
+     }
 
 }

@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.settings import api_settings
 from practices.models import Practice, DailySummary, User, Entity, Provider
 from practices.serializers import DailySummarySerializer, ProviderSerializer, EntitySerializer, PracticeSerializer, AuthTokenSerializer
-from practices.overviews import SummaryOverview
+from practices.overviews import SummaryOverviewManager
 from django_filters import rest_framework as filters
 from datetime import datetime
 
@@ -18,8 +18,8 @@ from datetime import datetime
 class DailySummaryFilter(filters.FilterSet):
 	month = filters.NumberFilter(field_name="date", lookup_expr="month")
 	year = filters.NumberFilter(field_name="date", lookup_expr="year")
-	entity = filters.CharFilter(field_name="entity__slug", lookup_expr="iexact")
-	practice = filters.CharFilter(field_name="practice__slug", lookup_expr="iexact")
+	entity = filters.NumberFilter(field_name="entity__id", lookup_expr="iexact")
+	practice = filters.NumberFilter(field_name="practice__id", lookup_expr="iexact")
 	provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
 	specialty = filters.NumberFilter(field_name="specialty__id", lookup_expr='iexact')
 
@@ -61,25 +61,29 @@ class SummaryOverviewView(APIView):
 			queryset = backend().filter_queryset(self.request, queryset, self)
 		return queryset
 
-	def get(self, request, format=None):
-		
-		response = {}
+	def get(self, request, format=None):	
 		qs = self.filter_queryset(DailySummary.objects.all())
 
 		if 'month' in request.GET:
-			currentDay = int(datetime.today().strftime('%d'))
-			for day in range(1, currentDay + 1):
-				overview = SummaryOverview(qs, 'mtd', day)
-				response[day] = overview.to_dict()
-
+			manager = SummaryOverviewManager(qs, request)
+			return Response(manager.mtdOverviews())
 		else:
-			#assumes a year object will be sent. 
-			currentMonth = int(datetime.today().strftime('%m')) 
-			for month in range(1, currentMonth+1):
-				overview = SummaryOverview(qs, 'ytd', month)
-				response[month] = overview.to_dict()
-		print(qs)
-		return Response(response)
+			manager = SummaryOverviewManager(qs, request)
+			return Response(manager.ytdOverviews())
+		# if 'month' in request.GET:
+		# 	currentDay = int(datetime.today().strftime('%d'))
+		# 	for day in range(1, currentDay + 1):
+		# 		overview = SummaryOverview(qs, 'mtd', day)
+		# 		response[day] = overview.to_dict()
+
+		# else:
+		# 	#assumes a year object will be sent. 
+		# 	currentMonth = int(datetime.today().strftime('%m')) 
+		# 	for month in range(1, currentMonth+1):
+		# 		overview = SummaryOverview(qs, 'ytd', month)
+		# 		response[month] = overview.to_dict()
+		# print(qs)
+		# return Response(response)
 
 class EntityList(ListCreateAPIView):
 	serializer_class = EntitySerializer
@@ -109,19 +113,22 @@ class CreateTokenView(ObtainAuthToken):
 		serializer = self.serializer_class(data=request.data, context={'request': request})
 		serializer.is_valid(raise_exception=True)
 		user = serializer.validated_data['user']
-		if user.practice is None:
-			practice_slug = None
-			practice_name = None
-		elif user.practice is not None: 
-			practice_slug = user.practice.slug
-			practice_name = user.practice.name
-		if user.entity is None:
-			entity_name = None
-			entity_slug = None
-		elif user.entity is not None:
+		if user.practice is None and user.entity is not None:
 			entity_slug = user.entity.slug
 			entity_name = user.entity.name
-			
+			entity_id = user.entity.id
+			practice_slug = None
+			practice_name = None
+			practice_id = None
+			org_type = user.entity.org_type
+		elif user.practice is not None and user.entity is None: 
+			practice_slug = user.practice.slug
+			practice_name = user.practice.name
+			practice_id = user.practice.id			
+			entity_name = None
+			entity_slug = None
+			entity_id = None
+			org_type = user.practice.org_type
 		token, created = Token.objects.get_or_create(user=user)
 		return Response(
 			{
@@ -131,8 +138,11 @@ class CreateTokenView(ObtainAuthToken):
 			'email': user.email, 
 			'practice_name': practice_name,
 			'entity_name': entity_name, 
+			'practice_id': practice_id,
+			'entity_id': entity_id,
 			'user_type': user.user_type,
-			'user_id': user.id
+			'user_id': user.id,
+			'org_type': org_type
 			
 			})
 	

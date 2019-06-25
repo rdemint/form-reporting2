@@ -9,6 +9,7 @@ from datetime import datetime
 
 # Create your models here.
 class Entity(models.Model):
+	org_type = models.CharField(max_length=50, default="entity")
 	name = models.CharField(max_length=200)
 	slug = models.SlugField(unique=True)
 
@@ -19,6 +20,7 @@ class Entity(models.Model):
 		return specialtySet
 	
 	def save(self, *args, **kwargs):
+		self.org_type = 'entity'
 		self.slug=slugify(self.name)
 		super().save(*args, **kwargs)
 
@@ -30,6 +32,7 @@ class Entity(models.Model):
 
 
 class Practice(models.Model):
+	org_type = models.CharField(max_length=50, default="practice")
 	name = models.CharField(max_length=200)
 	slug = models.SlugField(unique=True)
 	entity = models.ForeignKey(to=Entity, on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='practices')
@@ -41,6 +44,7 @@ class Practice(models.Model):
 		return specialtySet
 
 	def save(self, *args, **kwargs):
+		self.org_type = "practice"
 		if self.entity == "None" or self.entity=="":
 			self.entity = None
 		self.slug=slugify(self.name)

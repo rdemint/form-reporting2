@@ -1,24 +1,30 @@
 <div class="container">
 	<div *ngIf="entity" else loading>
 		<h4 style="text-align: center">{{entity.name}}</h4>
-		<mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedIndex" (selectedIndexChange)="filterByTab($event)">
+		<mat-tab-group dynamicHeight="true" mat-align-tabs="center" [(selectedIndex)]="selectedIndex" (selectedIndexChange)="filterByTab($event)">
 			<mat-tab label="Practices">
 				<ng-template matTabContent>
-					<app-practice-list [practices]="entity.practices">
+					<app-practice-list 
+						[org]="entity"
+						[practices]="entity.practices">
 					</app-practice-list>
 				</ng-template>
 			</mat-tab>
 
 			<mat-tab label="Providers">
 				<ng-template matTabContent>
-					<app-provider-list [providers]="entity.providers">
+					<app-provider-list 
+						[org]="entity"
+						[providers]="entity.providers">
 					</app-provider-list>
 				</ng-template>
 			</mat-tab>
 
 			<mat-tab label="Specialties">
 				<ng-template matTabContent>
-					<app-specialty-list [specialties]="entity.specialties">
+					<app-specialty-list 
+						[org]="entity"
+						[specialties]="entity.specialties">
 					</app-specialty-list>
 				</ng-template>
 			</mat-tab>

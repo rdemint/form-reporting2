@@ -1,11 +1,12 @@
 export interface Practice {
-	id?: string;
+	id: string;
 	providers?: Provider[];
 	name: string;
 	slug: string;
 	entity?: string;
 	chart_data: any;
 	specialties: Specialty[];
+	org_type: string;
 }
 
 export interface Provider {
@@ -39,6 +40,24 @@ export interface DailySummary {
 	visits_per_workdays: number;
 }
 
+export interface SummaryOverviewObject {
+	visits: number;
+	workdays: number;
+	noshows: number;
+	visits_per_workdays: number;
+}
+
+export interface SummaryOverview {
+	overview_type: string;
+	date_filter: number;
+	date_filter_ref: string;
+	summary_count: number;
+	visits: object;
+	visits_per_workdays: object;
+	workdays: object
+	noshows: object;
+}
+
 export interface MonthlySummary {
 	date?: string;
 	last_updated?: string;
@@ -57,11 +76,13 @@ export interface User {
 }
 
 export interface Entity {
+	id: number;
 	name: string;
 	slug?: string;
 	practices?: Practice[];
 	providers?: Provider[];
 	specialties?: Specialty[];
+	org_type: string;
 }
 
 

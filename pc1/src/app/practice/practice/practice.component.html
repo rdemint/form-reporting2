@@ -2,15 +2,34 @@
 	<div *ngIf="practice" else loading>
 		<h4 style="text-align: center">{{practice.name}}</h4>
 		<mat-tab-group mat-align-tabs="center">
+			<mat-tab label="Summary">
+				<ng-template matTabContent>
+					<app-dash-selector></app-dash-selector>
+					<div class="container">
+						<small class="text-muted">All data summarized for this practice</small>
+					</div>
+					<app-dash-container
+						[org]="practice"
+						[source]="practice"
+						[sourceType]="'practice'"
+						>
+					</app-dash-container>
+				</ng-template>
+			</mat-tab>
 			<mat-tab label="Providers">
 				<ng-template matTabContent>
-					<app-provider-list [providers]="practice.providers">
+					<app-provider-list 
+						[org]="practice"
+						[providers]="practice.providers"
+						>
 					</app-provider-list>
 				</ng-template>
 			</mat-tab>
 			<mat-tab label="Specialties">
 				<ng-template matTabContent>
-					<app-specialty-list [specialties]="practice.specialties">
+					<app-specialty-list 
+						[org]="practice"
+						[specialties]="practice.specialties">
 					</app-specialty-list>
 				</ng-template>
 			</mat-tab>

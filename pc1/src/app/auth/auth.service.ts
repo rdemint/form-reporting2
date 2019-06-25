@@ -8,7 +8,8 @@ import { Router, NavigationExtras } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { DateService } from '../services/date.service';
 import { EntityService } from '../services/entity.service';
-import { PracticeService } from '../practice/practice.service';
+import { PracticeService } from '../services/practice.service';
+import { OrganizationTypeService } from '../services/organization-type.service'
 import { UserService } from '../user/user.service';
 
 @Injectable({
@@ -29,6 +30,7 @@ export class AuthService implements OnInit {
   	private practiceService: PracticeService,
   	private entityService: EntityService, 
   	private userService: UserService,
+  	private orgService: OrganizationTypeService
   	) {
   	  	this.year = this.dateService.currentYear;
   		this.month = this.dateService.currentMonth;
@@ -64,6 +66,18 @@ export class AuthService implements OnInit {
 	  		email: data['email'],
 	  		user_type: data['user_type'],
 	  	});
+
+		// if admin, see all entity data
+	  	if(data['org_type']=="entity") {
+	  		this.orgService.selectOrgType('entity');
+	  		this.orgService.selectOrgId(data['entity_id']);
+	  	}
+	  	// else, only see data related to a particular practice
+	  	else {
+	  		this.orgService.selectOrgType('practice');
+	  		this.orgService.selectOrgId(data['practice_id']);
+	  	}
+	  	
 		localStorage.setItem("token", data['token']);
 		this.errors = [];
 		this.authHeader = new HttpHeaders().set("Authorization", "Token " + localStorage['token']);

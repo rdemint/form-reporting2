@@ -1,9 +1,11 @@
 <app-chart 
 	[source]="source"
 	[sourceType]="sourceType"
-	[dailySummaries]="dailySummaries"
-	[pyDailySummaries]="pyDailySummaries"
+	[summaryOverviews]="summaryOverviews"
+	[pySummaryOverviews]="pySummaryOverviews"
 	[chartName]="chartName"
 	[sourceField]="sourceField"
+	[loading]="loading"
+	(setLoadingOutput)="_setLoading($event)"
 	>
 </app-chart>

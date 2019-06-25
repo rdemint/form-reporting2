@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Provider } from '../../models';
+import { Provider, Entity, Practice } from '../../models';
 
 @Component({
   selector: 'app-provider-list',
@@ -8,6 +8,7 @@ import { Provider } from '../../models';
 })
 export class ProviderListComponent implements OnInit {
 	@Input() providers: Provider[];
+	@Input() org: Entity | Practice;
   constructor() { }
 
   ngOnInit() {
