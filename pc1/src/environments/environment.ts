@@ -11,7 +11,9 @@ export const environment = {
 	practice_url: 'http://127.0.0.1:8000/practices/',
 	daily_summary_url: 'http://127.0.0.1:8000/daily_summaries/',
 	entity_url: 'http://127.0.0.1:8000/entities/',
-	summary_overview_url: 'http://127.0.0.1:8000/summary_overviews/'
+	summary_overview_url: 'http://127.0.0.1:8000/summary_overviews/',
+	specialties_url: 'http://127.0.0.1:8000/specialties/',
+	providers_url: 'http://127.0.0.1:8000/providers/'
 };
 
 /*

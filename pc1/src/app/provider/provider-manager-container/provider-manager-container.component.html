@@ -1,0 +1,16 @@
+
+<div *ngIf="mode == 'list'">
+	<p>list</p>
+		<app-provider-list
+			[practice]="practice"
+			[providers]="providers"
+			>
+		</app-provider-list>
+</div>
+<div *ngIf="mode == 'form'">
+		<app-provider-form
+			[practice]="practice"
+			[provider]="provider"
+			>
+		</app-provider-form>
+</div>

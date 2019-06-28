@@ -4,7 +4,6 @@ export interface Practice {
 	name: string;
 	slug: string;
 	entity?: string;
-	chart_data: any;
 	specialties: Specialty[];
 	org_type: string;
 }
@@ -13,7 +12,7 @@ export interface Provider {
 	id: string;
 	first_name: string;
 	last_name: string;
-	name: string;
+	name?: string;
 	credentials: string;
 	specialties: string;
 	practices: string[];

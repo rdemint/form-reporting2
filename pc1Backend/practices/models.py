@@ -127,11 +127,11 @@ class Provider(models.Model):
 	alias_2 = models.CharField(null=True, blank=True, max_length=256)
 	practices = models.ManyToManyField(Practice, related_name="providers")
 	entity = models.ForeignKey(
-		Entity, 
-		on_delete=models.CASCADE, 
+		Entity,
+		on_delete=models.CASCADE,
 		related_name="providers",
-		null = True,
-		blank = True)
+		null=True,
+		blank=True)
 	specialties = models.ManyToManyField(Specialty, related_name='providers')
 	visits_goal = models.IntegerField(default=20)
 

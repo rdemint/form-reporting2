@@ -33,16 +33,18 @@ export class ReportingContainerComponent implements OnInit {
 
   ngOnInit() {
   	this.userService.loadUser().subscribe((user)=> this.user = user);
+    
     combineLatest(
-      this.route.paramMap, 
+      this.route.parent.params,
       this.route.queryParamMap,
       )
       .subscribe(
           ([params, queryparams]) => {
-            this.practiceService.getPractice(params.get('practice_slug'))
+            this.practiceService.getPractice(params['practice_slug'])
               .subscribe(
                 (practice)=> {
                   this.practice = practice;
+                  this.practiceService.selectPractice(practice);
                   this.getDailySummaries('practice', this.practice.id, 'ytd');
                 }
               );

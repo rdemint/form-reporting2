@@ -1,0 +1,62 @@
+<div class="flex-container">
+	<mat-card>
+	<mat-card-title>
+		<div class="flex-container">
+			<h2>New provider</h2>
+		</div>
+	</mat-card-title>
+	<mat-card-content>
+	<form [formGroup]="providerForm" (ngSubmit)="addProvider()">
+		<p>
+			<mat-form-field class="space-out">
+				<label>First name</label>
+				<input 
+					style="border: 2px blue"
+					matInput type="text"
+					name="firstNameInput"
+					formControlName="firstName"
+					class="form-control input-outline"
+					>
+			</mat-form-field>
+
+			<mat-form-field class="spaced-out">
+				<label>Last name</label>
+				<input 
+					matInput 
+					type="text"
+					name="lastNameInput"
+					formControlName="lastName"
+					class="form-control"
+				>
+			</mat-form-field>
+		</p>
+		<p>
+			<mat-form-field class="spaced-out">
+				<label>Credentials</label>
+				<input 
+					matInput
+					type="text"
+					name="credentialsInput"
+					formControlName="credentials"
+					class="form-control"
+				>
+			</mat-form-field>
+
+			<mat-form-field class="spaced-out">
+				<label>Specialties</label>
+				<mat-select
+					name="specialtiesInput"
+					formControlName="specialties"
+					class="form-control"
+					multiple
+				>
+				<mat-option *ngFor="let specialty of specialties" [value]="specialty.name">{{specialty.name}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</p>	
+		<button type="submit" class="btn btn-primary">Add provider</button>
+		<button class="btn btn-standard">Cancel</button>
+	</form>
+	</mat-card-content>
+	</mat-card>
+</div>

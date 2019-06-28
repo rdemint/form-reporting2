@@ -1,11 +1,13 @@
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule, MatCardModule, MatFormFieldModule, 
     MatNativeDateModule, MatTabsModule, MatSlideToggleModule, 
     MatSnackBarModule, MatDividerModule, MatTableModule, MatProgressSpinnerModule} from '@angular/material';
 import { MatSelectModule} from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatToolbarModule} from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -58,6 +60,18 @@ import { LoadingComponent } from './loading/loading/loading.component';
 import { DashContainerComponent } from './dash/dash-container/dash-container.component';
 import { ReportingContainerComponent } from './reporting/reporting-container/reporting-container.component';
 import { ReportingComponent } from './reporting/reporting/reporting.component';
+import { NavComponent } from './practice/nav/nav.component';
+import { AddProviderComponent } from './practice/add-provider/add-provider.component';
+import { AddProviderContainerComponent } from './practice/add-provider-container/add-provider-container.component';
+import { ProviderListContainerComponent } from './practice/provider-list-container/provider-list-container.component';
+import { ProviderDetailContainerComponent } from './practice/provider-detail-container/provider-detail-container.component';
+import { ProviderDetailComponent } from './practice/provider-detail/provider-detail.component';
+import { ProviderFormContainerComponent } from './provider/provider-form-container/provider-form-container.component';
+import { ProviderFormComponent } from './provider/provider-form/provider-form.component';
+import { PracticeOutletComponent } from './practice/practice-outlet/practice-outlet.component';
+import { ProviderOutletComponent } from './provider/provider-outlet/provider-outlet.component';
+import { ProviderManagerContainerComponent } from './provider/provider-manager-container/provider-manager-container.component';
+import { ProviderManagerComponent } from './provider/provider-manager/provider-manager.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +105,18 @@ import { ReportingComponent } from './reporting/reporting/reporting.component';
     DashContainerComponent,
     ReportingContainerComponent,
     ReportingComponent,
+    NavComponent,
+    AddProviderComponent,
+    AddProviderContainerComponent,    
+    ProviderListContainerComponent,
+    ProviderDetailContainerComponent,
+    ProviderDetailComponent,
+    ProviderFormContainerComponent,
+    ProviderFormComponent,
+    PracticeOutletComponent,
+    ProviderOutletComponent,
+    ProviderManagerContainerComponent,
+    ProviderManagerComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -116,7 +142,9 @@ import { ReportingComponent } from './reporting/reporting/reporting.component';
     MatSlideToggleModule,
     MatDividerModule,
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule,
+    MatButtonModule
   ],
   exports: [
     MatFormFieldModule,

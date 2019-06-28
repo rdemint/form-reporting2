@@ -11,6 +11,12 @@
 			 	formControlName="visits"
 			 	class="form-control"
 			 	>
+			 <span *ngIf="!summaryForm.get('visits').valid && 
+			 				summaryForm.get('visits').touched"
+			 		class="help-block">
+			 	Something's not right. Enter a value that is less than 30
+			 </span>
+
 		</mat-form-field>
 		</tr>
 		<tr>
@@ -22,6 +28,11 @@
 				formControlName="workdays"
 				class="form-control"
 				>
+			<span *ngIf="!summaryForm.get('workdays').valid && 
+			 				summaryForm.get('workdays').touched"
+			 		class="help-block">
+			 	Something's not right. Enter a value that is less than 1.5 days
+			 </span>
 		</mat-form-field>
 		</tr>
 		<tr>
@@ -33,6 +44,11 @@
 				formControlName="noshows"
 				class="form-control"
 				>
+			<span *ngIf="!summaryForm.get('noshows').valid && 
+			 				summaryForm.get('noshows').touched"
+			 		class="help-block">
+			 	Something's not right. Enter a value that is less than 15
+			 </span>
 		</mat-form-field>
 		</tr>
 	</table>

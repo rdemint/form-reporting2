@@ -39,6 +39,19 @@ class ProviderSerializer(serializers.ModelSerializer):
 	practices = serializers.SlugRelatedField(slug_field="name", read_only=True, many=True)
 	specialties = serializers.StringRelatedField(many=True)
 
+	def create(self, validated_data):
+		# Overwrite is required to handle the m2m relationships for practices and specialties, 
+		# and fk relationship for entity
+		provider = super().create(**validated_data)	
+		for specialty in validated_data['specialties']:
+			provider.specialties.add(specialty)
+		#'practices' will only have one practice in it. 
+		practice = Practice.objects.get(id=validated_data['practices'])
+		provider.practices.add(practice)		
+		provider.entity = entity
+		return provider
+
+
 	class Meta:
 		model = Provider	
 		fields = ('id', 'name', 'slug', 'first_name', 'last_name', 'credentials', 
@@ -51,7 +64,7 @@ class PracticeSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Practice 
-		fields = ('id', 'name', 'slug', 'providers', 'specialties', 'org_type')
+		fields = ('id', 'name', 'slug', 'entity', 'providers', 'specialties', 'org_type')
 
 
 class EntitySerializer(serializers.ModelSerializer):
@@ -62,6 +75,11 @@ class EntitySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Entity
 		fields = ('id', 'name', 'slug', 'providers', 'practices', 'specialties', 'org_type')
+
+class ProviderSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Provider 
+		fields = "__all__"
 
 
 class AuthTokenSerializer(serializers.Serializer):
@@ -89,7 +107,7 @@ class AuthTokenSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
 	class Meta: 
 		model = get_user_model()
-		fields = ('username', 'email', 'password', 'practice', 'entity', 'groups')
+		fields = ('first_name', 'last_name', 'email', 'password', 'practice', 'entity', 'groups')
 		extra_kwargs = {'password': {'write_only': True, 'min_length':5}}
 
 	def create(self, validated_data):

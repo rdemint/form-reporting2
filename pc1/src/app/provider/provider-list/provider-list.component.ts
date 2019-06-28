@@ -8,6 +8,7 @@ import { Provider, Entity, Practice } from '../../models';
 })
 export class ProviderListComponent implements OnInit {
 	@Input() providers: Provider[];
+	@Input() practice: Practice;
 	@Input() org: Entity | Practice;
   constructor() { }
 

@@ -1,15 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from rest_framework.reverse import reverse 
+from rest_framework.reverse import reverse
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.settings import api_settings
-from practices.models import Practice, DailySummary, User, Entity, Provider
-from practices.serializers import DailySummarySerializer, ProviderSerializer, EntitySerializer, PracticeSerializer, AuthTokenSerializer
+from practices.models import Practice, DailySummary, User, Entity, Provider, Specialty
+from practices.serializers import DailySummarySerializer, ProviderSerializer, SpecialtySerializer, EntitySerializer, PracticeSerializer, AuthTokenSerializer, UserSerializer
 from practices.overviews import SummaryOverviewManager
 from django_filters import rest_framework as filters
 from datetime import datetime
@@ -37,20 +37,8 @@ class FilteredDailySummaries(ListCreateAPIView):
 
 class DailySummaryDetail(RetrieveUpdateDestroyAPIView):
 	queryset = DailySummary.objects.all()
-	serializer_class = DailySummarySerializer 
+	serializer_class = DailySummarySerializer
 
-# class MonthlyOverviewView(ListCreateAPIView):
-# 	queryset = DailySummary.objects.all()
-# 	filterset_class = DailySummaryFilter
-# 	serializer_class = MonthlyOverviewSerializer
-
-# 	def get(self, request, format=None):
-# 		currentMonth = int(datetime.today().strftime('%m'))
-# 		response = {}
-# 		for i in range(1, currentMonth+1):
-# 			overview = SummaryOverview(view=self, filters=request.GET, practice=request.GET['practice'], year=request.GET['year'], month=i)
-# 			response[i] = overview.to_dict()
-# 		return Response(response)
 
 class SummaryOverviewView(APIView):
 	filter_backends = (filters.DjangoFilterBackend,)
@@ -70,20 +58,7 @@ class SummaryOverviewView(APIView):
 		else:
 			manager = SummaryOverviewManager(qs, request)
 			return Response(manager.ytdOverviews())
-		# if 'month' in request.GET:
-		# 	currentDay = int(datetime.today().strftime('%d'))
-		# 	for day in range(1, currentDay + 1):
-		# 		overview = SummaryOverview(qs, 'mtd', day)
-		# 		response[day] = overview.to_dict()
-
-		# else:
-		# 	#assumes a year object will be sent. 
-		# 	currentMonth = int(datetime.today().strftime('%m')) 
-		# 	for month in range(1, currentMonth+1):
-		# 		overview = SummaryOverview(qs, 'ytd', month)
-		# 		response[month] = overview.to_dict()
-		# print(qs)
-		# return Response(response)
+			
 
 class EntityList(ListCreateAPIView):
 	serializer_class = EntitySerializer
@@ -104,6 +79,44 @@ class PracticeDetail(RetrieveUpdateDestroyAPIView):
 
 	def get_queryset(self):
 		return Practice.objects.filter(slug=self.kwargs.get('slug'))
+
+class UserCreate(CreateAPIView):
+	serializer_class = UserSerializer
+	queryset = User.objects.all()
+
+
+class ProviderFilter(filters.FilterSet):
+	practice = filters.NumberFilter(field_name="practices__id", lookup_expr="iexact")
+	provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
+	specialty = filters.NumberFilter(field_name="specialties__id", lookup_expr='iexact')
+	entity = filters.NumberFilter(field_name="entity__id", lookup_expr='iexact')
+
+	class Meta:
+		model = Provider
+		fields = ['practice', 'provider', 'specialty', 'entity']
+
+
+class ProviderList(ListCreateAPIView):
+	filterset_class = ProviderFilter
+	serializer_class = ProviderSerializer
+	queryset = Provider.objects.all()
+
+	def get_queryset(self):		
+		if self.kwargs.get('practice'):
+			print('yes')
+			return Provider.objects.filter(practices__id=self.kwargs.get('practice'))
+		else:
+			return Provider.objects.all()
+
+
+class ProviderDetail(RetrieveUpdateDestroyAPIView):
+	serializer_class = ProviderSerializer
+	queryset = Provider.objects.all()
+
+
+class SpecialtyList(ListCreateAPIView):
+	serializer_class = SpecialtySerializer
+	queryset = Specialty.objects.all()
 
 class CreateTokenView(ObtainAuthToken):
 	serializer_class = AuthTokenSerializer

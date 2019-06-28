@@ -1,7 +1,9 @@
+import { Validators } from '@angular/forms';
 import { Component, OnInit, Input, Output, ViewChild, ChangeDetectionStrategy, OnChanges, SimpleChanges, EventEmitter} from '@angular/core';
 import { NgForm, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Practice, DailySummary, Specialty, Provider } from '../../models'
 import { DailySummaryService} from '../../services/daily-summary.service';
+
 
 @Component({
   selector: 'app-daily-summary-form',
@@ -58,9 +60,9 @@ export class DailySummaryFormComponent implements OnInit, OnChanges {
       'practice': new FormControl(this.practice.id),
       'specialty': new FormControl(this.specialty_id),
       'date': new FormControl(this.formatDate(this.selectedDate)),
-      'visits': new FormControl({value: this.dailySummary.visits, disabled: this.dailySummaryDisabled}),
-      'workdays': new FormControl({value: this.dailySummary.workdays, disabled: this.dailySummaryDisabled}),
-      'noshows': new FormControl({value: this.dailySummary.noshows, disabled: this.dailySummaryDisabled}),
+      'visits': new FormControl({value: this.dailySummary.visits, disabled: this.dailySummaryDisabled}, Validators.max(30)),
+      'workdays': new FormControl({value: this.dailySummary.workdays, disabled: this.dailySummaryDisabled}, Validators.max(1.5)),
+      'noshows': new FormControl({value: this.dailySummary.noshows, disabled: this.dailySummaryDisabled}, Validators.max(15)),
       'provider': new FormControl({value: this.provider.id, disabled: this.dailySummaryDisabled}),
     }); 
   }
