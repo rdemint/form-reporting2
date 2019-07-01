@@ -48,7 +48,9 @@ class ProviderSerializer(serializers.ModelSerializer):
 		#'practices' will only have one practice in it. 
 		practice = Practice.objects.get(id=validated_data['practices'])
 		provider.practices.add(practice)		
+		entity = practice.entity
 		provider.entity = entity
+		entity.providers.add(provider)
 		return provider
 
 
@@ -75,11 +77,6 @@ class EntitySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Entity
 		fields = ('id', 'name', 'slug', 'providers', 'practices', 'specialties', 'org_type')
-
-class ProviderSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Provider 
-		fields = "__all__"
 
 
 class AuthTokenSerializer(serializers.Serializer):

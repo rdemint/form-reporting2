@@ -38,8 +38,7 @@ export class ReportingComponent implements OnInit {
     else {
       let diff = Math.abs(date.getDate() - 14);
       let prevMonthDays = this.dateService.daysInMonth(date.getFullYear(), date.getMonth()-1);
-      let newDate = new Date(this.today.getFullYear(), this.today.getMonth()-1, prevMonthDays-diff);
-      console.log(newDate);
+      let newDate = new Date(this.today.getFullYear(), this.today.getMonth()-1, prevMonthDays-diff);      
       return newDate
     }
   }

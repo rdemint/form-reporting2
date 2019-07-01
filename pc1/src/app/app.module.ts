@@ -19,6 +19,7 @@ import { PracticeService } from './services/practice.service';
 import { AuthService } from './auth/auth.service';
 import { EntityService } from './services/entity.service';
 import { DateService } from './services/date.service';
+import { ProviderService } from './services/provider.service';
 import { DailySummaryService } from './services/daily-summary.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -61,17 +62,15 @@ import { DashContainerComponent } from './dash/dash-container/dash-container.com
 import { ReportingContainerComponent } from './reporting/reporting-container/reporting-container.component';
 import { ReportingComponent } from './reporting/reporting/reporting.component';
 import { NavComponent } from './practice/nav/nav.component';
-import { AddProviderComponent } from './practice/add-provider/add-provider.component';
-import { AddProviderContainerComponent } from './practice/add-provider-container/add-provider-container.component';
-import { ProviderListContainerComponent } from './practice/provider-list-container/provider-list-container.component';
-import { ProviderDetailContainerComponent } from './practice/provider-detail-container/provider-detail-container.component';
-import { ProviderDetailComponent } from './practice/provider-detail/provider-detail.component';
 import { ProviderFormContainerComponent } from './provider/provider-form-container/provider-form-container.component';
 import { ProviderFormComponent } from './provider/provider-form/provider-form.component';
 import { PracticeOutletComponent } from './practice/practice-outlet/practice-outlet.component';
 import { ProviderOutletComponent } from './provider/provider-outlet/provider-outlet.component';
 import { ProviderManagerContainerComponent } from './provider/provider-manager-container/provider-manager-container.component';
-import { ProviderManagerComponent } from './provider/provider-manager/provider-manager.component';
+import { ProviderManagerComponent } from './practice/provider-manager/provider-manager.component';
+import { SpecialtiesResolverService } from './resolvers/specialties-resolver.service';
+import { ProviderResolverService } from './resolvers/provider-resolver.service';
+import { ProvidersResolverService } from './resolvers/providers-resolver.service';
 
 @NgModule({
   declarations: [
@@ -105,18 +104,13 @@ import { ProviderManagerComponent } from './provider/provider-manager/provider-m
     DashContainerComponent,
     ReportingContainerComponent,
     ReportingComponent,
-    NavComponent,
-    AddProviderComponent,
-    AddProviderContainerComponent,    
-    ProviderListContainerComponent,
-    ProviderDetailContainerComponent,
-    ProviderDetailComponent,
+    NavComponent,       
     ProviderFormContainerComponent,
     ProviderFormComponent,
     PracticeOutletComponent,
     ProviderOutletComponent,
-    ProviderManagerContainerComponent,
     ProviderManagerComponent,
+    ProviderManagerContainerComponent,    
   ],
   imports: [
     ReactiveFormsModule,
@@ -154,10 +148,14 @@ import { ProviderManagerComponent } from './provider/provider-manager/provider-m
     MatNativeDateModule,
     DateService, 
     PracticeService,
+    ProviderService,
     AuthService,
     EntityService,
     AuthGuard,
     DailySummaryService,
+    SpecialtiesResolverService,
+    ProviderResolverService,
+    ProvidersResolverService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true}
     ],

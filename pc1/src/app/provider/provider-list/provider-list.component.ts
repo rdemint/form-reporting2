@@ -10,6 +10,7 @@ export class ProviderListComponent implements OnInit {
 	@Input() providers: Provider[];
 	@Input() practice: Practice;
 	@Input() org: Entity | Practice;
+	
   constructor() { }
 
   ngOnInit() {

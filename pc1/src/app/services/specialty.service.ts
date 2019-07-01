@@ -12,4 +12,9 @@ export class SpecialtyService {
   getSpecialties() {
   	return this.http.get<Specialty[]>(environment['specialties_url'])
   }
+
+  getSpecialtiesSub() {
+  	return this.http.get<Specialty[]>(environment['specialties_url'])
+  		.subscribe((specialties)=> {return specialties})
+  }
 }

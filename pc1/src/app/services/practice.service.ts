@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PracticeService {
+  practice: Practice;
 	practice$ = new BehaviorSubject<Practice>(null);
   constructor(private http: HttpClient) { }
 
@@ -18,6 +19,10 @@ export class PracticeService {
 
   selectPractice(practice) {
   	this.practice$.next(practice);
+  }
+
+  setPractice(practice) {
+    this.practice = practice;    
   }
 
   loadPractice(): Observable<Practice> {

@@ -45,6 +45,7 @@ export class ReportingContainerComponent implements OnInit {
                 (practice)=> {
                   this.practice = practice;
                   this.practiceService.selectPractice(practice);
+                  this.practiceService.setPractice(practice);
                   this.getDailySummaries('practice', this.practice.id, 'ytd');
                 }
               );

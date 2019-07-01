@@ -14,7 +14,7 @@ export interface Provider {
 	last_name: string;
 	name?: string;
 	credentials: string;
-	specialties: string;
+	specialties: string[];	
 	practices: string[];
 }
 

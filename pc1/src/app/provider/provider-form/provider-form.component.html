@@ -2,11 +2,11 @@
 	<mat-card>
 	<mat-card-title>
 		<div class="flex-container">
-			<h2>New provider</h2>
+			<h2>{{title}}</h2>
 		</div>
 	</mat-card-title>
 	<mat-card-content>
-	<form [formGroup]="providerForm" (ngSubmit)="addProvider()">
+	<form [formGroup]="providerForm">
 		<p>
 			<mat-form-field class="space-out">
 				<label>First name</label>
@@ -50,17 +50,22 @@
 					class="form-control"
 					multiple
 				>
-				<mat-option *ngFor="let specialty of specialties" [value]="specialty.name">{{specialty.name}}</mat-option>
+				<mat-option *ngFor="let specialty of specialties" [value]="specialty.id">{{specialty.name}}</mat-option>
 				</mat-select>
 			</mat-form-field>
 		</p>	
 		<div *ngIf="providerExists==false">
-			<button type="submit" class="btn btn-primary">Add provider</button>
+			<button 
+				type="submit" 
+				class="btn btn-primary"
+				(click)="addProvider()"
+				>Add provider
+			</button>
 		</div>
 		<div *ngIf="providerExists==true">
 			<button (click)=enableEditing(true) class="btn btn-primary">Edit</button>
 		</div>
-		<button class="btn btn-standard">Cancel</button>
+		<button class="btn btn-standard" (click)="cancel()">Cancel</button>
 	</form>
 	</mat-card-content>
 	</mat-card>
