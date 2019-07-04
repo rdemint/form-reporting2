@@ -1,3 +1,12 @@
-<p>
-  provider-form-container works!
-</p>
+<app-provider-form	
+	[provider]="data.provider"
+	[providerExists]="providerExists"
+	[specialties]="parentData.specialties"
+	[specialtyList]="specialtyList"
+	[providerSpecialties]="providerSpecialties"
+	[title]="title"	
+	(addProviderOutput)="addProvider($event)"
+	(putProviderOutput)="putProvider($event)"
+	(editingOutput)="handleEditing($event)"
+	>
+</app-provider-form>

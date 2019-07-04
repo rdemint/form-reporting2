@@ -11,10 +11,15 @@
 			 	formControlName="visits"
 			 	class="form-control"
 			 	>
+			 <span 
+			 	*ngIf="summaryForm.get('visits').hasError('required') && summaryForm.get('visits').dirty"
+			 	class="help-block"
+			 	>This field is required
+			 </span>
 			 <span *ngIf="!summaryForm.get('visits').valid && 
-			 				summaryForm.get('visits').touched"
+			 				summaryForm.get('visits').dirty"
 			 		class="help-block">
-			 	Something's not right. Enter a value that is less than 30
+			 	Something's not right. The value should be between value between 1 and 30.
 			 </span>
 
 		</mat-form-field>
@@ -28,10 +33,15 @@
 				formControlName="workdays"
 				class="form-control"
 				>
+			<span 
+				*ngIf="summaryForm.get('workdays').hasError('required') && summaryForm.get('workdays').dirty"
+				class="help-block"
+			 	>This field is required
+			 </span>
 			<span *ngIf="!summaryForm.get('workdays').valid && 
-			 				summaryForm.get('workdays').touched"
+			 				summaryForm.get('workdays').dirty"
 			 		class="help-block">
-			 	Something's not right. Enter a value that is less than 1.5 days
+			 	Something's not right. Workdays should be between 0.25 and 1.5. 
 			 </span>
 		</mat-form-field>
 		</tr>
@@ -47,7 +57,7 @@
 			<span *ngIf="!summaryForm.get('noshows').valid && 
 			 				summaryForm.get('noshows').touched"
 			 		class="help-block">
-			 	Something's not right. Enter a value that is less than 15
+			 	Something's not right. This form won't allow noshows to be greater than 15.  
 			 </span>
 		</mat-form-field>
 		</tr>
@@ -60,7 +70,13 @@
 			<p>Submitted on: {{dailySummary.submitted_on}}</p>
 		</div>
 			<div>
-				<button *ngIf="!dailySummaryDisabled && !editing" class="btn btn-primary" type="submit">Submit</button>
+				<button 
+					*ngIf="!dailySummaryDisabled && !editing" 
+					class="btn btn-primary" 
+					type="submit"
+					[disabled]=""
+					>Submit
+				</button>
 				<a *ngIf="dailySummaryDisabled && !editing" (click)="enableEditing()" style="color:blue">Edit this summary.</a>
 				<button *ngIf="editing" class="btn btn-warning" (click)="putSummary()">Update</button>
 				<button *ngIf="editing" class="btn btn-default" (click)="cancelEdit()">Cancel</button>

@@ -21,6 +21,9 @@ import { EntityService } from './services/entity.service';
 import { DateService } from './services/date.service';
 import { ProviderService } from './services/provider.service';
 import { DailySummaryService } from './services/daily-summary.service';
+import { ErrorService } from './services/error.service';
+import { MessageService } from './services/message.service';
+import { DashService } from './services/dash.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -51,7 +54,6 @@ import { NoDataComponent } from './no-data/no-data.component';
 import { PyChartContainerComponent } from './chart/py-chart-container/py-chart-container.component';
 import { TableContainerComponent } from './dash/table-container/table-container.component';
 import { TableComponent } from './dash/table/table.component';
-import { SourceComponent } from './source/source.component';
 import { DashComponent } from './dash/dash/dash.component';
 import { ChartComponent } from './dash/chart/chart.component';
 import { ChartContainerComponent } from './dash/chart-container/chart-container.component';
@@ -71,6 +73,9 @@ import { ProviderManagerComponent } from './practice/provider-manager/provider-m
 import { SpecialtiesResolverService } from './resolvers/specialties-resolver.service';
 import { ProviderResolverService } from './resolvers/provider-resolver.service';
 import { ProvidersResolverService } from './resolvers/providers-resolver.service';
+import { OrgNavComponent } from './nav/org-nav/org-nav.component';
+import { OrgNavContainerComponent } from './nav/org-nav-container/org-nav-container.component';
+import { HomeOutletComponent } from './nav/home-outlet/home-outlet.component';
 
 @NgModule({
   declarations: [
@@ -94,14 +99,13 @@ import { ProvidersResolverService } from './resolvers/providers-resolver.service
     NoDataComponent,
     PyChartContainerComponent,
     TableContainerComponent,
-    TableComponent,
-    SourceComponent,
-    DashComponent,
+    TableComponent,    
     ChartContainerComponent,
     DashSelectorComponent,
     EntityContainerComponent,
     LoadingComponent,
     DashContainerComponent,
+    DashComponent,
     ReportingContainerComponent,
     ReportingComponent,
     NavComponent,       
@@ -111,6 +115,9 @@ import { ProvidersResolverService } from './resolvers/providers-resolver.service
     ProviderOutletComponent,
     ProviderManagerComponent,
     ProviderManagerContainerComponent,    
+    OrgNavComponent,
+    OrgNavContainerComponent,
+    HomeOutletComponent,    
   ],
   imports: [
     ReactiveFormsModule,
@@ -147,6 +154,9 @@ import { ProvidersResolverService } from './resolvers/providers-resolver.service
   providers: [
     MatNativeDateModule,
     DateService, 
+    MessageService,
+    ErrorService,
+    DashService,
     PracticeService,
     ProviderService,
     AuthService,

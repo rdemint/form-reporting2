@@ -3,7 +3,8 @@ import { Component, OnInit, Input, Output, ViewChild, ChangeDetectionStrategy, O
 import { NgForm, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Practice, DailySummary, Specialty, Provider } from '../../models'
 import { DailySummaryService} from '../../services/daily-summary.service';
-
+import { ErrorService } from '../../services/error.service';
+import { FormCheckService } from '../../services/form-check.service';
 
 @Component({
   selector: 'app-daily-summary-form',
@@ -28,7 +29,7 @@ export class DailySummaryFormComponent implements OnInit, OnChanges {
   dailySummaryExists: boolean = false;
   dailySummaryDisabled: boolean = false;
 
-  constructor() { 
+  constructor(private formCheck: FormCheckService, private errorService: ErrorService) { 
     }
 
   ngOnInit() {
@@ -60,8 +61,8 @@ export class DailySummaryFormComponent implements OnInit, OnChanges {
       'practice': new FormControl(this.practice.id),
       'specialty': new FormControl(this.specialty_id),
       'date': new FormControl(this.formatDate(this.selectedDate)),
-      'visits': new FormControl({value: this.dailySummary.visits, disabled: this.dailySummaryDisabled}, Validators.max(30)),
-      'workdays': new FormControl({value: this.dailySummary.workdays, disabled: this.dailySummaryDisabled}, Validators.max(1.5)),
+      'visits': new FormControl({value: this.dailySummary.visits, disabled: this.dailySummaryDisabled}, [Validators.max(30), Validators.min(1), Validators.required]),
+      'workdays': new FormControl({value: this.dailySummary.workdays, disabled: this.dailySummaryDisabled}, [Validators.max(1.5), Validators.min(.25), Validators.required]),
       'noshows': new FormControl({value: this.dailySummary.noshows, disabled: this.dailySummaryDisabled}, Validators.max(15)),
       'provider': new FormControl({value: this.provider.id, disabled: this.dailySummaryDisabled}),
     }); 
@@ -100,10 +101,14 @@ export class DailySummaryFormComponent implements OnInit, OnChanges {
   }
 
   addSummary() {
-    // this.dailySummaryDisabled = true;
-    // this.editing = false;
-    this.addSummaryOutput.emit(this.summaryForm.value);
-    this.createForm();
+    if (this.formCheck.check(this.summaryForm) == null) {
+      this.addSummaryOutput.emit(this.summaryForm.value);
+      this.createForm();
+    }
+
+    else {
+      this.errorService.catch(this.formCheck.defaultMessage);
+    }
   }
 
   putSummary() {

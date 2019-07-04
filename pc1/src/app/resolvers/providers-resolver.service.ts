@@ -14,15 +14,7 @@ export class ProvidersResolverService implements Resolve<Observable<Provider[]>>
 
   constructor(private practiceService: PracticeService, private providerService: ProviderService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-  	let mode = route.queryParams['mode'];  	
-	
-	if (mode = "list") {			
-		return this.providerService.getProviders(this.practiceService.practice.id);
-		}	
-	else {
-		return null
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {  	
+		return this.providerService.getProviders(this.practiceService.practice.id);		
 	}
-  	
-  }
 }

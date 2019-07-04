@@ -1,21 +1,5 @@
-
-<div *ngIf="mode == 'list'">	
-		<app-provider-manager
-			[practice]="practice"
-			[providers]="providers"			
-			>
-		</app-provider-manager>
-</div>
-<div *ngIf="mode == 'form'">
-		<app-provider-form
-			[practice]="practice"
-			[provider]="provider"
-			[specialties]="data.specialties"
-			[specialtyList]="specialtyList"
-			[providerSpecialties]="providerSpecialties"
-			[providerExists]="providerExists"
-			(addProviderOutput)="addProvider($event)"
-			(putProviderOutput)="putProvider($event)"
-			>
-		</app-provider-form>
-</div>
+<app-provider-manager
+	[providers]="data.providers"
+	[practice]="practice"
+	(providerIdOutput)="navToProvider($event)"
+></app-provider-manager>

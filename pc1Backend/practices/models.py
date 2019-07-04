@@ -144,6 +144,7 @@ class Provider(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.first_name + ' ' + self.last_name)
+		print(self)
 		super().save(*args, **kwargs)
 
 	class Meta:

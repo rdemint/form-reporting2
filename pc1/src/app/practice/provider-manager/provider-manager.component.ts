@@ -1,5 +1,6 @@
-import { Output, Component, OnInit, Input } from '@angular/core';
+import { Output, EventEmitter, Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpParams } from '@angular/common/http';
 import { Practice, Specialty, Provider } from '../../models';
 
 @Component({
@@ -10,13 +11,15 @@ import { Practice, Specialty, Provider } from '../../models';
 export class ProviderManagerComponent implements OnInit {
 	@Input() practice: Practice;
 	@Input() providers: Provider[];
-	@Input() specialties: Specialty[];
+  @Output() providerIdOutput = new EventEmitter();	
   constructor() { }
 
   ngOnInit() {  	
   }
 
-  navToProvider(providerId) {
-  	this.route.navigate('')
+  emitProviderId(id) {
+    this.providerIdOutput.emit(id);
   }
+
+  
 }

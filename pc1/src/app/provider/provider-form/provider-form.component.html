@@ -41,19 +41,31 @@
 					class="form-control"
 				>
 			</mat-form-field>
-
+</p>
+		<p>
 			<mat-form-field class="spaced-out">
-				<label>Specialties</label>
-				<mat-select
-					name="specialtiesInput"
+				<label>Specialty</label>				
+				<mat-select					
 					formControlName="specialties"
-					class="form-control"
 					multiple
-				>
-				<mat-option *ngFor="let specialty of specialties" [value]="specialty.id">{{specialty.name}}</mat-option>
-				</mat-select>
+					[(ngModel)]="providerSpecialties"
+					>
+					<mat-option 
+						*ngFor="let specialtyName of specialtyList"
+						[value]="specialtyName"
+						>
+						{{specialtyName}}
+					</mat-option>
+				</mat-select>	
 			</mat-form-field>
-		</p>	
+		</p>				
+		<div *ngIf="providerExists==true">
+			<button 
+				class="btn btn-warning"
+				(click)="putProvider()"
+				>Submit Changes
+			</button>
+		</div>
 		<div *ngIf="providerExists==false">
 			<button 
 				type="submit" 
@@ -61,12 +73,14 @@
 				(click)="addProvider()"
 				>Add provider
 			</button>
-		</div>
-		<div *ngIf="providerExists==true">
-			<button (click)=enableEditing(true) class="btn btn-primary">Edit</button>
-		</div>
-		<button class="btn btn-standard" (click)="cancel()">Cancel</button>
+		</div>		
+		<button 
+			class="btn btn-light"
+			(click)="cancel()"
+			>Cancel
+		</button>
 	</form>
 	</mat-card-content>
 	</mat-card>
 </div>
+

@@ -12,14 +12,15 @@ export class ProviderResolverService implements Resolve<Observable<Provider>> {
 
   constructor(private providerService: ProviderService) { }
 
-resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {	
 	let providerId = route.queryParams['provider'];
 	if (providerId != null) {
 		return this.providerService.getProvider(providerId);
 	}
 
 	else {
-		return null
+		return null;
 	}
 }
+
 }

@@ -6,6 +6,8 @@ import { environment } from '../../../environments/environment';
 import { UserService } from '../../user/user.service';
 import { DateService } from '../../services/date.service';
 import { PracticeService } from '../../services/practice.service';
+import { MessageService } from '../../services/message.service';
+import { ErrorService } from '../../services/error.service';
 import { DashService } from '../../services/dash.service';
 import { combineLatest, Observable } from 'rxjs';
 
@@ -21,14 +23,16 @@ export class ReportingContainerComponent implements OnInit {
     practice_slug: string;
     year: string;
     month: string;
-
+    nullSummaryText = 'Please fill out the visits and workdays before submitting.';
   constructor(    
   	private practiceService: PracticeService,
     private dashService: DashService,
     private dailySummaryService: DailySummaryService,
     private dateService: DateService,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private message: MessageService,
+    private error: ErrorService
     ) { }
 
   ngOnInit() {
@@ -64,21 +68,43 @@ export class ReportingContainerComponent implements OnInit {
         });
   } 
 
-    addSummary(dailySummary) {      
+    addSummary(dailySummary) {
+    if (dailySummary.visits == null || dailySummary.workdays==null) {
+      this.error.catch(this.nullSummaryText);
+    }
+
+    else {
       this.dailySummaryService.postSummary(dailySummary)
-        .subscribe((resp)=> {
+        .subscribe(
+          (resp)=> {
+            this.message.throw('Summary created');
           this.getDailySummaries('practice', this.practice.id, 'ytd');    
+        },
+        (err)=> {
+          this.error.catch('Something went wrong...your summary was not saved.  Check your input values and try again, or check back later.')
         });
+    }
     }
 
     putSummary(dailySummary) {
       // Sets the user ID to populate the submitted_by property field.  PUTS the summary to the backend
+    if (dailySummary.visits == null || dailySummary.workdays==null) {
+      this.error.catch(this.nullSummaryText);
+    }
+
+    else {
       let id = dailySummary['id'];
       dailySummary['submitted_by'] = this.user.id;
       this.dailySummaryService.putSummary(dailySummary, id)
         .subscribe((resp)=> {
+          this.message.throw('Summary updated');
           this.getDailySummaries('practice', this.practice.id, 'ytd');    
+        }, 
+        (err)=> {
+          this.error.catch('Something went wrong...your summary was not updated.  Check your input values and try again, or check back later.');
+          console.log(err);
         });
+      }
     }
 
 }

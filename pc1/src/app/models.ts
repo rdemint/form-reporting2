@@ -89,3 +89,7 @@ export interface ChartData {
 	label: any;
 	y: any;
 }
+
+export interface Org {
+	name: string;
+}

@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Org } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrganizationTypeService {
+  org$ = new BehaviorSubject<Org>(null)
 	organizationType$ = new BehaviorSubject<string>(null);
 	organizationSlug$ = new BehaviorSubject<string>(null);
   organizationID$ = new BehaviorSubject<number>(null);
+
   constructor() { }
 
   selectOrgType(type) {
@@ -33,4 +36,13 @@ export class OrganizationTypeService {
   loadOrgId() {
     return this.organizationID$.asObservable();
   }
+
+  loadOrg() {
+    return this.org$.asObservable();
+  }
+
+  selectOrg(id) {
+    this.org$.next(id);
+  }
 }
+

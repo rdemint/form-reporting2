@@ -91,18 +91,18 @@ export class AuthService implements OnInit {
 			}
  		if (data['user_type'] == "admin") {
 			this.router.navigate(
-				['entities', data['entity_slug']], navExtras
+				['home/entities', data['entity_slug']], navExtras
 			);
 		}
 		else if (data['user_type']=="manager") {
 			this.router.navigate(
-				['practices', data['practice_slug']], {queryParams: {year: this.year, month: this.month}}
+				['home/practices', data['practice_slug']], {queryParams: {year: this.year, month: this.month}}
 			);
 		}
 
 		else {
 			this.router.navigate(
-				['practices', data['practice_slug'], 'reporting'], {queryParams: {year: this.year, month: this.month}})
+				['home/practices', data['practice_slug'], 'reporting'], {queryParams: {year: this.year, month: this.month}})
 		}
   	}
 

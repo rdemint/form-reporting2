@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SourceComponent } from './source.component';
+import { OrgNavContainerComponent } from './org-nav-container.component';
 
-describe('SourceComponent', () => {
-  let component: SourceComponent;
-  let fixture: ComponentFixture<SourceComponent>;
+describe('OrgNavContainerComponent', () => {
+  let component: OrgNavContainerComponent;
+  let fixture: ComponentFixture<OrgNavContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SourceComponent ]
+      declarations: [ OrgNavContainerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SourceComponent);
+    fixture = TestBed.createComponent(OrgNavContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

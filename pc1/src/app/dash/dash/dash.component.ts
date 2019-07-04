@@ -22,8 +22,6 @@ export class DashComponent implements OnInit {
      isLoading: boolean = true; 
 
   constructor(
-  	private dailySummaryService: DailySummaryService, 
-  	private dashService: DashService
   	) { }
 
   ngOnInit() {     

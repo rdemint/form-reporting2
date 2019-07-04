@@ -17,47 +17,57 @@ import { ProviderResolverService} from './resolvers/provider-resolver.service';
 import { ProvidersResolverService} from './resolvers/providers-resolver.service';
 import { ProviderManagerComponent } from './practice/provider-manager/provider-manager.component';
 import { ProviderFormComponent } from './provider/provider-form/provider-form.component';
+import { ProviderFormContainerComponent } from './provider/provider-form-container/provider-form-container.component';
 import { AuthGuard } from './auth-guard';
+import { HomeOutletComponent } from './nav/home-outlet/home-outlet.component';
 
 export const appRoutes: Routes = [
-	{
-		path: 'practices/:practice_slug',
+	{	path: 'home',
 		// canActivate: [AuthGuard],
-		component: PracticeOutletComponent,
+		component: HomeOutletComponent,
 		children: [
 			{
-				path: '',
-			 	component: PracticeContainerComponent
-			 },
-			 {
-			 	path: 'reporting',
-			 	component: ReportingContainerComponent
-			 },
-			 {
-			 	path: 'providers',
-			 	component: ProviderManagerContainerComponent,
-			 	resolve: {
-			 		specialties: SpecialtiesResolverService,
-			 		provider: ProviderResolverService,
-			 		providers: ProvidersResolverService,
-			 	},
-			 	children: [
-			 		{
-			 			path: 'form',
-			 			component: ProviderFormComponent
-			 		},
-			 		{
-			 			path: 'list',
-			 			component: ProviderManagerComponent
-			 		}
-			 	]
-			 }
+			path: 'practices/:practice_slug',
+			// canActivate: [AuthGuard],
+			component: PracticeOutletComponent,
+			children: [
+				{
+					path: '',
+				 	component: PracticeContainerComponent
+				 },
+				 {
+				 	path: 'reporting',
+				 	component: ReportingContainerComponent
+				 },
+				 {
+				 	path: 'providers',
+				 	component: ProviderOutletComponent,
+				 	runGuardsAndResolvers: 'always',
+				 	resolve: {
+				 		specialties: SpecialtiesResolverService,			 		
+				 		providers: ProvidersResolverService,
+				 	},
+				 	children: [
+				 		{
+				 			path: 'form',
+				 			component: ProviderFormContainerComponent,
+				 			resolve: {provider: ProviderResolverService}			 			
+				 		},
+
+				 		{
+				 			path: 'list',
+				 			component: ProviderManagerContainerComponent
+				 		}
+				 	]
+				 }
+			]
+			},
+			{
+				path: 'entities/:entity_slug',
+				// canActivate: [AuthGuard],
+				component: EntityContainerComponent,
+			}
 		]
-	},
-	{
-		path: 'entities/:entity_slug',
-		// canActivate: [AuthGuard],
-		component: EntityContainerComponent,
 	},
 	{	path: 'login',
 		component: LoginComponent,
@@ -66,9 +76,9 @@ export const appRoutes: Routes = [
 		path:'logout',
 		component: LogoutComponent,
 	},
-	{	path: '',
+	{	
+		path: '',
 		redirectTo: '/login',
 		pathMatch: 'full'
-	},
-
+	}
 ]

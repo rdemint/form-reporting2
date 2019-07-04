@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../user/user.service';
 import { Practice } from '../../models';
 import { first } from 'rxjs/operators';
@@ -13,7 +13,7 @@ export class NavComponent implements OnInit {
 	@Input() practice: Practice;
 	user: any;
 	user$: Observable<any>;
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
   	this.userService.loadUser().pipe(first()).subscribe((user)=>this.user = user);
@@ -25,11 +25,11 @@ export class NavComponent implements OnInit {
   }
 
   addProvider() {
-  	this.router.navigate(['/practices/', this.practice.slug, 'providers'], { queryParams: {mode: 'form'}});
+  	this.router.navigate(['../providers/form'], {relativeTo: this.route});
   }
 
   listProviders() {
-    this.router.navigate(['/practices/', this.practice.slug, 'providers'], { queryParams: {mode: 'list'}});
+    this.router.navigate(['../providers/list'], {relativeTo: this.route});
   }
 
 }

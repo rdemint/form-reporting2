@@ -13,8 +13,8 @@ import { Observable } from 'rxjs';
 })
 export class ChartComponent implements OnInit, OnChanges {
 	@Input() summaryOverviews: SummaryOverview[];
-	@Input() pySummaryOverviews: SummaryOverview[];
-	@Input() source: Practice | Provider | Specialty;
+	@Input() source: Specialty | Provider | Practice;
+	@Input() pySummaryOverviews: SummaryOverview[];	
 	@Input() sourceType: string;
 	@Input() chartName: string;
 	@Input() sourceField: string;

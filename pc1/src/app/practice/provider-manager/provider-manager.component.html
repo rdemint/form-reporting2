@@ -1,11 +1,11 @@
 <p>Click on a provider to edit details.</p>
 <ul>
-<li *ngFor="let p of providers">	
+<li *ngFor="let provider of providers">	
 	<button 
-		(click)="navToProvider(p.id)" 
+		(click)="emitProviderId(provider.id)" 
 		mat-button
 		color="primary"
-		>{{p.name}}		
+		><strong>{{provider.name}}</strong>		
 	</button>	
 </li>
 </ul>

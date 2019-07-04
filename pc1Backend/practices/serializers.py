@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
@@ -35,23 +34,24 @@ class DailySummarySerializer(serializers.ModelSerializer):
 			)
 		]
 
-class ProviderSerializer(serializers.ModelSerializer):
-	practices = serializers.SlugRelatedField(slug_field="name", read_only=True, many=True)
-	specialties = serializers.StringRelatedField(many=True)
 
-	def create(self, validated_data):
-		# Overwrite is required to handle the m2m relationships for practices and specialties, 
-		# and fk relationship for entity
-		provider = super().create(**validated_data)	
-		for specialty in validated_data['specialties']:
-			provider.specialties.add(specialty)
-		#'practices' will only have one practice in it. 
-		practice = Practice.objects.get(id=validated_data['practices'])
-		provider.practices.add(practice)		
-		entity = practice.entity
-		provider.entity = entity
-		entity.providers.add(provider)
-		return provider
+class ProviderSerializer(serializers.ModelSerializer):
+	practices = serializers.SlugRelatedField(slug_field="name", read_only=False, queryset=Practice.objects.all(), many=True)
+	specialties = serializers.SlugRelatedField(slug_field="name", read_only=False, queryset=Specialty.objects.all(), many=True)
+
+	# def create(self, validated_data):
+	# 	# Overwrite is required to handle the m2m relationships for practices and specialties, 
+	# 	# and fk relationship for entity
+	# 	provider = super().create(**validated_data)	
+	# 	for specialty in validated_data['specialties']:
+	# 		provider.specialties.add(specialty)
+	# 	#'practices' will only have one practice in it. 
+	# 	practice = Practice.objects.get(id=validated_data['practices'])
+	# 	provider.practices.add(practice)		
+	# 	entity = practice.entity
+	# 	provider.entity = entity
+	# 	entity.providers.add(provider)
+	# 	return provider
 
 
 	class Meta:

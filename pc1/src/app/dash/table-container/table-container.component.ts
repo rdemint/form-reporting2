@@ -13,8 +13,8 @@ import { DashService } from '../../services/dash.service';
 })
 export class TableContainerComponent implements OnInit {
   	@Input() summaryOverviews: SummaryOverview[];
-    @Input() pySummaryOverviews: SummaryOverview[];
-    @Input() source: string;
+    @Input() source: Specialty | Provider | Practice;
+    @Input() pySummaryOverviews: SummaryOverview[];    
   	@Input() sourceField: string;
     @Input() sourceFieldStr: string;
     @Input() sourceType: string;
