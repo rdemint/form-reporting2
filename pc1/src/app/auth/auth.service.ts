@@ -69,12 +69,14 @@ export class AuthService implements OnInit {
 
 		// if admin, see all entity data
 	  	if(data['org_type']=="entity") {
-	  		this.orgService.selectOrgType('entity');
+			  this.orgService.selectOrgType('entity');
+			  this.orgService.selectOrgName(data['entity_name'])
 	  		this.orgService.selectOrgId(data['entity_id']);
 	  	}
 	  	// else, only see data related to a particular practice
 	  	else {
-	  		this.orgService.selectOrgType('practice');
+			this.orgService.selectOrgType('practice');
+			this.orgService.selectOrgName(data['practice_name']);
 	  		this.orgService.selectOrgId(data['practice_id']);
 	  	}
 	  	

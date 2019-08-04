@@ -26,7 +26,6 @@ export class DashService {
 
   changeLoadingStatus(bool) {
     this.isLoading$.next(bool);
-    console.log(this.isLoading$.getValue())
   }
 
   loadLoadingStatus() {

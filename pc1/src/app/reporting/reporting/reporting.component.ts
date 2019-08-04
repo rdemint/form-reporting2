@@ -1,4 +1,4 @@
-import { Input, Output, EventEmitter, Component, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Input, Output, EventEmitter, Component, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, Renderer2, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DailySummary, Practice } from '../../models';
 import { DateService } from '../../services/date.service';
@@ -8,17 +8,18 @@ import { DateService } from '../../services/date.service';
   templateUrl: './reporting.component.html',
   styleUrls: ['./reporting.component.css']
 })
-export class ReportingComponent implements OnInit {
+export class ReportingComponent implements OnInit, AfterViewInit {
 	@Input() practice: Practice;
   @Output() addSummaryOutput = new EventEmitter<DailySummary>(); 
   @Output() putSummaryOutput = new EventEmitter<DailySummary>();
   @Input() dailySummaries: DailySummary[];
+  @ViewChild('listhelptext') listHelpText: ElementRef;
   selectedDateForm: FormControl;
   selectedDate: Date;
   today: Date;
   twoWeeks: Date;
   twoWeeksPrior: Date;
-  constructor(private dateService: DateService) { }
+  constructor(private dateService: DateService, private renderer: Renderer2) { }
 
   ngOnInit() {
     this.today = new Date();
@@ -28,6 +29,11 @@ export class ReportingComponent implements OnInit {
     this.selectedDateForm = new FormControl(this.today);
     this.selectedDateForm.valueChanges.subscribe((date)=> this.selectedDate = date);
     }
+
+  ngAfterViewInit() {
+    // this.renderer.addClass(this.listHelpText.nativeElement, 'help-text');
+    // this.renderer.addClass(this.listHelpText.nativeElement, 'testing');
+  }
 
   setTwoWeeksPrior(date) {
     if (date.getDate() > 14) {

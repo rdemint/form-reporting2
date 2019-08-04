@@ -1,6 +1,7 @@
 
-<div>
-	<button mat-button color="primary" (click)="listProviders()">Manage Providers</button>
-	<button mat-button color="primary" (click)="addProvider()">Add a Provider</button>
+<div class="d-flex justify-content-center mb-5">
+	<button mat-button color="primary" [routerLink]="['./dashboard']" routerLinkActive="link-active" preserveQueryParams>Dashboard</button>
+	<button #reporting mat-button color="primary" [routerLink]="['./reporting']" routerLinkActive="link-active" preserveQueryParams>Reporting</button>
+	<button #providers mat-button color="primary" [routerLink]="['./providers']" routerLinkActive="link-active" preserveQueryParams>Providers</button>
 	<button mat-button color="primary" (click)="logout()">Logout</button>
 </div>

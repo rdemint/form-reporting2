@@ -1,8 +1,7 @@
-<div class="flex-container">
 	<mat-card>
 	<mat-card-title>
 		<div class="flex-container">
-			<h2>{{title}}</h2>
+			<h2 class="header-text-dk">{{title}}</h2>
 		</div>
 	</mat-card-title>
 	<mat-card-content>
@@ -69,18 +68,17 @@
 		<div *ngIf="providerExists==false">
 			<button 
 				type="submit" 
-				class="btn btn-primary"
+				class="btn btn-primary my-3"
 				(click)="addProvider()"
 				>Add provider
 			</button>
 		</div>		
 		<button 
-			class="btn btn-light"
+			class="btn btn-secondary my-3"
 			(click)="cancel()"
 			>Cancel
 		</button>
 	</form>
 	</mat-card-content>
 	</mat-card>
-</div>
 

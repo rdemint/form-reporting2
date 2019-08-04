@@ -68,7 +68,7 @@ export class TableContainerComponent implements OnInit {
     if (view == 'ytd') {
       this.indexRange = +this.month;
     }
-    
+
     for (let i = 1; i < this.indexRange+1; i++) {
       let summaryField = this.dateFilterMatch(i, this.summaryOverviews);
       let pySummaryField = this.dateFilterMatch(i, this.pySummaryOverviews);
@@ -86,7 +86,7 @@ export class TableContainerComponent implements OnInit {
   }
 
   dateFilterMatch(index, overviews) {
-    let overview = overviews.find((overview)=> overview.date_filter== index);     
+    let overview = overviews.find((overview)=> overview.date_filter== index); 
     if (overview[this.sourceField]['average'] == null ) {
       return {match:'-', date_filter_ref: overview.date_filter_ref}
     }

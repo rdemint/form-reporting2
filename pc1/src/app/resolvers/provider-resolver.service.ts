@@ -19,7 +19,7 @@ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 	}
 
 	else {
-		return null;
+		return this.providerService.getProvider(1);
 	}
 }
 

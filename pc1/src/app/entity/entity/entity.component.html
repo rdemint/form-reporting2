@@ -1,6 +1,5 @@
 <div class="container">
-	<div *ngIf="entity" else loading>
-		<h4 style="text-align: center">{{entity.name}}</h4>
+	<div *ngIf="entity else loading">
 		<mat-tab-group dynamicHeight="true" mat-align-tabs="center" [(selectedIndex)]="selectedIndex" (selectedIndexChange)="filterByTab($event)">
 			<mat-tab label="Practices">
 				<ng-template matTabContent>

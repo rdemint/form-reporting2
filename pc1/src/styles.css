@@ -3,17 +3,104 @@
 
 html, body { 
 	height: 100%;
-	color: #404040;
-	height: 100%;
+	color: black;
 	padding: 0;
 	margin: 0;
-	}
-	
-body {margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+	--pc-gray-lt: rgb(217, 217, 217);
+	--pc-gray-dk: rgb(83, 83, 83);
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
+body {margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
+
+
+h1 {
+	color: var(--pc-gray-dk);
+}
+
+h2 {
+	
+}
 
 .container {
 	padding: 20px;
 	margin: 20px;
 }
+
+.header-text-dk {
+	color: #5a646e;
+}
+
+.header-text-lt {
+	color: rgb(240, 240, 240);
+}
+
+.link-active {
+	background-color: white !important; 
+	text-decoration: underline !important;
+	text-decoration-color: #3f51b5 !important;
+}
+
+
+.fs-h1 {
+	font-size: 2.5rem;
+}
+
+.fs-h2 {
+	font-size: 2rem;
+}
+
+.fs-h3 {
+	font-size: 1.7rem;
+}
+
+.fs-h4 {
+	font-size: 1.4 rem;
+}
+
+.fs-h5 {
+	font-size: 1.1rem;
+}
+
+.fs-h6 {
+	font-size: .9rem;
+}
+
+.no-margin {
+	margin: 0;
+}
+
+.help-text {
+	font-size: .8rem !important;
+	font-weight: 400 !important;
+	font-style: italic !important;
+	color: rgb(114, 114, 114) !important;
+}
+
+.testing {
+	background-color: red;
+}
+
+.btn-primary {
+	background-color: #3f51b5;
+	border-color: #3f51b5;
+
+}
+
+.mat-select {
+	text-align: center;
+}
+
+.mat-select-value-text {
+	font-size: .9rem;
+    color: rgb(129, 129, 129);
+}
+
+a {
+	color: #3f51b5;
+
+}
+
+
+
 

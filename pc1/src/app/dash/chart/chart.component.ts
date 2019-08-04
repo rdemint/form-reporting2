@@ -2,7 +2,7 @@ import { EventEmitter, Component, Input, Output, OnInit, OnChanges, SimpleChange
 import { DailySummary, Practice, Provider, Specialty, SummaryOverview } from '../../models';
 import { DateService } from '../../services/date.service';
 import { DashService } from '../../services/dash.service';
-import * as CanvasJs from '../../../../node_modules/canvasjs-2.3.1/canvasjs.min.js';
+import * as CanvasJs from '../../../../node_modules/canvasjs-2.3.2/canvasjs.min.js';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -114,7 +114,8 @@ export class ChartComponent implements OnInit, OnChanges {
 	           cursor: "pointer"
 	         },
 	         legend: {
-	           cursor: "pointer"
+			   cursor: "pointer",
+			   fontColor: 'lighter'
 	         },
 	         data: this.canvasJsData
 	       });	

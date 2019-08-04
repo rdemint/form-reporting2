@@ -1,31 +1,30 @@
 <div class="container">
-<h4>{{practice.name}}</h4>
-<mat-form-field>
-	<input matInput 
-		[matDatepicker]="datePicker" 
-		[max]="today" 
-		[matDatepickerFilter]="dateFilter" 
-		placeholder="Submitting reports for:" 
-		[formControl]="selectedDateForm"
-		[value]="selectedDate">
-	<mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-	<mat-datepicker #datePicker></mat-datepicker>
-</mat-form-field>
-</div>
-
-<div *ngIf="practice && selectedDate">
-	<small class="text-muted">Showing all providers for your practice.</small>
-	<div *ngIf="practice.providers.length > 0 else noProviders">
-	<div *ngFor="let provider of practice.providers">
-		<app-daily-summary
-		[dailySummaries]="dailySummaries"
-		[selectedDate]="selectedDate" 
-		[practice]="practice" 
-		[provider]="provider"
-		(addSummaryOutput)="addSummary($event)"
-		(putSummaryOutput)="putSummary($event)">
-		</app-daily-summary>
-	</div>
+	<mat-form-field class="d-flex justify-content-center datepicker-form">
+		<label><h6>Submitting reports for:</h6></label>
+		<input matInput 
+			[matDatepicker]="datePicker" 
+			[max]="today" 
+			[matDatepickerFilter]="dateFilter" 
+			[formControl]="selectedDateForm"
+			[value]="selectedDate"
+			class="date-picker">
+		<mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+		<mat-datepicker #datePicker></mat-datepicker>
+	</mat-form-field>
+	<div *ngIf="practice && selectedDate">
+		<p class="help-text" #listhelptext>Showing all providers for your practice.</p>
+		<div *ngIf="practice.providers.length > 0 else noProviders">
+		<div *ngFor="let provider of practice.providers">
+			<app-daily-summary
+			[dailySummaries]="dailySummaries"
+			[selectedDate]="selectedDate" 
+			[practice]="practice" 
+			[provider]="provider"
+			(addSummaryOutput)="addSummary($event)"
+			(putSummaryOutput)="putSummary($event)">
+			</app-daily-summary>
+		</div>
+		</div>
 	</div>
 </div>
 

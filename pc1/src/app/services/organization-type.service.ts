@@ -10,6 +10,7 @@ export class OrganizationTypeService {
 	organizationType$ = new BehaviorSubject<string>(null);
 	organizationSlug$ = new BehaviorSubject<string>(null);
   organizationID$ = new BehaviorSubject<number>(null);
+  organizationName$ = new BehaviorSubject<string>(null);
 
   constructor() { }
 
@@ -19,6 +20,14 @@ export class OrganizationTypeService {
 
   loadOrgType() {
   	return this.organizationType$.asObservable();
+  }
+
+  selectOrgName(name) {
+    this.organizationName$.next(name);
+  }
+
+  loadOrgName() {
+    return this.organizationName$.asObservable();
   }
 
   selectOrgSlug(slug) {

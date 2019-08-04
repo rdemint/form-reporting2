@@ -23,16 +23,16 @@ import { HomeOutletComponent } from './nav/home-outlet/home-outlet.component';
 
 export const appRoutes: Routes = [
 	{	path: 'home',
-		// canActivate: [AuthGuard],
+		canActivate: [AuthGuard],
 		component: HomeOutletComponent,
 		children: [
 			{
 			path: 'practices/:practice_slug',
-			// canActivate: [AuthGuard],
+			canActivate: [AuthGuard],
 			component: PracticeOutletComponent,
 			children: [
 				{
-					path: '',
+					path: 'dashboard',
 				 	component: PracticeContainerComponent
 				 },
 				 {
@@ -57,14 +57,19 @@ export const appRoutes: Routes = [
 				 		{
 				 			path: 'list',
 				 			component: ProviderManagerContainerComponent
-				 		}
+						 },
+						{
+							path: '',
+							redirectTo: 'list',
+							pathMatch: 'full'
+						}
 				 	]
 				 }
 			]
 			},
 			{
 				path: 'entities/:entity_slug',
-				// canActivate: [AuthGuard],
+				canActivate: [AuthGuard],
 				component: EntityContainerComponent,
 			}
 		]

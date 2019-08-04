@@ -1,13 +1,10 @@
-<div class="container">
 	<div *ngIf="practice" else loading>
-		<h4 style="text-align: center">{{practice.name}}</h4>
+		<h4 style="text-align: center">Dashboard</h4>
 		<mat-tab-group mat-align-tabs="center">
 			<mat-tab label="Summary">
 				<ng-template matTabContent>
-					<app-dash-selector></app-dash-selector>
-					<div class="container">
-						<small class="text-muted">All data summarized for this practice</small>
-					</div>
+						<app-dash-selector></app-dash-selector>
+					<p class="help-text">All data summarized for this practice</p>
 					<app-dash-container
 						[org]="practice"
 						[source]="practice"
@@ -34,7 +31,6 @@
 				</ng-template>
 			</mat-tab>
 		</mat-tab-group>
-	</div>
 
 <ng-template #loading>
 	<p>Loading...</p>

@@ -31,11 +31,11 @@ export class PracticeContainerComponent implements OnInit {
   ngOnInit() {
   	    this.userService.loadUser().subscribe((user)=> this.user = user);
     combineLatest(
-      this.route.paramMap, 
+      this.route.parent.paramMap, 
       this.dashService.loadDateView())
       .subscribe(
-          ([params, view]) => {
-            this.practiceService.getPractice(params.get('practice_slug'))
+          ([parentParams, view]) => {
+            this.practiceService.getPractice(parentParams.get('practice_slug'))
               .subscribe(
                 (practice)=> {
                   this.practice = practice;

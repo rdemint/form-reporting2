@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Org } from '../../models';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-org-nav',
@@ -8,7 +9,10 @@ import { Org } from '../../models';
 })
 export class OrgNavComponent implements OnInit {
 	@Input() org: Org;
+  @Input() orgName$: Observable<string>;
 
+  organization: string = "Best Health, Inc."
+  
   constructor() { }
 
   ngOnInit() {  	
