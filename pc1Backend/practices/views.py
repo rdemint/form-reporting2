@@ -13,7 +13,7 @@ from practices.serializers import DailySummarySerializer, ProviderSerializer, Sp
 from practices.overviews import SummaryOverviewManager
 from django_filters import rest_framework as filters
 from datetime import datetime
-
+from dry_rest_permissions.generics import DRYObjectPermissions, DRYPermissions, DRYGlobalPermissions
 
 class DailySummaryFilter(filters.FilterSet):
 	month = filters.NumberFilter(field_name="date", lookup_expr="month")
@@ -33,11 +33,12 @@ class FilteredDailySummaries(ListCreateAPIView):
 	serializer_class = DailySummarySerializer
 	filter_backends = (filters.DjangoFilterBackend,)
 	filterset_class = DailySummaryFilter
-
+	permission_classes = (DRYGlobalPermissions,)
 
 class DailySummaryDetail(RetrieveUpdateDestroyAPIView):
 	queryset = DailySummary.objects.all()
 	serializer_class = DailySummarySerializer
+	permission_classes = (DRYObjectPermissions,)
 
 
 class SummaryOverviewView(APIView):
@@ -51,6 +52,23 @@ class SummaryOverviewView(APIView):
 
 	def get(self, request, format=None):	
 		qs = self.filter_queryset(DailySummary.objects.all())
+
+		#permissions - ensures user is affiliated with the entity data requested
+		# before proceeding with the response
+		if 'entity' in request.GET:
+			if str(request.user.entity.id) == str(request.GET['entity']):
+				pass
+			else:
+				return Response(data="Server could not authenticate: That user is not associated with the entity")
+		elif 'practice' in request.GET:
+			if str(request.user.practice.id) == str(request.GET['practice']):
+				pass
+			else:
+				return Response(status=403, data="Server could not authenticate: That user is not associated with the entity")
+		else:
+			print('automatic fail')
+			return Response(status=403, data="Forbidden because no practice id parameter provided - This is required for authentication")
+
 
 		if 'month' in request.GET:
 			manager = SummaryOverviewManager(qs, request)
@@ -68,6 +86,7 @@ class EntityList(ListCreateAPIView):
 class EntityDetail(RetrieveUpdateDestroyAPIView):
 	serializer_class = EntitySerializer 
 	lookup_field = "slug"
+	permission_classes = (DRYObjectPermissions,)
 
 	def get_queryset(self):
 		return Entity.objects.filter(slug=self.kwargs.get('slug'))
@@ -76,6 +95,7 @@ class EntityDetail(RetrieveUpdateDestroyAPIView):
 class PracticeDetail(RetrieveUpdateDestroyAPIView):
 	serializer_class = PracticeSerializer
 	lookup_field = "slug"
+	permission_classes = (DRYObjectPermissions,)
 
 	def get_queryset(self):
 		return Practice.objects.filter(slug=self.kwargs.get('slug'))
@@ -100,10 +120,10 @@ class ProviderList(ListCreateAPIView):
 	filterset_class = ProviderFilter
 	serializer_class = ProviderSerializer
 	queryset = Provider.objects.all()
+	permission_classes = (DRYGlobalPermissions,)	
 
 	def get_queryset(self):		
 		if self.kwargs.get('practice'):
-			print('yes')
 			return Provider.objects.filter(practices__id=self.kwargs.get('practice'))
 		else:
 			return Provider.objects.all()
@@ -112,11 +132,12 @@ class ProviderList(ListCreateAPIView):
 class ProviderDetail(RetrieveUpdateDestroyAPIView):
 	serializer_class = ProviderSerializer
 	queryset = Provider.objects.all()
-
+	permission_classes = (DRYObjectPermissions,)
 
 class SpecialtyList(ListCreateAPIView):
 	serializer_class = SpecialtySerializer
 	queryset = Specialty.objects.all()
+	permission_classes = (DRYGlobalPermissions,)
 
 class CreateTokenView(ObtainAuthToken):
 	serializer_class = AuthTokenSerializer

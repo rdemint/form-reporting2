@@ -18,7 +18,7 @@ export class PracticeService {
   }
 
   selectPractice(practice) {
-  	this.practice$.next(practice);
+    this.practice$.next(practice);
   }
 
   setPractice(practice) {

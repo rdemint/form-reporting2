@@ -1,11 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Data } from '@angular/router';
-import { Practice, DailySummary, Specialty, Provider } from '../../models';
+import { Practice } from '../../models';
 import { SpecialtyService } from '../../services/specialty.service';
 import { PracticeService } from '../../services/practice.service';
 import { ProviderService } from '../../services/provider.service';
-import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
 
 
 @Component({
@@ -27,7 +25,7 @@ export class ProviderManagerContainerComponent implements OnInit {
    { 		}
 
   ngOnInit() {  	
-  	this.data = this.route.parent.snapshot.data;
+  	this.data = this.route.snapshot.data;
   	this.practice = this.practiceService.practice;
   }
 

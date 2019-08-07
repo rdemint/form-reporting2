@@ -27,6 +27,7 @@ h2 {
 	margin: 20px;
 }
 
+
 .header-text-dk {
 	color: #5a646e;
 }
@@ -77,6 +78,10 @@ h2 {
 	color: rgb(114, 114, 114) !important;
 }
 
+input.date-picker {
+	color: #3f51b5;
+}
+
 .testing {
 	background-color: red;
 }
@@ -85,6 +90,10 @@ h2 {
 	background-color: #3f51b5;
 	border-color: #3f51b5;
 
+}
+
+.mat-form-field-wrapper {
+    width: 80%;
 }
 
 .mat-select {

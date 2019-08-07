@@ -13,6 +13,18 @@ class Entity(models.Model):
 	name = models.CharField(max_length=200)
 	slug = models.SlugField(unique=True)
 
+	def has_object_read_permission(self, request):
+		print('checking permissions')
+		print('user: {}'.format(request.user.entity.id))
+		print('entity: {}'.format(self.id))
+		return str(request.user.entity.id) == str(self.id)
+
+	# def has_object_write_permission(self, request):
+	# 	if request.user.type == "Admin" or request.user.type == "Manager":
+	# 		return True
+	# 	else:
+	# 		return False
+
 	@property
 	def specialties(self):
 		qs = Specialty.objects.filter(providers__entity=self).all()
@@ -37,6 +49,16 @@ class Practice(models.Model):
 	slug = models.SlugField(unique=True)
 	entity = models.ForeignKey(to=Entity, on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='practices')
 
+
+	def has_object_read_permission(self, request):
+		return str(request.user.practice.id) == str(self.id)
+
+	def has_object_write_permission(self, request):
+		if str(request.user.practice.id) == str(self.id) or request.user.type == "-":
+			return True
+		else:
+			return False
+
 	@property
 	def specialties(self):
 		qs = Specialty.objects.filter(providers__practices=self).all()
@@ -56,6 +78,14 @@ class Practice(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	# @staticmethod
+	# def has_read_permission(request):
+	# 	print('request.kwargs: {}'.format(request.kwargs))
+	# 	return True
+
+	# def has_object_read_permission(self, request):
+	# 	return request.user in self.users.all()
 
 	class Meta:
 		ordering=['name']
@@ -89,7 +119,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 	practice = models.ForeignKey(Practice, on_delete=models.CASCADE,
 		related_name='users', null=True, default=None, blank=True)
 	entity = models.ForeignKey(Entity, on_delete=models.CASCADE, 
-		related_name='entities', null=True, blank=True)
+		related_name='users', null=True, blank=True)
 	email = models.EmailField(max_length=255, unique=True)
 	#the following two are required for custom user models 
 	#as stated by the django docs
@@ -108,12 +138,23 @@ class Specialty(models.Model):
 	name = models.CharField(max_length=150, unique=True)
 	slug = models.SlugField(null=False)
 
+	@staticmethod
+	def has_read_permission(request):
+		# Ensures users cannot view specialty data if they are not registered
+		return True
+
+	@staticmethod
+	def has_write_permission(request):
+		# Ensures users cannot view practice data they are not affiliated with
+		return request.user.type == '-'
+
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.name)
 		super().save(*args, **kwargs)
 
 	def __str__(self):
 		return self.name
+
 
 	class Meta: 
 		ordering=['name']
@@ -134,6 +175,28 @@ class Provider(models.Model):
 		blank=True)
 	specialties = models.ManyToManyField(Specialty, related_name='providers')
 	visits_goal = models.IntegerField(default=20)
+	
+	@staticmethod
+	def has_read_permission(request):
+		if 'practice' in request.GET:
+			return str(request.user.practice.id) == request.GET['practice']
+		else:
+			return False
+
+	@staticmethod
+	def has_write_permission(request):
+		if 'practice' in request.POST:
+			return request.user.practice.id == request.POST['practice']
+		else:
+			return False
+
+	def has_object_read_permission(self, request):
+		print(request.user.practice)
+		print(self.practices.all())
+		return request.user.practice in self.practices.all()
+
+	def has_object_write_permission(self, request):
+		return request.user.practice in self.practices.all()
 
 	def __str__(self):
 		return "{} {}, {}".format(self.first_name, self.last_name, self.credentials)
@@ -166,9 +229,27 @@ class DailySummary(models.Model):
 	last_updated = models.DateTimeField(auto_now=True)
 	objects = models.Manager()
 
-	class Meta:
-		unique_together = (('date', 'provider', 'specialty'))
-		ordering=['date']
+	@staticmethod
+	def has_read_permission(request):
+		# Ensures users cannot view practice data they are not affiliated with
+		if 'practice' in request.GET:
+			return str(request.user.practice.id) == str(request.GET['practice'])
+		else:
+			return False
+	
+	@staticmethod
+	def has_write_permission(request):
+		# Ensures users cannot view practice data they are not affiliated with
+		if 'practice' in request.GET:
+			return str(request.user.practice.id) == str(request.GET['practice'])
+		else: 
+			return False
+
+	def has_object_read_permission(self, request):
+		return str(request.user.practice.id) == str(self.practice.id)
+
+	def has_object_write_permission(self, request):
+		return str(request.user.practice.id) == str(self.practice.id)
 
 	@property
 	def visits_per_workdays(self):
@@ -176,13 +257,12 @@ class DailySummary(models.Model):
 	
 	@property
 	def edited(self):
-		if self.submitted_on == self.last_updated and self.last_updated != null:
+		if self.submitted_on == self.last_updated and self.last_updated != None:
 			return False
-		elif self.submitted_on != self.last_updated and self.last_updated != null:
+		elif self.submitted_on != self.last_updated and self.last_updated != None:
 			return True 
 		else:
 			return False
-	
 
 	def save(self, *args, **kwargs):
 		#automatically set entity
@@ -197,4 +277,6 @@ class DailySummary(models.Model):
 	def __str__(self):
 		return self.practice.__str__() + ': Daily for ' + self.date.strftime('%A') +', ' + self.date.strftime('%m/%d/%Y')
 
-
+	class Meta:
+		unique_together = (('date', 'provider', 'specialty'))
+		ordering=['date']

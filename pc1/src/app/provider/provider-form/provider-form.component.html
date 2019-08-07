@@ -1,14 +1,12 @@
 	<mat-card>
 	<mat-card-title>
-		<div class="flex-container">
-			<h2 class="header-text-dk">{{title}}</h2>
-		</div>
+			<h4 class="header-text-dk d-flex justify-content-center">{{title}}</h4>
 	</mat-card-title>
 	<mat-card-content>
 	<form [formGroup]="providerForm">
 		<p>
 			<mat-form-field class="space-out">
-				<label>First name</label>
+				<label class="form-label">First name</label>
 				<input 
 					style="border: 2px blue"
 					matInput type="text"
@@ -19,7 +17,7 @@
 			</mat-form-field>
 
 			<mat-form-field class="spaced-out">
-				<label>Last name</label>
+				<label class="form-label">Last name</label>
 				<input 
 					matInput 
 					type="text"
@@ -31,7 +29,7 @@
 		</p>
 		<p>
 			<mat-form-field class="spaced-out">
-				<label>Credentials</label>
+				<label class="form-label">Credentials</label>
 				<input 
 					matInput
 					type="text"
@@ -43,7 +41,7 @@
 </p>
 		<p>
 			<mat-form-field class="spaced-out">
-				<label>Specialty</label>				
+				<label class="form-label">Specialty</label>				
 				<mat-select					
 					formControlName="specialties"
 					multiple

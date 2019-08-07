@@ -1,15 +1,19 @@
-<div class="container">
+	<h4 class="d-flex justify-content-center align-items-center">Reporting</h4>
 	<mat-form-field class="d-flex justify-content-center datepicker-form">
-		<label><h6>Submitting reports for:</h6></label>
+		<div class="date-picker__div">
+		<label (click)="datePicker.open()"><h6 class="header-text-dk">Submitting reports for:</h6></label>
 		<input matInput 
+			readonly
+			(click)="datePicker.open()"
 			[matDatepicker]="datePicker" 
 			[max]="today" 
-			[matDatepickerFilter]="dateFilter" 
 			[formControl]="selectedDateForm"
+			[matDatepickerFilter]="dateFilter" 
 			[value]="selectedDate"
 			class="date-picker">
 		<mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
 		<mat-datepicker #datePicker></mat-datepicker>
+		</div>
 	</mat-form-field>
 	<div *ngIf="practice && selectedDate">
 		<p class="help-text" #listhelptext>Showing all providers for your practice.</p>
@@ -26,7 +30,6 @@
 		</div>
 		</div>
 	</div>
-</div>
 
 <ng-template #noProviders>
 	<p>There are no providers associated with this practice.  Contact Practice Concepts to add providers, so you can get to reporting.</p>

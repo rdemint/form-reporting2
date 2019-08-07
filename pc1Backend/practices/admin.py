@@ -53,7 +53,7 @@ class CreateUserForm(forms.ModelForm):
 			user.save()
 		return user
 
-
+		
 class UpdateUserForm(forms.ModelForm):
 	password = ReadOnlyPasswordHashField()
 

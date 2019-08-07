@@ -1,0 +1,17 @@
+.date-picker__div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.date-picker__div label {
+	white-space: nowrap;
+    margin-right: 5px;
+    margin-bottom: 0px;
+}
+
+.date-picker__div label h6 {
+    margin: 0;
+    font-weight: 400;
+}

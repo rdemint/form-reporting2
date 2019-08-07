@@ -1,28 +1,23 @@
-/* .brand__nav {
-	background-color: white;
-	height: 2.8rem;
-	display: flex;
-	align-items: center;
-	border-bottom: 2px;
-	border-style: solid;
-	border-bottom-color: rgb(150,150,150);
-} */
 .navbar {
 	padding-bottom: 0;
 	padding-top: 0;
 }
 
 .nav__title {
-	font-size: 1.8rem;
-	align-self: flex-end;
+	font-size: 1.4rem;
+	align-self: flex-center;
 	vertical-align: bottom;
 	color: rgb(51, 51, 51);
 	font-weight: 350;
+	margin-bottom: 0;
 }
 
 .nav__img {
 	max-width: 3rem;
-	margin: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 2px;
+	margin-bottom: 2px;
 }
 
 

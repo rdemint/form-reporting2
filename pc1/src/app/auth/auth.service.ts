@@ -98,7 +98,7 @@ export class AuthService implements OnInit {
 		}
 		else if (data['user_type']=="manager") {
 			this.router.navigate(
-				['home/practices', data['practice_slug']], {queryParams: {year: this.year, month: this.month}}
+				['home/practices', data['practice_slug'], 'dashboard'], navExtras
 			);
 		}
 

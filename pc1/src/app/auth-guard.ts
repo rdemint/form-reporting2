@@ -10,6 +10,8 @@ export class AuthGuard {
 		if (this.authService.isAuthenticated) {
 			return true;
 		} else {
+			console.log(this.authService.isAuthenticated);
+			console.log('auth-guard says no');
 			this.router.navigate(['/login/']);
 		}
 

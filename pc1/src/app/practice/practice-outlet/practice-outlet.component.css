@@ -1,6 +1,7 @@
-.practice-outlet {
+.practice-outlet__div {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 15px;
+    margin: 5px;
+    width: 100%;
 }

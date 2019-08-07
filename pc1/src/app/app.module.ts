@@ -76,6 +76,8 @@ import { ProvidersResolverService } from './resolvers/providers-resolver.service
 import { OrgNavComponent } from './nav/org-nav/org-nav.component';
 import { OrgNavContainerComponent } from './nav/org-nav-container/org-nav-container.component';
 import { HomeOutletComponent } from './nav/home-outlet/home-outlet.component';
+import { OrganizationTypeService } from './services/organization-type.service';
+import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +119,8 @@ import { HomeOutletComponent } from './nav/home-outlet/home-outlet.component';
     ProviderManagerContainerComponent,    
     OrgNavComponent,
     OrgNavContainerComponent,
-    HomeOutletComponent,    
+    HomeOutletComponent,
+    UnauthorizedComponent,    
   ],
   imports: [
     ReactiveFormsModule,
@@ -164,6 +167,7 @@ import { HomeOutletComponent } from './nav/home-outlet/home-outlet.component';
     AuthGuard,
     DailySummaryService,
     SpecialtiesResolverService,
+    OrganizationTypeService,
     ProviderResolverService,
     ProvidersResolverService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

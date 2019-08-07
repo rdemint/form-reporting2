@@ -1,5 +1,29 @@
-<nav class="navbar border-bottom d-flex align-items-center justify-content-center org">
-		<div class="row">				
-			<h1 class="navbar-brand fs-h1">{{orgName$ | async}}</h1>
+<nav class="border-bottom org">
+	<div class="row">
+		<div class="col-2">
 		</div>
+		<div class="col-8 title-col">
+				<h1 class="fs-h1 my-4">{{orgName$ | async}}</h1>
+		</div>
+		<div class="col-2 logout-col">
+			<a href='/logout' class="logout__a">Logout</a>
+		</div>
+	</div>
 </nav>
+
+<ng-template>
+		
+</ng-template>
+
+
+<ng-template>
+		<div class="org-nav__div">
+				<div class="logout-button__div">
+					<p style="align-self: flex-start">Other</p>
+					<p>Logout</p>
+				</div>
+				<div>
+					<h1 class="fs-h1 mb-3">Best Health</h1>
+				</div>
+			</div>
+</ng-template>
