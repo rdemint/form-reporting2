@@ -280,3 +280,22 @@ class DailySummary(models.Model):
 	class Meta:
 		unique_together = (('date', 'provider', 'specialty'))
 		ordering=['date']
+
+
+class Collection(models.Model):
+	submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True)
+	practice = models.ForeignKey(Practice, on_delete=models.CASCADE, related_name="collections")
+	entity = models.ForeignKey(Entity, null=True, default=None, on_delete=models.CASCADE, related_name="collections")
+	date = models.DateField(null=True)
+	submitted_on = models.DateTimeField(null=True, blank=True, auto_now_add=True)
+	last_updated = models.DateTimeField(auto_now=True)
+	
+	class Meta:
+		unique_together = (('date', 'practice'))
+		ordering=['date']
+
+	def save(self, *args, **kwargs):
+		#automatically set entity
+		if self.practice.entity:
+			self.entity = self.practice.entity
+		super().save(*args, **kwargs)

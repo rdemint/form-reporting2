@@ -8,8 +8,8 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.settings import api_settings
-from practices.models import Practice, DailySummary, User, Entity, Provider, Specialty
-from practices.serializers import DailySummarySerializer, ProviderSerializer, SpecialtySerializer, EntitySerializer, PracticeSerializer, AuthTokenSerializer, UserSerializer
+from practices.models import Collection, Practice, DailySummary, User, Entity, Provider, Specialty
+from practices.serializers import CollectionSerializer, DailySummarySerializer, ProviderSerializer, SpecialtySerializer, EntitySerializer, PracticeSerializer, AuthTokenSerializer, UserSerializer
 from practices.overviews import SummaryOverviewManager
 from django_filters import rest_framework as filters
 from datetime import datetime
@@ -39,6 +39,32 @@ class DailySummaryDetail(RetrieveUpdateDestroyAPIView):
 	queryset = DailySummary.objects.all()
 	serializer_class = DailySummarySerializer
 	permission_classes = (DRYObjectPermissions,)
+
+
+class CollectionFilter(filters.FilterSet):
+	month = filters.NumberFilter(field_name="date", lookup_expr="month")
+	year = filters.NumberFilter(field_name="date", lookup_expr="year")
+	entity = filters.NumberFilter(field_name="entity__id", lookup_expr="iexact")
+	practice = filters.NumberFilter(field_name="practice__id", lookup_expr="iexact")
+	provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
+	specialty = filters.NumberFilter(field_name="specialty__id", lookup_expr='iexact')
+
+	class Meta:
+		model = Collection
+		fields = ['month', 'year', 'entity', 'practice', 'provider', 'specialty']
+
+
+class FilteredCollections(ListCreateAPIView):
+	queryset = Collection.objects.all()
+	serializer_class = CollectionSerializer
+	filter_backends = (filters.DjangoFilterBackend,)
+	filterset_class = CollectionFilter
+	
+
+class CollectionDetail(RetrieveUpdateDestroyAPIView):
+	queryset = DailySummary.objects.all()
+	serializer_class = CollectionSerializer
+	
 
 
 class SummaryOverviewView(APIView):

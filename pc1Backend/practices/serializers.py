@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from practices.models import Practice, DailySummary, User, Entity, Provider, Specialty
+from practices.models import Collection, Practice, DailySummary, User, Entity, Provider, Specialty
 from django.contrib.auth import get_user_model, authenticate
 
 
@@ -15,6 +15,7 @@ class SpecialtySerializer(serializers.ModelSerializer):
 		model = Specialty 
 		fields = "__all__"
 	
+
 class DailySummarySerializer(serializers.ModelSerializer):
 	practice = serializers.PrimaryKeyRelatedField(many=False, queryset=Practice.objects.all())
 	provider = serializers.PrimaryKeyRelatedField(many=False, queryset=Provider.objects.all())
@@ -34,6 +35,19 @@ class DailySummarySerializer(serializers.ModelSerializer):
 			)
 		]
 
+class CollectionSerializer(serializers.ModelSerializer):
+	practice = serializers.PrimaryKeyRelatedField(many=False, queryset=Practice.objects.all())
+	submitted_on = serializers.DateTimeField(format="%m-%d-%y", read_only=True)
+	last_updated = serializers.DateTimeField(format="%m-%d-%y", read_only=True)
+
+	class Meta:
+		model = Collection
+		fields = ('id', 'date', 'submitted_on', 'last_updated', 'submitted_by')
+		validators = [UniqueTogetherValidator(
+			queryset = Collection.objects.all(),
+			fields = ('date', 'practice'),
+			message = "A collection report for this date and practice already exists"
+		)]
 
 class ProviderSerializer(serializers.ModelSerializer):
 	practices = serializers.SlugRelatedField(slug_field="name", read_only=False, queryset=Practice.objects.all(), many=True)
