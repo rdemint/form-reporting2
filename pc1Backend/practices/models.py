@@ -206,12 +206,22 @@ class Provider(models.Model):
 		return "{}, {} {}".format(self.last_name, self.first_name, self.credentials)
 
 	def save(self, *args, **kwargs):
-		self.slug = slugify(self.first_name + ' ' + self.last_name)
-		print(self)
 		super().save(*args, **kwargs)
-
+		print(Provider.objects.filter(first_name=self.first_name, last_name = self.last_name))
+		#Manual check for a unique first_name, last_name and practice
+		#Since many2many field cannot be added to unique_together constraint
+		providers = Provider.objects.filter(first_name=self.first_name, last_name = self.last_name)
+		practices = []
+		if len(providers) > 1:
+			for provider in providers:
+				for practice in provider.practices.all():
+					practices.append(practice)
+		if len(practices) != len(set(practices)):
+			print('duplicate provider')
+			raise ValueError:
+				print('There are duplicate providers: {}'.format(providers))
+			
 	class Meta:
-		unique_together = ('first_name', 'last_name', 'entity')
 		ordering=['last_name']
 
 
@@ -289,7 +299,8 @@ class Collection(models.Model):
 	date = models.DateField(null=True)
 	submitted_on = models.DateTimeField(null=True, blank=True, auto_now_add=True)
 	last_updated = models.DateTimeField(auto_now=True)
-	
+	amount = models.DecimalField(max_digits=7, decimal_places=2, default=None)
+
 	class Meta:
 		unique_together = (('date', 'practice'))
 		ordering=['date']
