@@ -16,9 +16,9 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService) {   }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.loginForm = new FormGroup({
-      'email': new FormControl('sally@independenthealth.com', [Validators.email, Validators.required]),
+      'email': new FormControl('joe@independenthealth.com', [Validators.email, Validators.required]),
       'password': new FormControl('testpassword', Validators.required),
     });
 
@@ -26,6 +26,6 @@ export class LoginComponent implements OnInit {
 
   login(){
       this.authService.login(this.loginForm.value);
-  }  
+  }
 
  }

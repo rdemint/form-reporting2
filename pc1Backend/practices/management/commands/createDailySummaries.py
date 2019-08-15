@@ -47,6 +47,10 @@ class Command(BaseCommand):
 							provider=practice.providers.get(first_name=line[6].strip(), last_name=line[7].strip())
 							specialty=Specialty.objects.get(name=line[8].strip())
 
+							#if provider is not associated with specialty, create relationship
+							if specialty not in provider.specialties.all():
+								provider.specialties.add(specialty)
+								
 							DailySummary.objects.create(
 								date=line[0], 
 								visits=int(line[1]), 

@@ -42,7 +42,7 @@ class CollectionSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Collection
-		fields = ('id', 'date', 'submitted_on', 'last_updated', 'submitted_by')
+		fields = ('id', 'date', 'practice', 'submitted_on', 'last_updated', 'submitted_by')
 		validators = [UniqueTogetherValidator(
 			queryset = Collection.objects.all(),
 			fields = ('date', 'practice'),
@@ -100,6 +100,7 @@ class AuthTokenSerializer(serializers.Serializer):
 		trim_whitespace=False)
 
 	def validate(self, attrs):
+		print('HELLO')
 		email=attrs.get('email')
 		password=attrs.get('password')
 		user = authenticate(

@@ -15,101 +15,103 @@ import { UserService } from '../user/user.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements OnInit {
-	queryParams: any;
-	errors: any = [];
-	isAuthenticated: boolean = false;
-	authHeader: any;
-	month: string;
-  	year: string;
+  export class AuthService implements OnInit {
+    queryParams: any;
+    errors: any = [];
+    isAuthenticated: boolean = false;
+    authHeader: any;
+    month: string;
+      year: string;
 
-  constructor(
-  	private http:HttpClient, 
-  	private router:Router, 
-  	private dateService: DateService,
-  	private practiceService: PracticeService,
-  	private entityService: EntityService, 
-  	private userService: UserService,
-  	private orgService: OrganizationTypeService
-  	) {
-  	  	this.year = this.dateService.currentYear;
-  		this.month = this.dateService.currentMonth;
+    constructor(
+      private http: HttpClient,
+      private router: Router,
+      private dateService: DateService,
+      private practiceService: PracticeService,
+      private entityService: EntityService,
+      private userService: UserService,
+      private orgService: OrganizationTypeService
+      ) {
+          this.year = this.dateService.currentYear;
+        this.month = this.dateService.currentMonth;
+    }
+
+    ngOnInit() {
+    }
+
+    signup(user) {  }
+
+    login(credentials) {
+        this.http.post<any>(environment['authUrl'], credentials)
+          .subscribe(
+            (data) => {
+              this.updateData(data);
+              this.isAuthenticated = true;
+              this.navigateByUserType(data);
+            },
+            (err) => {
+              this.errors = err['error'];
+            }
+        );
+    }
+
+    logout() {
+      this.errors=[];
+      this.isAuthenticated = false;
+    }
+
+    updateData(data) {
+      console.log(data);
+      console.log('updateData');
+      this.userService.selectUser({
+        id: data['user_id'],
+          email: data['email'],
+          user_type: data['user_type'],
+        });
+
+      // if admin, see all entity data
+        if(data['org_type']=="entity") {
+          this.orgService.selectOrgType('entity');
+          this.orgService.selectOrgName(data['entity_name'])
+          this.orgService.selectOrgId(data['entity_id']);
+        }
+        // else, only see data related to a particular practice
+        else {
+        this.orgService.selectOrgType('practice');
+        this.orgService.selectOrgName(data['practice_name']);
+          this.orgService.selectOrgId(data['practice_id']);
+        }
+      localStorage.setItem('token', data['token']);
+      console.log(localStorage.getItem('token'));
+      this.errors = [];
+      this.authHeader = new HttpHeaders().set("Authorization", "Token " + localStorage['token']);
+    }
+
+    navigateByUserType(data){
+      let navExtras: NavigationExtras = { queryParams: {} }
+      navExtras['queryParams'] = {
+        year: this.year,
+        month: this.month,
+        }
+      if (data['user_type'] == "admin") {
+        this.router.navigate(
+          ['home/entities', data['entity_slug']], navExtras
+        );
+      }
+      else if (data['user_type']=="manager") {
+        this.router.navigate(
+          ['home/practices', data['practice_slug'], 'dashboard'], navExtras
+        );
+      }
+
+      else {
+        this.router.navigate(
+          ['home/practices', data['practice_slug'], 'reporting'], {queryParams: {year: this.year, month: this.month}})
+      }
+      }
+
+
   }
-
-  ngOnInit() {
-  }
-
-  signup(user) {  }
-
-  login(credentials) {
-  		this.http.post<any>(environment['authUrl'], credentials)
-  			.subscribe(
-  				(data) => {
-	  				this.updateData(data);	
-		  			this.isAuthenticated = true;
-		  			this.navigateByUserType(data);
-  				},
-	  			(err) => {
-	  				this.errors = err['error'];
-	  			}
-			);
-  }
-
-	logout() {	
-		this.errors=[];
-		this.isAuthenticated = false;
-	}
-	
-	updateData(data) {
-		this.userService.selectUser({
-			id: data['user_id'],	
-	  		email: data['email'],
-	  		user_type: data['user_type'],
-	  	});
-
-		// if admin, see all entity data
-	  	if(data['org_type']=="entity") {
-			  this.orgService.selectOrgType('entity');
-			  this.orgService.selectOrgName(data['entity_name'])
-	  		this.orgService.selectOrgId(data['entity_id']);
-	  	}
-	  	// else, only see data related to a particular practice
-	  	else {
-			this.orgService.selectOrgType('practice');
-			this.orgService.selectOrgName(data['practice_name']);
-	  		this.orgService.selectOrgId(data['practice_id']);
-	  	}
-	  	
-		localStorage.setItem("token", data['token']);
-		this.errors = [];
-		this.authHeader = new HttpHeaders().set("Authorization", "Token " + localStorage['token']);
-	}
-
-	navigateByUserType(data){
-		let navExtras: NavigationExtras = { queryParams: {} }
-		navExtras['queryParams'] = {
- 			year: this.year,
- 			month: this.month,
-			}
- 		if (data['user_type'] == "admin") {
-			this.router.navigate(
-				['home/entities', data['entity_slug']], navExtras
-			);
-		}
-		else if (data['user_type']=="manager") {
-			this.router.navigate(
-				['home/practices', data['practice_slug'], 'dashboard'], navExtras
-			);
-		}
-
-		else {
-			this.router.navigate(
-				['home/practices', data['practice_slug'], 'reporting'], {queryParams: {year: this.year, month: this.month}})
-		}
-  	}
-
-
-}
 
 
 

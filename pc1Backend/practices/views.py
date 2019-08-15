@@ -31,8 +31,8 @@ class DailySummaryFilter(filters.FilterSet):
 class FilteredDailySummaries(ListCreateAPIView):
 	queryset = DailySummary.objects.all()
 	serializer_class = DailySummarySerializer
-	filter_backends = (filters.DjangoFilterBackend,)
-	filterset_class = DailySummaryFilter
+	# filter_backends = (filters.DjangoFilterBackend,)
+	# filterset_class = DailySummaryFilter
 	permission_classes = (DRYGlobalPermissions,)
 
 class DailySummaryDetail(RetrieveUpdateDestroyAPIView):
@@ -78,8 +78,7 @@ class SummaryOverviewView(APIView):
 
 	def get(self, request, format=None):	
 		qs = self.filter_queryset(DailySummary.objects.all())
-
-		#permissions - ensures user is affiliated with the entity data requested
+		#permissions - ensures user is affiliated with the entity or practice
 		# before proceeding with the response
 		if 'entity' in request.GET:
 			if str(request.user.entity.id) == str(request.GET['entity']):
@@ -92,9 +91,7 @@ class SummaryOverviewView(APIView):
 			else:
 				return Response(status=403, data="Server could not authenticate: That user is not associated with the entity")
 		else:
-			print('automatic fail')
 			return Response(status=403, data="Forbidden because no practice id parameter provided - This is required for authentication")
-
 
 		if 'month' in request.GET:
 			manager = SummaryOverviewManager(qs, request)
@@ -170,6 +167,7 @@ class CreateTokenView(ObtainAuthToken):
 	renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
 	def post(self, request, *args, **kwargs):
+		print('running POST')
 		serializer = self.serializer_class(data=request.data, context={'request': request})
 		serializer.is_valid(raise_exception=True)
 		user = serializer.validated_data['user']

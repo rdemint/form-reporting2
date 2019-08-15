@@ -218,8 +218,8 @@ class Provider(models.Model):
 					practices.append(practice)
 		if len(practices) != len(set(practices)):
 			print('duplicate provider')
-			raise ValueError:
-				print('There are duplicate providers: {}'.format(providers))
+			raise ValueError
+			print('There are duplicate providers: {}'.format(providers))
 			
 	class Meta:
 		ordering=['last_name']
