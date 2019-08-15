@@ -18,10 +18,10 @@ from dry_rest_permissions.generics import DRYObjectPermissions, DRYPermissions, 
 class DailySummaryFilter(filters.FilterSet):
 	month = filters.NumberFilter(field_name="date", lookup_expr="month")
 	year = filters.NumberFilter(field_name="date", lookup_expr="year")
-	entity = filters.NumberFilter(field_name="entity__id", lookup_expr="iexact")
-	practice = filters.NumberFilter(field_name="practice__id", lookup_expr="iexact")
-	provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
-	specialty = filters.NumberFilter(field_name="specialty__id", lookup_expr='iexact')
+	# entity = filters.NumberFilter(field_name="entity__id", lookup_expr="iexact")
+	# practice = filters.NumberFilter(field_name="practice__id", lookup_expr="iexact")
+	# provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
+	# specialty = filters.NumberFilter(field_name="specialty__id", lookup_expr='iexact')
 
 	class Meta:
 		model = DailySummary
@@ -31,8 +31,8 @@ class DailySummaryFilter(filters.FilterSet):
 class FilteredDailySummaries(ListCreateAPIView):
 	queryset = DailySummary.objects.all()
 	serializer_class = DailySummarySerializer
-	# filter_backends = (filters.DjangoFilterBackend,)
-	# filterset_class = DailySummaryFilter
+	filter_backends = (filters.DjangoFilterBackend,)
+	filterset_class = DailySummaryFilter
 	permission_classes = (DRYGlobalPermissions,)
 
 class DailySummaryDetail(RetrieveUpdateDestroyAPIView):
@@ -44,14 +44,14 @@ class DailySummaryDetail(RetrieveUpdateDestroyAPIView):
 class CollectionFilter(filters.FilterSet):
 	month = filters.NumberFilter(field_name="date", lookup_expr="month")
 	year = filters.NumberFilter(field_name="date", lookup_expr="year")
-	entity = filters.NumberFilter(field_name="entity__id", lookup_expr="iexact")
-	practice = filters.NumberFilter(field_name="practice__id", lookup_expr="iexact")
-	provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
-	specialty = filters.NumberFilter(field_name="specialty__id", lookup_expr='iexact')
+	# entity = filters.NumberFilter(field_name="entity__id", lookup_expr="iexact")
+	# # practice = filters.NumberFilter(field_name="practice__id", lookup_expr="iexact")
+	# provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
+	# specialty = filters.NumberFilter(field_name="specialty__id", lookup_expr='iexact')
 
 	class Meta:
 		model = Collection
-		fields = ['month', 'year', 'entity', 'practice', 'provider', 'specialty']
+		fields = ['month', 'year', 'practice']
 
 
 class FilteredCollections(ListCreateAPIView):
@@ -129,14 +129,14 @@ class UserCreate(CreateAPIView):
 
 
 class ProviderFilter(filters.FilterSet):
-	practice = filters.NumberFilter(field_name="practices__id", lookup_expr="iexact")
-	provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
-	specialty = filters.NumberFilter(field_name="specialties__id", lookup_expr='iexact')
-	entity = filters.NumberFilter(field_name="entity__id", lookup_expr='iexact')
+	# practice = filters.NumberFilter(field_name="practices__id", lookup_expr="iexact")
+	# provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
+	# specialty = filters.NumberFilter(field_name="specialties__id", lookup_expr='iexact')
+	# entity = filters.NumberFilter(field_name="entity__id", lookup_expr='iexact')
 
 	class Meta:
 		model = Provider
-		fields = ['practice', 'provider', 'specialty', 'entity']
+		fields = ['practices', 'specialties', 'entity']
 
 
 class ProviderList(ListCreateAPIView):

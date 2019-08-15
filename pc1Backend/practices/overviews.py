@@ -3,7 +3,6 @@ import datetime
 from calendar import monthrange
 from practices.models import DailySummary
 from django.db.models import Avg
-from django.contrib.postgres.aggregates import ArrayAgg
 from django_filters import rest_framework as filters
 from practices.utils import TwoDecimals
 
@@ -27,16 +26,16 @@ class SummaryOverview:
 		return self.qs.count()
 
 	def visits(self):
-		return self.qs.aggregate(average=(TwoDecimals(Avg(ArrayAgg('visits')))))
+		return self.qs.aggregate(average=(TwoDecimals(Avg('visits'))))
 
 	def visits_per_workdays(self):
-		return self.qs.aggregate(average=(TwoDecimals(Avg(ArrayAgg('visits')) / Avg(ArrayAgg('workdays')))))
+		return self.qs.aggregate(average=(TwoDecimals(Avg('visits')) / Avg('workdays')))
 
 	def noshows(self):
-		return self.qs.aggregate(average=(TwoDecimals(Avg(ArrayAgg('noshows')))))
+		return self.qs.aggregate(average=(TwoDecimals(Avg('noshows'))))
 
 	def workdays(self):
-		return self.qs.aggregate(average=(TwoDecimals(Avg(ArrayAgg('workdays')))))
+		return self.qs.aggregate(average=(TwoDecimals(Avg('workdays'))))
 
 	def to_dict(self):
 		return {
