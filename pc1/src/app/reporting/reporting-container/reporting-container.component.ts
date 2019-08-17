@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DailySummary, User, Practice } from '../../models';
 import { DailySummaryService } from '../../services/daily-summary.service';
 import { environment } from '../../../environments/environment';
 import { UserService } from '../../user/user.service';
@@ -10,6 +9,7 @@ import { MessageService } from '../../services/message.service';
 import { ErrorService } from '../../services/error.service';
 import { DashService } from '../../services/dash.service';
 import { combineLatest, Observable } from 'rxjs';
+import { User, Practice, DailySummary } from 'src/app/models';
 
 @Component({
   selector: 'app-reporting-container',
@@ -24,7 +24,8 @@ export class ReportingContainerComponent implements OnInit {
     year: string;
     month: string;
     nullSummaryText = 'Please fill out the visits and workdays before submitting.';
-  constructor(    
+
+  constructor(
   	private practiceService: PracticeService,
     private dashService: DashService,
     private dailySummaryService: DailySummaryService,
@@ -37,7 +38,6 @@ export class ReportingContainerComponent implements OnInit {
 
   ngOnInit() {
   	this.userService.loadUser().subscribe((user)=> this.user = user);
-    
     combineLatest(
       this.route.parent.params,
       this.route.queryParamMap,
@@ -53,23 +53,23 @@ export class ReportingContainerComponent implements OnInit {
                   this.getDailySummaries('practice', this.practice.id, 'ytd');
                 }
               );
-            
-            
+
+
           }
           );
-    
+
   }
 
     getDailySummaries(type, id, view) {
     this.dailySummaryService.getDailySummaries(type, id, view)
         .subscribe((dailySummaries)=> {
           // this.dailySummaryService.selectDailySummaries(dailySummaries);
-          this.dailySummaries = dailySummaries;          
+          this.dailySummaries = dailySummaries;
         });
-  } 
+  }
 
     addSummary(dailySummary) {
-    if (dailySummary.visits == null || dailySummary.workdays==null) {
+    if (dailySummary.visits == null || dailySummary.workdays == null) {
       this.error.catch(this.nullSummaryText);
     }
 
@@ -78,7 +78,7 @@ export class ReportingContainerComponent implements OnInit {
         .subscribe(
           (resp)=> {
             this.message.throw('Summary created');
-          this.getDailySummaries('practice', this.practice.id, 'ytd');    
+          this.getDailySummaries('practice', this.practice.id, 'ytd');
         },
         (err)=> {
           this.error.catch('Something went wrong...your summary was not saved.  Check your input values and try again, or check back later.')
@@ -98,8 +98,8 @@ export class ReportingContainerComponent implements OnInit {
       this.dailySummaryService.putSummary(dailySummary, id)
         .subscribe((resp)=> {
           this.message.throw('Summary updated');
-          this.getDailySummaries('practice', this.practice.id, 'ytd');    
-        }, 
+          this.getDailySummaries('practice', this.practice.id, 'ytd');
+        },
         (err)=> {
           this.error.catch('Something went wrong...your summary was not updated.  Check your input values and try again, or check back later.');
           console.log(err);

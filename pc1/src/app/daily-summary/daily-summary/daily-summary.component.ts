@@ -14,23 +14,21 @@ export class DailySummaryComponent implements OnInit, OnChanges {
 	@Input() provider: Provider;
 	@Input() selectedDate: Date;
   @Output() addSummaryOutput = new EventEmitter<DailySummary>();
-  @Output() putSummaryOutput = new EventEmitter<DailySummary>(); 
+  @Output() putSummaryOutput = new EventEmitter<DailySummary>();
   nullDailySummary: DailySummary = {id: null, practice: null, provider: null, visits: null, noshows: null, workdays: null, date: null, specialty: null, visits_per_workdays: null};
   @Input() dailySummaries: DailySummary[];
   dailySummary: DailySummary;
- 
-
   dailySummaryExists: boolean = false;
   editing: boolean = false;
   dailySummaryDisabled: boolean = false;
 
   // Refactor
-  providerDailySummaries = {}; 
+  providerDailySummaries = {};
   providerSpecialtiesForm: FormControl;
-// 
+//
   constructor(private dailySummaryService: DailySummaryService) { }
 
-  ngOnInit() {    
+  ngOnInit() {
     // this.dailySummaryService.loadDailySummaries()
     //   .subscribe((summaries)=> {
     //     this.dailySummaries = summaries;
@@ -62,13 +60,13 @@ export class DailySummaryComponent implements OnInit, OnChanges {
     for (let i = 0; i < practice_specialties.length; i++) {
       let summary = this.dailySummaries.filter((summary)=> {
            if (
-             summary.practice == this.practice.id && 
-             summary.provider == this.provider.id && 
+             summary.practice == this.practice.id &&
+             summary.provider == this.provider.id &&
              summary.date == date &&
              summary.specialty == practice_specialties[i]['id']
-             ) 
+             )
                {return true }
-            else 
+            else
               { return false}
             })[0];
       this.providerDailySummaries[practice_specialties[i].name] = this.summaryOrNull(summary);
@@ -81,7 +79,7 @@ export class DailySummaryComponent implements OnInit, OnChanges {
     }
 
     else {
-      this.dailySummaryExists = true; 
+      this.dailySummaryExists = true;
       return summary }
   }
 
@@ -96,7 +94,7 @@ export class DailySummaryComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedDate'] && changes['selectedDate'].firstChange == false) {
-      this.findSummaries(); 
+      this.findSummaries();
     }
 
     if (changes['dailySummaries'] && this.practice != undefined ||

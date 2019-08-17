@@ -38,13 +38,13 @@ export const appRoutes: Routes = [
 				 	component: ProviderOutletComponent,
 				 	runGuardsAndResolvers: 'always',
 				 	resolve: {
-						 specialties: SpecialtiesResolverService,		 		
+						 specialties: SpecialtiesResolverService,
 				 	},
 				 	children: [
 				 		{
 				 			path: 'form',
 				 			component: ProviderFormContainerComponent,
-				 			resolve: {provider: ProviderResolverService}			 			
+				 			resolve: {provider: ProviderResolverService}
 				 		},
 
 				 		{
@@ -52,7 +52,7 @@ export const appRoutes: Routes = [
 							 component: ProviderManagerContainerComponent,
 							resolve: {
 								providers: ProvidersResolverService,
-							} 
+							}
 						 },
 						{
 							path: '',
@@ -75,13 +75,14 @@ export const appRoutes: Routes = [
 	},
 	{
 		path:'logout',
-		component: LogoutComponent,
+    // component: LogoutComponent,
+    redirectTo: 'login',
 	},
 	{
 		path:'unauthorized',
 		component: UnauthorizedComponent,
 	},
-	{	
+	{
 		path: '',
 		redirectTo: '/login',
 		pathMatch: 'full'

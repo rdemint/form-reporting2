@@ -14,7 +14,7 @@ export class DailySummaryService implements OnInit {
   date_view: string;
   current_year: string;
   previous_year: string;
-  current_month: string; 
+  current_month: string;
   dateParams: HttpParams;
   pyDateParams: HttpParams;
   source_type$ = new BehaviorSubject<string>(null);
@@ -35,27 +35,27 @@ export class DailySummaryService implements OnInit {
   setDateParams(view) {
     if (view=='ytd') {
       return new HttpParams()
-        .append('year', this.dateService.currentYear);  
+        .append('year', this.dateService.currentYear);
     }
 
     else if (view=='mtd') {
       return new HttpParams()
         .append('year', this.dateService.currentYear)
-        .append('month', this.dateService.currentMonth); 
-    }    
-  
+        .append('month', this.dateService.currentMonth);
+    }
+
   }
 
   setPYDateParams(view) {
     if (view=='ytd') {
       return new HttpParams()
-        .append('year', this.dateService.previousYear);  
+        .append('year', this.dateService.previousYear);
     }
 
     else if (view=='mtd') {
       return new HttpParams()
         .append('year', this.dateService.previousYear)
-        .append('month', this.dateService.currentMonth); 
+        .append('month', this.dateService.currentMonth);
       }
   }
 
@@ -95,11 +95,13 @@ export class DailySummaryService implements OnInit {
 
 
   putSummary(summary: DailySummary, summaryId: string) {
+    console.log('put summary: ' + summary);
     return this.http.put<DailySummary>(environment['daily_summary_url'] + summaryId + "/", summary);
 
   }
 
   postSummary(summary: DailySummary) {
+    console.log('post summary: ' + summary);
      return this.http.post<DailySummary>(environment['daily_summary_url'], summary);
 
   }

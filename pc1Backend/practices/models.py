@@ -233,7 +233,7 @@ class DailySummary(models.Model):
 	date = models.DateField(null=True)
 	submitted_on = models.DateTimeField(null=True, blank=True, auto_now_add=True)
 	visits = models.IntegerField(null=False)
-	workdays = models.IntegerField(null=False)
+	workdays = models.DecimalField(max_digits=7, decimal_places=2, default=None)
 	noshows = models.IntegerField(null=True)
 	provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name="daily_summaries")
 	last_updated = models.DateTimeField(auto_now=True)
@@ -250,6 +250,8 @@ class DailySummary(models.Model):
 	@staticmethod
 	def has_write_permission(request):
 		# Ensures users cannot view practice data they are not affiliated with
+		print('RUNNING WRITE PERMISSION')
+		print('query_params: '.format(request.query_params))
 		if 'practice' in request.GET:
 			return str(request.user.practice.id) == str(request.GET['practice'])
 		else: 
@@ -259,6 +261,8 @@ class DailySummary(models.Model):
 		return str(request.user.practice.id) == str(self.practice.id)
 
 	def has_object_write_permission(self, request):
+		print('request.user.practice.id: {}'.format(request.user.practice.id))
+		print('self.practice.id')
 		return str(request.user.practice.id) == str(self.practice.id)
 
 	@property

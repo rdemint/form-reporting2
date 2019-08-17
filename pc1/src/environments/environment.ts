@@ -13,7 +13,8 @@ export const environment = {
 	entity_url: 'http://127.0.0.1:8000/entities/',
 	summary_overview_url: 'http://127.0.0.1:8000/summary_overviews/',
 	specialties_url: 'http://127.0.0.1:8000/specialties/',
-	providers_url: 'http://127.0.0.1:8000/providers/'
+  providers_url: 'http://127.0.0.1:8000/providers/',
+  collections_url: 'http://127.0.0.1:8000/collections/'
 };
 
 /*

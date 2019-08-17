@@ -1,0 +1,32 @@
+.collection__div {
+  
+}
+
+.collection-input {
+  display: flex;
+}
+
+.collection-input label {
+  white-space: nowrap;
+  text-align: center;
+  margin: 4px;
+  padding-top: 3px;
+}
+
+.collection-input input {
+  width: 10rem;
+  margin-left: 10px;
+}
+.collection-btn {
+  height: 1.5rem;
+  text-align: center;
+  font-size: .9rem;
+  padding: 0;
+  width: 5rem;
+  margin: 8px;
+}
+
+.currencyinput {
+  border: 1px;
+  padding-left: 1px;
+}

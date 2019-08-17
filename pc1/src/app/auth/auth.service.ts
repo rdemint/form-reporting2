@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Router, NavigationExtras } from '@angular/router';
-
+import { CollectionService} from '../services/collection.service';
 import { environment } from '../../environments/environment';
 import { DateService } from '../services/date.service';
 import { EntityService } from '../services/entity.service';
@@ -30,7 +30,8 @@ import { UserService } from '../user/user.service';
       private practiceService: PracticeService,
       private entityService: EntityService,
       private userService: UserService,
-      private orgService: OrganizationTypeService
+      private orgService: OrganizationTypeService,
+      private collectionService: CollectionService
       ) {
           this.year = this.dateService.currentYear;
         this.month = this.dateService.currentMonth;
@@ -42,27 +43,15 @@ import { UserService } from '../user/user.service';
     signup(user) {  }
 
     login(credentials) {
-        this.http.post<any>(environment['authUrl'], credentials)
-          .subscribe(
-            (data) => {
-              this.updateData(data);
-              this.isAuthenticated = true;
-              this.navigateByUserType(data);
-            },
-            (err) => {
-              this.errors = err['error'];
-            }
-        );
+        return this.http.post<any>(environment['authUrl'], credentials);
     }
 
     logout() {
-      this.errors=[];
+      this.errors = [];
       this.isAuthenticated = false;
     }
 
     updateData(data) {
-      console.log(data);
-      console.log('updateData');
       this.userService.selectUser({
         id: data['user_id'],
           email: data['email'],
@@ -70,7 +59,7 @@ import { UserService } from '../user/user.service';
         });
 
       // if admin, see all entity data
-        if(data['org_type']=="entity") {
+        if (data['org_type']=="entity") {
           this.orgService.selectOrgType('entity');
           this.orgService.selectOrgName(data['entity_name'])
           this.orgService.selectOrgId(data['entity_id']);
@@ -80,14 +69,15 @@ import { UserService } from '../user/user.service';
         this.orgService.selectOrgType('practice');
         this.orgService.selectOrgName(data['practice_name']);
           this.orgService.selectOrgId(data['practice_id']);
+
         }
       localStorage.setItem('token', data['token']);
-      console.log(localStorage.getItem('token'));
       this.errors = [];
       this.authHeader = new HttpHeaders().set("Authorization", "Token " + localStorage['token']);
     }
 
     navigateByUserType(data){
+      this.isAuthenticated = true;
       let navExtras: NavigationExtras = { queryParams: {} }
       navExtras['queryParams'] = {
         year: this.year,

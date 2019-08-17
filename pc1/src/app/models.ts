@@ -14,7 +14,7 @@ export interface Provider {
 	last_name: string;
 	name?: string;
 	credentials: string;
-	specialties: string[];	
+	specialties: string[];
 	practices: string[];
 }
 
@@ -63,7 +63,7 @@ export interface MonthlySummary {
 	visits: number;
 	workdays: number;
 	noshows: number;
-	visits_per_workdays: number;	
+	visits_per_workdays: number;
 }
 
 export interface User {
@@ -92,4 +92,15 @@ export interface ChartData {
 
 export interface Org {
 	name: string;
+}
+
+export interface Collection {
+  id?: number;
+  submitted_by?: string;
+  practice: number;
+  entity?: number;
+  date: string;
+  submitted_on?: string;
+  last_updated?: string;
+  amount: number;
 }

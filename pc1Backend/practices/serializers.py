@@ -42,12 +42,12 @@ class CollectionSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Collection
-		fields = ('id', 'date', 'practice', 'submitted_on', 'last_updated', 'submitted_by')
-		validators = [UniqueTogetherValidator(
-			queryset = Collection.objects.all(),
-			fields = ('date', 'practice'),
-			message = "A collection report for this date and practice already exists"
-		)]
+		fields = ('id', 'amount','date', 'practice', 'submitted_on', 'last_updated', 'submitted_by')
+		# validators = [UniqueTogetherValidator(
+		# 	queryset = Collection.objects.all(),
+		# 	fields = ('date', 'practice'),
+		# 	message = "A collection report for this date and practice already exists"
+		# )]
 
 class ProviderSerializer(serializers.ModelSerializer):
 	practices = serializers.SlugRelatedField(slug_field="name", read_only=False, queryset=Practice.objects.all(), many=True)

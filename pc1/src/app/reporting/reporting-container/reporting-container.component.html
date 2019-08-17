@@ -1,7 +1,7 @@
 <div *ngIf="practice && dailySummaries else loadingTemplate">
 <app-reporting
 	[practice]="practice"
-	[dailySummaries]="dailySummaries"
+  [dailySummaries]="dailySummaries"
 	(addSummaryOutput)="addSummary($event)"
 	(putSummaryOutput)="putSummary($event)"
 	>

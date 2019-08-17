@@ -1,8 +1,8 @@
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatInputModule, MatCardModule, MatFormFieldModule, 
-    MatNativeDateModule, MatTabsModule, MatSlideToggleModule, 
+import { MatInputModule, MatCardModule, MatFormFieldModule,
+    MatNativeDateModule, MatTabsModule, MatSlideToggleModule,
     MatSnackBarModule, MatDividerModule, MatTableModule, MatProgressSpinnerModule} from '@angular/material';
 import { MatSelectModule} from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -78,6 +78,12 @@ import { OrgNavContainerComponent } from './nav/org-nav-container/org-nav-contai
 import { HomeOutletComponent } from './nav/home-outlet/home-outlet.component';
 import { OrganizationTypeService } from './services/organization-type.service';
 import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.component';
+import { CollectionService } from './services/collection.service';
+import { CollectionComponent } from './collection/collection/collection.component';
+import { CollectionContainerComponent } from './collection/collection-container/collection-container.component';
+import { TwoDecimalPlacesDirective } from './directives/two-decimal-places.directive';
+import { ChartJsComponent } from './dash/chart-js/chart-js.component';
+import { ChartJsContainerComponent } from './dash/chart-js-container/chart-js-container.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +107,7 @@ import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.componen
     NoDataComponent,
     PyChartContainerComponent,
     TableContainerComponent,
-    TableComponent,    
+    TableComponent,
     ChartContainerComponent,
     DashSelectorComponent,
     EntityContainerComponent,
@@ -110,17 +116,22 @@ import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.componen
     DashComponent,
     ReportingContainerComponent,
     ReportingComponent,
-    NavComponent,       
+    NavComponent,
     ProviderFormContainerComponent,
     ProviderFormComponent,
     PracticeOutletComponent,
     ProviderOutletComponent,
     ProviderManagerComponent,
-    ProviderManagerContainerComponent,    
+    ProviderManagerContainerComponent,
     OrgNavComponent,
     OrgNavContainerComponent,
     HomeOutletComponent,
-    UnauthorizedComponent,    
+    UnauthorizedComponent,
+    CollectionComponent,
+    CollectionContainerComponent,
+    TwoDecimalPlacesDirective,
+    ChartJsComponent,
+    ChartJsContainerComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -156,7 +167,7 @@ import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.componen
   ],
   providers: [
     MatNativeDateModule,
-    DateService, 
+    DateService,
     MessageService,
     ErrorService,
     DashService,
@@ -170,6 +181,7 @@ import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.componen
     OrganizationTypeService,
     ProviderResolverService,
     ProvidersResolverService,
+    CollectionService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true}
     ],

@@ -1,0 +1,16 @@
+.edit-summary__a {
+  color: blue !important;
+}
+
+.edit-summary__a:hover {
+  cursor: pointer;
+}
+
+.skinny-btn {
+  height: 1.5rem;
+  text-align: center;
+  font-size: .9rem;
+  padding: 0;
+  width: 5rem;
+  margin: 8px;
+}

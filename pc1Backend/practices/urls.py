@@ -10,6 +10,7 @@ urlpatterns = [
 	path('daily_summaries/', views.FilteredDailySummaries.as_view(), name='daily_summaries'),
 	path('daily_summaries/<int:pk>/', views.DailySummaryDetail.as_view(), name="daily_summary_detail"),
 	path('collections/', views.FilteredCollections.as_view(), name="collections"),
+	path('collections/<int:pk>/', views.CollectionDetail.as_view(), name="collection_detail"),
 	path('summary_overviews/', views.SummaryOverviewView.as_view(), name="summary_overview"),
 	path('providers/', views.ProviderList.as_view(), name="providers"),
 	path('providers/<int:pk>', views.ProviderDetail.as_view(), name="provider_detail"),

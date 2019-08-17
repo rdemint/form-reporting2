@@ -1,30 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-html, body { 
-	height: 100%;
+html, body {
+  height: 100%;
 	color: black;
 	padding: 0;
 	margin: 0;
 	--pc-gray-lt: rgb(217, 217, 217);
-	--pc-gray-dk: rgb(83, 83, 83);
+  --pc-gray-dk: rgb(83, 83, 83);
+  --pc-gray-blue-dk: #20295f;
+  --pc-gray-blue-lt: #303d8b;
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 body {margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 
-
 h1 {
-	color: var(--pc-gray-dk);
+  color: var(--pc-gray-dk);
 }
 
 h2 {
-	
+
 }
 
+label {
+  font-size: .9rem;
+}
+
+
 .container {
-	padding: 20px;
+  padding: 20px;
 	margin: 20px;
+}
+
+.unsaved-changes {
+  display: flex;
+  justify-content: center;
+}
+
+.unsaved-changes p {
+  font-size: .6rem;
+  font-style: italic;
+  margin: 0;
 }
 
 
@@ -37,9 +54,15 @@ h2 {
 }
 
 .link-active {
-	background-color: white !important; 
+	background-color: white !important;
 	text-decoration: underline !important;
 	text-decoration-color: #3f51b5 !important;
+}
+
+.login-error {
+  color: rgb(250, 61, 61);
+  font-size: .75rem;
+  font-style: italic;
 }
 
 
@@ -82,14 +105,25 @@ input.date-picker {
 	color: #3f51b5;
 }
 
+input.date-picker:hover {
+  cursor: pointer;
+}
+
 .testing {
 	background-color: red;
 }
 
 .btn-primary {
-	background-color: #3f51b5;
-	border-color: #3f51b5;
+	background-color: var(--pc-gray-blue-dk);
+	border-color: var(--pc-gray-blue-dk);
+}
 
+.btn-primary:hover {
+  background-color: var(--pc-gray-blue-lt);
+}
+
+.btn-default:hover {
+  background-color: rgb(226, 226, 226);
 }
 
 .mat-form-field-wrapper {

@@ -33,7 +33,7 @@ class FilteredDailySummaries(ListCreateAPIView):
 	serializer_class = DailySummarySerializer
 	filter_backends = (filters.DjangoFilterBackend,)
 	filterset_class = DailySummaryFilter
-	permission_classes = (DRYGlobalPermissions,)
+	permission_classes = (DRYObjectPermissions,)
 
 class DailySummaryDetail(RetrieveUpdateDestroyAPIView):
 	queryset = DailySummary.objects.all()
@@ -44,6 +44,7 @@ class DailySummaryDetail(RetrieveUpdateDestroyAPIView):
 class CollectionFilter(filters.FilterSet):
 	month = filters.NumberFilter(field_name="date", lookup_expr="month")
 	year = filters.NumberFilter(field_name="date", lookup_expr="year")
+	day = filters.NumberFilter(field_name="date", lookup_expr="day")
 	# entity = filters.NumberFilter(field_name="entity__id", lookup_expr="iexact")
 	# # practice = filters.NumberFilter(field_name="practice__id", lookup_expr="iexact")
 	# provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
@@ -51,7 +52,7 @@ class CollectionFilter(filters.FilterSet):
 
 	class Meta:
 		model = Collection
-		fields = ['month', 'year', 'practice']
+		fields = ['month', 'year', 'day', 'practice']
 
 
 class FilteredCollections(ListCreateAPIView):
@@ -62,10 +63,8 @@ class FilteredCollections(ListCreateAPIView):
 	
 
 class CollectionDetail(RetrieveUpdateDestroyAPIView):
-	queryset = DailySummary.objects.all()
+	queryset = Collection.objects.all()
 	serializer_class = CollectionSerializer
-	
-
 
 class SummaryOverviewView(APIView):
 	filter_backends = (filters.DjangoFilterBackend,)

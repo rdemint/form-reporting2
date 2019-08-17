@@ -1,48 +1,51 @@
-<div class="container">
+<div class="pc-login-form">
 	<form [formGroup]="loginForm">
 		<div class="form-group form-login">
-			<div class="row form-login-row">
-				<div class="col-sm-4 align-bottom">
-					<label>Email:
-					<input 
-						type="text" 
-						name="email"
-						formControlName="email"
-						class="form-control"
-						autocomplete="on" 
-						>
-					</label>
-					<span 
-						*ngFor="let error of authService.errors"
-						>{{ error }}
-					</span>
+          <div class="row form-login-row">
+            <div class="col">
+            <label>Email:</label>
+                <input
+                type="text"
+                name="email"
+                formControlName="email"
+                class="form-control"
+                autocomplete="on"
+                >
+            </div>
+          </div>
+				<div class="row form-login-row">
+          <div class="col">
+              <label>Password:</label>
+              <input
+              type="password"
+              name="password"
+              formControlName="password"
+              class="form-control"
+              autocomplete="off"
+              >
+          </div>
 				</div>
-				<div class="col-sm-4">
-					<label>Password:
-					<input 
-						type="password" 
-						name="password"
-						formControlName="password"
-						class="form-control"
-						autocomplete="off" 
-						>
-					</label>
-				</div>
-				<div class="col-sm-4 align-bottom">
-					<button 
+				<div class="col align-bottom">
+					<button
 						style="margin-top: 25px"
 						class="btn btn-primary btn-concepts-login"
 						(click)="login()"
 						>Login
 					</button>
 				</div>
-			<div class="col-sm-12">
-				<span *ngFor="let error of authService.errors.non_field_errors"
-				>{{ error }}
-				</span>
-			</div>
 		</div>
-	</div>
-	</form>
+  </form>
+  <div *ngIf="authError == true">
+    <p class="login-error">Hmm...something's not right. We're unable to log you in with that email and password.</p>
+  </div>
+  <div *ngIf="otherError == true">
+    <p class="login-error">We couldn't log you in, we think there is a problem on our side.  You can retry or try again later</p>
+  </div>
 </div>
+
+<ng-template>
+  <div class="login-image__div">
+    <img src="../../../assets/img/workstation.jpg" class="login-image">
+  </div>
+</ng-template>
 

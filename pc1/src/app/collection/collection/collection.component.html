@@ -1,0 +1,26 @@
+<div class="mt-4" class="collection__div">
+  <form>
+    <p class="help-text">1. Enter the daily collections for all providers for this day (no commas, please):</p>
+    <div class="collection-input">
+          <label>Collections: $ </label>
+          <input [formControl]="collectionForm" name="collectionForm" step="any" type="number" class="form-control">
+          <div *ngIf="collectionForm.disabled == false && collectionExists == false">
+            <button class="btn btn-primary collection-btn" (click)="addCollection()">Submit</button>
+          </div>
+          <div *ngIf="collectionForm.disabled == true">
+              <button class="btn btn-secondary collection-btn" (click)="editCollection()">Edit</button>
+          </div>
+          <div *ngIf="collectionForm.disabled == false && collectionExists == true">
+              <button class="btn btn-warning collection-btn" (click)="putCollection()">Update</button>
+          </div>
+    </div>
+    <div *ngIf="collectionForm.dirty && collectionForm.disabled == false else placeholder" class="unsaved-changes">
+        <p>Your changes have not been saved.</p>
+    </div>
+  </form>
+  </div>
+
+  <ng-template #placeholder>
+    <p></p>
+  </ng-template>
+

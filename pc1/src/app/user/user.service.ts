@@ -8,7 +8,7 @@ import { User } from '../models';
 export class UserService {
 	anonymousUser = {id: null, name: '', email: ''};
 	user$ = new BehaviorSubject<User>(this.anonymousUser);
-  
+  user: User;
   constructor() { }
 
   ngOnInit() { }
@@ -18,6 +18,8 @@ export class UserService {
   }
 
   selectUser(user) {
+    // should revisit this and remove use of user$
+    this.user = user;
   	this.user$.next(user);
   }
 }
