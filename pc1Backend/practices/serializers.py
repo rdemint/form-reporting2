@@ -37,12 +37,13 @@ class DailySummarySerializer(serializers.ModelSerializer):
 
 class CollectionSerializer(serializers.ModelSerializer):
 	practice = serializers.PrimaryKeyRelatedField(many=False, queryset=Practice.objects.all())
+	entity = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 	submitted_on = serializers.DateTimeField(format="%m-%d-%y", read_only=True)
 	last_updated = serializers.DateTimeField(format="%m-%d-%y", read_only=True)
 
 	class Meta:
 		model = Collection
-		fields = ('id', 'amount','date', 'practice', 'submitted_on', 'last_updated', 'submitted_by')
+		fields = ('id', 'amount','date', 'practice', 'entity', 'submitted_on', 'last_updated', 'submitted_by')
 		# validators = [UniqueTogetherValidator(
 		# 	queryset = Collection.objects.all(),
 		# 	fields = ('date', 'practice'),

@@ -8,7 +8,8 @@ import { Collection } from '../models';
 })
 export class CollectionService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient) { }
 
   postCollection(collection: Collection) {
     return this.http.post(environment['collections_url'], collection);
@@ -18,16 +19,10 @@ export class CollectionService {
     return this.http.put(environment['collections_url'] + collection.id + '/', collection);
   }
 
-  getCollections(date:Date, practiceId) {
-    let year = date.getFullYear();
-    let month = date.getMonth()+1;
-    let day = date.getDate();
-    let httpParams = new HttpParams()
-      .append('year', year.toString())
-      .append('month', month.toString())
-      .append('day', day.toString())
-      .append('practice', practiceId);
+  getCollections(httpParams: HttpParams) {
     return this.http.get<Collection[]>(environment['collections_url'], {params: httpParams});
   }
+
+
 
 }

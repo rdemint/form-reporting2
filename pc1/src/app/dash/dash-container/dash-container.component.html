@@ -1,7 +1,9 @@
-<div *ngIf="summaryOverviews && pySummaryOverviews && sourceField && sourceType else isLoading">
+<div *ngIf="summaryOverviews && pySummaryOverviews && sourceField && sourceType && collections && pyCollections else isLoading">
 <app-dash
 	[summaryOverviews]="summaryOverviews"
-	[pySummaryOverviews]="pySummaryOverviews"
+  [pySummaryOverviews]="pySummaryOverviews"
+  [collections]="collections"
+  [pyCollections]="pyCollections"
 	[dashView]="dashView"
 	[dateView]="dateView"
 	[source]="source"

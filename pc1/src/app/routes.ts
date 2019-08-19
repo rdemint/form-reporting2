@@ -14,6 +14,7 @@ import { ProvidersResolverService} from './resolvers/providers-resolver.service'
 import { ProviderFormContainerComponent } from './provider/provider-form-container/provider-form-container.component';
 import { HomeOutletComponent } from './nav/home-outlet/home-outlet.component';
 import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.component';
+import { Ng2ChartContainerComponent } from './dash/ng2-chart-container/ng2-chart-container.component';
 
 export const appRoutes: Routes = [
 	{	path: 'home',
@@ -32,7 +33,7 @@ export const appRoutes: Routes = [
 				 {
 				 	path: 'reporting',
 				 	component: ReportingContainerComponent
-				 },
+         },
 				 {
 				 	path: 'providers',
 				 	component: ProviderOutletComponent,
@@ -53,7 +54,7 @@ export const appRoutes: Routes = [
 							resolve: {
 								providers: ProvidersResolverService,
 							}
-						 },
+             },
 						{
 							path: '',
 							redirectTo: 'list',

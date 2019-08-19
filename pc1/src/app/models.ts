@@ -53,7 +53,7 @@ export interface SummaryOverview {
 	summary_count: number;
 	visits: object;
 	visits_per_workdays: object;
-	workdays: object
+	workdays: object;
 	noshows: object;
 }
 

@@ -52,7 +52,7 @@ class CollectionFilter(filters.FilterSet):
 
 	class Meta:
 		model = Collection
-		fields = ['month', 'year', 'day', 'practice']
+		fields = ['month', 'year', 'day', 'practice', 'entity']
 
 
 class FilteredCollections(ListCreateAPIView):

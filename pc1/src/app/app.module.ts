@@ -14,6 +14,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { ChartsModule } from 'ng2-charts';
+
 import { appRoutes } from './routes';
 import { PracticeService } from './services/practice.service';
 import { AuthService } from './auth/auth.service';
@@ -84,6 +86,8 @@ import { CollectionContainerComponent } from './collection/collection-container/
 import { TwoDecimalPlacesDirective } from './directives/two-decimal-places.directive';
 import { ChartJsComponent } from './dash/chart-js/chart-js.component';
 import { ChartJsContainerComponent } from './dash/chart-js-container/chart-js-container.component';
+import { Ng2ChartComponent } from './dash/ng2-chart/ng2-chart.component';
+import { Ng2ChartContainerComponent } from './dash/ng2-chart-container/ng2-chart-container.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +136,8 @@ import { ChartJsContainerComponent } from './dash/chart-js-container/chart-js-co
     TwoDecimalPlacesDirective,
     ChartJsComponent,
     ChartJsContainerComponent,
+    Ng2ChartComponent,
+    Ng2ChartContainerComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -159,7 +165,8 @@ import { ChartJsContainerComponent } from './dash/chart-js-container/chart-js-co
     MatTableModule,
     MatProgressSpinnerModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    ChartsModule,
   ],
   exports: [
     MatFormFieldModule,

@@ -13,12 +13,12 @@
 			 	>
 			 <span
 			 	*ngIf="summaryForm.get('visits').hasError('required') && summaryForm.get('visits').dirty"
-			 	class="help-block"
+			 	class="form-error"
 			 	>This field is required
 			 </span>
 			 <span *ngIf="!summaryForm.get('visits').valid &&
 			 				summaryForm.get('visits').dirty"
-			 		class="help-block">
+			 		class="form-error">
 			 	Something's not right. The value should be between value between 1 and 30.
 			 </span>
 
@@ -35,12 +35,12 @@
 				>
 			<span
 				*ngIf="summaryForm.get('workdays').hasError('required') && summaryForm.get('workdays').dirty"
-				class="help-block"
+				class="form-error"
 			 	>This field is required
 			 </span>
 			<span *ngIf="!summaryForm.get('workdays').valid &&
 			 				summaryForm.get('workdays').dirty"
-			 		class="help-block">
+			 		class="form-error">
 			 	Something's not right. Workdays should be between 0.25 and 1.5.
 			 </span>
 		</mat-form-field>
@@ -56,7 +56,7 @@
 				>
 			<span *ngIf="!summaryForm.get('noshows').valid &&
 			 				summaryForm.get('noshows').touched"
-			 		class="help-block">
+			 		class="form-error">
 			 	Something's not right. This form won't allow noshows to be greater than 15.
 			 </span>
 		</mat-form-field>

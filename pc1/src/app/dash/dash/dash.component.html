@@ -1,16 +1,18 @@
 <mat-card class="no-overflow">
 <div><h4 class="header-text-dk">{{source.name}}</h4></div>
 	<div *ngIf="dashView =='chart'">
-			<app-chart-container
+			<app-ng2-chart-container
 				[summaryOverviews]="summaryOverviews"
-				[pySummaryOverviews]="pySumamryOverviews"
+        [pySummaryOverviews]="pySummaryOverviews"
+        [collections]="collections"
+        [pyCollections]="pyCollections"
 				[source]="source"
-				[sourceField]="sourceField"				
+				[sourceField]="sourceField"
 				[sourceType]="sourceType"
 				[dashView]="dashView"
-				[dateView]="dateView"				
+				[dateView]="dateView"
 				>
-			</app-chart-container>
+			</app-ng2-chart-container>
 	</div>
 	<div *ngIf="dashView == 'table'">
 		<app-table-container
@@ -19,7 +21,7 @@
 			[source]="source"
 			[sourceField]="sourceField"
 			[sourceFieldStr]="sourceFieldStr"
-			[sourceType]="sourceType"			
+			[sourceType]="sourceType"
 			[dashView]="dashView"
 			[dateView]="dateView"
 		></app-table-container>

@@ -101,6 +101,13 @@ label {
 	color: rgb(114, 114, 114) !important;
 }
 
+.form-error {
+	font-size: .5rem !important;
+	font-weight: 400 !important;
+	font-style: italic !important;
+	color: rgb(255, 56, 56) !important;
+}
+
 input.date-picker {
 	color: #3f51b5;
 }

@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 export class ChartComponent implements OnInit, OnChanges {
 	@Input() summaryOverviews: SummaryOverview[];
 	@Input() source: Specialty | Provider | Practice;
-	@Input() pySummaryOverviews: SummaryOverview[];	
+	@Input() pySummaryOverviews: SummaryOverview[];
 	@Input() sourceType: string;
 	@Input() chartName: string;
 	@Input() sourceField: string;
@@ -45,25 +45,26 @@ export class ChartComponent implements OnInit, OnChanges {
   		this.chart_data = {
   			noshows: [],
 		  workdays: [],
-		  visits: [], 
+		  visits: [],
 		  visits_per_workdays: []
 		};
 
 		this.py_chart_data = {
 		  noshows: [],
 		  workdays: [],
-		  visits: [], 
+		  visits: [],
 		  visits_per_workdays: []
-		};			
+		};
 	  }
 
 	    createChartData() {
 
-	    	this._initChartData();   
+	    	this._initChartData();
 	    	this._setLoading(true);
 	    	this.canvasJsData = [];
-	          if (this.summaryOverviews != undefined && this.summaryOverviews.length != 0) {	          		            
-	            this.chart_data[this.sourceField] = this.summaryOverviews.map((summary)=> ({label: summary['date_filter_ref'], y: summary[this.sourceField]['average']}));	           	            	         
+	          if (this.summaryOverviews != undefined && this.summaryOverviews.length != 0) {
+	            this.chart_data[this.sourceField] = this.summaryOverviews.map(
+                (summary)=> ({label: summary['date_filter_ref'], y: summary[this.sourceField]['average']}));
 	            this.canvasJsData.push({
 	             type: "spline",
 	             visible: true,
@@ -73,7 +74,8 @@ export class ChartComponent implements OnInit, OnChanges {
 	            });
 	          }
 	          if (this.pySummaryOverviews != undefined && this.pySummaryOverviews.length != 0) {
-	            	            this.chart_data[this.sourceField] = this.pySummaryOverviews.map((summary)=> ({label: summary['date_filter_ref'], y: summary[this.sourceField]['average']}));	           
+	            	            this.chart_data[this.sourceField] = this.pySummaryOverviews.map(
+                              (summary)=> ({label: summary['date_filter_ref'], y: summary[this.sourceField]['average']}));
 	            this.canvasJsData.push({
 	             type: "spline",
 	             visible: true,
@@ -118,22 +120,22 @@ export class ChartComponent implements OnInit, OnChanges {
 			   fontColor: 'lighter'
 	         },
 	         data: this.canvasJsData
-	       });	
+	       });
 	    }
 
 
-	    ngAfterViewInit() {	    
+	    ngAfterViewInit() {
 	      this.createChart();
-	      this.chart.render();	  
-		
+	      this.chart.render();
+
 
 	    }
 
 	    updateChart() {
 			this.createChartData();
 			this.createChart();
-			this.chart.render();    	
-		
+			this.chart.render();
+
 	    }
 
 	    ngOnChanges(changes: SimpleChanges) {
@@ -143,11 +145,11 @@ export class ChartComponent implements OnInit, OnChanges {
 
 	 	 //   		if (changes['sourceField'] && changes['sourceField'].firstChange == false) {
 				// 	this.updateChart();
-				// }  
+				// }
 
 				if (changes['summaryOverviews'] && changes['summaryOverviews'].firstChange == false) {
 					this.updateChart();
-				}	    		
+				}
 
 				if (changes['pySummaryOverviews'] && changes['pySummaryOverviews'].firstChange == false) {
 					this.updateChart();

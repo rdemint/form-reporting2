@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, AfterViewInit, SimpleChanges } from '@angular/core';
 import { Collection } from 'src/app/models';
 import { FormControl } from '@angular/forms';
 import { CollectionService } from 'src/app/services/collection.service';
@@ -6,6 +6,8 @@ import { MessageService } from 'src/app/services/message.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { UserService } from 'src/app/user/user.service';
 import { formatDate } from 'src/app/utils/format-date';
+import { HttpParams } from '@angular/common/http';
+import { createHttpParams } from 'src/app/utils/http-params';
 
 @Component({
   selector: 'app-collection',
@@ -31,7 +33,7 @@ export class CollectionComponent implements OnInit, OnChanges {
     private userService: UserService) { }
 
   ngOnInit() {
-    this.getCollection()
+    this.getCollections();
   }
 
   createForm() {
@@ -41,21 +43,35 @@ export class CollectionComponent implements OnInit, OnChanges {
       this.collectionForm.disable();
     }
     else {
-      this.collectionForm = new FormControl();
+      this.collectionForm = new FormControl({disabled: false});
       this.collectionExists = false;
       this.collectionForm.enable();
     }
   }
 
-  getCollection() {
-    this.collectionService.getCollections(this.selectedDate, this.practiceId)
+  getCollections() {
+    // let year = this.selectedDate.getFullYear();
+    // let month = this.selectedDate.getMonth()+1;
+    // let day = this.selectedDate.getDate();
+    // let httpParams = new HttpParams()
+    //   .append('year', year.toString())
+    //   .append('month', month.toString())
+    //   .append('day', day.toString())
+    //   .append('practice', this.practiceId.toString());
+    let httpParams = createHttpParams(
+      {
+        year: this.selectedDate.getFullYear(),
+        month: this.selectedDate.getMonth()+1,
+        day: this.selectedDate.getDate(),
+      }
+    );
+    this.collectionService.getCollections(httpParams)
     .subscribe((collections) => {
       this.collection = collections[0];
       this.createForm();
     });
 
   }
-
 
   addCollection() {
     this.collectionService.postCollection(
@@ -74,7 +90,6 @@ export class CollectionComponent implements OnInit, OnChanges {
         this.collectionForm.disable();
       },
         (err) => {
-          console.log(err);
           this.errorService.catch("Something went wrong...your collection was not saved.  Please try again later.")
         });
   }
@@ -105,10 +120,10 @@ export class CollectionComponent implements OnInit, OnChanges {
     this.collectionForm.enable();
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedDate'] && changes['selectedDate'].firstChange == false) {
-      this.getCollection();
+      this.getCollections();
+      this.collectionForm.enable();
     }
   }
 }

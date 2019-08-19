@@ -1,9 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { Specialty, Provider, DailySummary, Practice, SummaryOverview } from '../../models';
-import { DailySummaryService } from '../../services/daily-summary.service';
-import { DashService } from '../../services/dash.service';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, combineLatest } from 'rxjs';
+import { Specialty, Provider, Practice, SummaryOverview, Collection } from '../../models';
 
 @Component({
   selector: 'app-dash',
@@ -18,12 +14,14 @@ export class DashComponent implements OnInit {
     @Input() sourceFieldStr: string;
     @Input() sourceType: string;
 	  @Input() dashView: string;
-	  @Input() dateView: string;
-     isLoading: boolean = true; 
+    @Input() dateView: string;
+    @Input() collections: Collection;
+    @Input() pyCollections: Collection;
+     isLoading: boolean = true;
 
   constructor(
   	) { }
 
-  ngOnInit() {     
+  ngOnInit() {
          }
 }

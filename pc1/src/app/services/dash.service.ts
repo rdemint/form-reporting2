@@ -13,12 +13,12 @@ export class DashService {
   isLoadingPY$ = new BehaviorSubject<boolean>(false);
 
   source_types = ['practice', 'provider', 'specialty'];
-	source_fields = ['visits', 'visits_per_workdays', 'workdays', 'noshows'];
-  source_fields_dict = {'visits': 'Visits', 'visits_per_workdays': 'Visits per Workdays', 'workdays': 'Workdays', 'noshows': 'Noshows'}
+	source_fields = ['visits', 'visits_per_workdays', 'workdays', 'noshows', 'collections'];
+  source_fields_dict = {'visits': 'Visits', 'visits_per_workdays': 'Visits per Workdays', 'workdays': 'Workdays', 'noshows': 'Noshows', 'collections': 'Collections'};
 	dash_views = ['chart', 'table'];
 	date_views = ['mtd', 'ytd'];
 
-  
+
 
 
 
@@ -29,7 +29,7 @@ export class DashService {
   }
 
   loadLoadingStatus() {
-    return this.isLoading$.asObservable(); 
+    return this.isLoading$.asObservable();
   }
 
   changePYLoadingStatus(bool) {
@@ -37,7 +37,7 @@ export class DashService {
   }
 
   loadPYLoadingStatus() {
-    return this.isLoadingPY$.asObservable(); 
+    return this.isLoadingPY$.asObservable();
   }
 
   selectSourceField(field) {
