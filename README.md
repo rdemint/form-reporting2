@@ -1,7 +1,7 @@
 
 I worked with a healthcare consultant to prototype this full-stack, data-entry and dashboard application built primarily with Angular 7 and the Django-rest-framework.  
 
-Some application features include:
+Some application features/technologies include:
 
 -JWT tokens login
 
