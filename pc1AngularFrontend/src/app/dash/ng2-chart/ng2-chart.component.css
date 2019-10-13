@@ -1,0 +1,8 @@
+.canvas-container {
+  max-width: 600px;
+  display: flex;
+}
+
+.canvas-chart {
+  justify-content: center;
+}

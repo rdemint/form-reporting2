@@ -40,41 +40,27 @@ export class DashContainerComponent implements OnInit {
   		this.dashService.loadDateView(),
   		this.dashService.loadSourceField(),
   		).subscribe(
-  			([dashView, dateView, sourceField]) => {
-          if (dashView !== 'collections') {
-            if (dateView && sourceField != null) {
-              this.dashView = dashView;
-              this.dateView = dateView;
-              this.sourceField = sourceField;
-              this.sourceFieldStr= this.dashService.source_fields_dict[sourceField];
-              this.summaryOverviewService.getSummaryOverviews(this.org.org_type, this.org.id, dateView, this.sourceType, this.source.id)
-              .subscribe(
-                (overviews)=> {
-                  this.summaryOverviews = overviews;
-                }
-                );
-                this.summaryOverviewService.getPYSummaryOverviews(this.org.org_type, this.org.id, dateView, this.sourceType, this.source.id)
-                .subscribe(
-                  (overviews)=> {
-                    this.pySummaryOverviews = overviews;
+              ([dashView, dateView, sourceField]) => {
+                if (dashView !== 'collections') {
+                  if (dateView && sourceField != null) {
+                    this.dashView = dashView;
+                    this.dateView = dateView;
+                    this.sourceField = sourceField;
+                    this.sourceFieldStr = this.dashService.source_fields_dict[sourceField];
+                    this.summaryOverviewService.getSummaryOverviews(this.org.org_type, this.org.id, dateView, this.sourceType, this.source.id)
+                      .subscribe(
+                        (overviews) => {
+                          this.summaryOverviews = overviews;
+                        }
+                      );
+                    this.summaryOverviewService.getPYSummaryOverviews(this.org.org_type, this.org.id, dateView, this.sourceType, this.source.id)
+                      .subscribe(
+                        (overviews) => {
+                          this.pySummaryOverviews = overviews;
+                        }
+                      );
                   }
-                  );
+                }
+              });
             }
-            // else {
-              // let httpDateParams = setDateParams(dateView, this.dateService.currentYear, this.dateService.currentMonth);
-              // let httpParams = httpDateParams.append(this.org.org_type, this.org.id)
-              // let pyHttpDateParams = setPYDateParams(dateView, this.dateService.previousYear, this.dateService.currentMonth);
-              // this.collectionService.getCollections(setDateParams(dateView, this.dateService.currentYear))
-              // .subscribe(
-              //   (collections)=> this.collections = collections
-              //   );
-              // this.collectionService.getCollections(setPYDateParams(dateView))
-              //   .subscribe(
-              //     (pycollections)=> this.pyCollections = pycollections
-              //     );
-              //   }
-              }
-              );
-            }
-          }
-        }
+}

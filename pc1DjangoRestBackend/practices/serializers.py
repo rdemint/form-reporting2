@@ -51,7 +51,7 @@ class CollectionSerializer(serializers.ModelSerializer):
 		# )]
 
 class ProviderSerializer(serializers.ModelSerializer):
-	practices = serializers.SlugRelatedField(slug_field="name", read_only=False, queryset=Practice.objects.all(), many=True)
+	# practices = serializers.SlugRelatedField(slug_field="name", read_only=False, queryset=Practice.objects.all(), many=True)
 	specialties = serializers.SlugRelatedField(slug_field="name", read_only=False, queryset=Specialty.objects.all(), many=True)
 
 	# def create(self, validated_data):

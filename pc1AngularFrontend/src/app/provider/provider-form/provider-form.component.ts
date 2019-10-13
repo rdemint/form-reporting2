@@ -6,12 +6,14 @@ import { Practice, DailySummary, Specialty, Provider } from '../../models';
 import { Observable } from 'rxjs';
 import { FormCheckService } from '../../services/form-check.service';
 import { ErrorService } from '../../services/error.service';
+import { PracticeService } from '../../services/practice.service';
 
 @Component({
   selector: 'app-provider-form',
   templateUrl: './provider-form.component.html',
   styleUrls: ['./provider-form.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  viewEncapsulation
 })
 export class ProviderFormComponent implements OnInit {	
 	@Input() provider: Provider;
@@ -29,7 +31,8 @@ export class ProviderFormComponent implements OnInit {
  constructor(
    private location: Location, 
    private formCheck: FormCheckService,
-   private errorService: ErrorService
+   private errorService: ErrorService,
+   private practiceService: PracticeService
    ) { }
     ngOnInit() {      
     	this.createForm();
@@ -57,7 +60,15 @@ export class ProviderFormComponent implements OnInit {
   }
 
   putProvider() {
-  	this.putProviderOutput.emit(this.providerForm.value);
+    let provider = {};
+    provider['id'] = this.provider.id;
+    provider['first_name'] = this.providerForm.firstName;
+    provider['last_name'] = this.providerForm.lastName;
+    provider['credentials'] = this.providerForm.credentials;
+    provider['specialties'] = this.providerForm.specialties;
+    provider['practices'] = [this.practiceService.practice.name];
+    provider['entity'] = null;		
+    this.putProviderOutput.emit(provider);
   }
 
   cancel() {

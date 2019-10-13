@@ -128,7 +128,7 @@ class UserCreate(CreateAPIView):
 
 
 class ProviderFilter(filters.FilterSet):
-	# practice = filters.NumberFilter(field_name="practices__id", lookup_expr="iexact")
+	practices = filters.NumberFilter(field_name="practices__id", lookup_expr="iexact")
 	# provider = filters.NumberFilter(field_name="provider__id", lookup_expr='iexact')
 	# specialty = filters.NumberFilter(field_name="specialties__id", lookup_expr='iexact')
 	# entity = filters.NumberFilter(field_name="entity__id", lookup_expr='iexact')
